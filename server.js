@@ -97,7 +97,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // Serve K logo for all favicon requests (icon.png = current zoomed logo)
+  // Serve Nobulex logo for all favicon requests (icon.png = nobulex logo)
   if (urlPath === '/favicon.ico' || urlPath === '/favicon.png' || urlPath === '/icon.png') {
     const iconPath = path.join(__dirname, 'icon.png');
     try {
@@ -160,6 +160,14 @@ function loadEnv() {
 }
 
 loadEnv();
-server.listen(PORT, () => {
-  console.log(`\n  Nobulex dev server: http://localhost:${PORT}\n  Chat API: http://localhost:${PORT}/api/chat\n`);
+const HOST = '0.0.0.0';
+server.listen(PORT, HOST, () => {
+  console.log(`\n  Nobulex dev server: http://localhost:${PORT}\n  Also try: http://127.0.0.1:${PORT}\n  Chat API: http://localhost:${PORT}/api/chat\n`);
+}).on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`\n  Port ${PORT} is already in use. Try: PORT=3000 node server.js\n  Then open http://localhost:3000\n`);
+  } else {
+    console.error('\n  Server error:', err.message);
+  }
+  process.exit(1);
 });
