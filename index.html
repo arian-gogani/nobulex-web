@@ -1,381 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nobulex — The trust layer for the agent economy</title>
-  <meta name="description" content="A protocol that makes honesty the only rational strategy for any autonomous system. Carved in stone. Verified in code.">
-  <meta property="og:title" content="Nobulex — The trust layer for the agent economy">
-  <meta property="og:description" content="Honesty as the only rational strategy. Verifiable commitments for every AI agent. Open source.">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://nobulex.dev/images/nobulex-logo.png">
-  <meta property="og:url" content="https://nobulex.dev/">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Nobulex — The trust layer for the agent economy">
-  <meta name="twitter:description" content="Verifiable commitments for every AI agent. Open source.">
-  <meta name="theme-color" content="#000000">
-  <link rel="icon" type="image/png" href="/icon.png">
-  <link rel="apple-touch-icon" href="/icon.png">
-  <link rel="shortcut icon" type="image/png" href="/icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nobulex — The Missing Trust Layer of the Internet</title>
+<meta name="description" content="TCP/IP gave machines communication. Bitcoin gave value. The Covenant Protocol gives machines trust. Cryptographic behavioral commitments for autonomous systems — AI agents, robots, vehicles, drones.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0e14;
+  --bg-elevated: #0d1117;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-dim: rgba(88, 166, 255, 0.15);
+  --border: #21262d;
+  --code-bg: #161b22;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg);
+}
+html::-webkit-scrollbar { width: 6px; }
+html::-webkit-scrollbar-track { background: var(--bg); }
+html::-webkit-scrollbar-thumb { background: var(--border); }
+html::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+.mono { font-family: 'IBM Plex Mono', monospace; }
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section-pad { padding: 100px 0; }
+
+h1, h2, h3 {
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.hero-headline {
+  font-size: clamp(28px, 5vw, 48px);
+  max-width: 720px;
+  margin-bottom: 24px;
+}
+
+.hero-subheadline {
+  font-size: clamp(18px, 2.5vw, 24px);
+  color: var(--text-muted);
+  max-width: 640px;
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+.hero-desc {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 560px;
+  margin-bottom: 40px;
+}
+
+.hero-cta .btn {
+  display: inline-block;
+  padding: 14px 28px;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.hero-cta .btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* ── SECTIONS ── */
+.section-heading {
+  font-size: clamp(22px, 3vw, 32px);
+  margin-bottom: 24px;
+}
+
+.section-body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+/* Problem */
+.problem .section-body { max-width: 720px; }
+
+/* Solution — 4 primitives */
+.primitives-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.primitive-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  padding: 24px;
+  transition: border-color 0.2s ease;
+}
+.primitive-card:hover { border-color: var(--accent); }
+
+.primitive-card h3 {
+  font-size: 16px;
+  color: var(--accent);
+  margin-bottom: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500;
+}
+
+.primitive-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* Trust Physics — list */
+.trust-props {
+  list-style: none;
+  margin-top: 24px;
+}
+
+.trust-props li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+.trust-props li:last-child { border-bottom: none; }
+
+.trust-props .prop-name {
+  color: var(--accent);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+/* Vision — timeline */
+.timeline {
+  margin-top: 40px;
+  border-left: 2px solid var(--border);
+  padding-left: 32px;
+}
+
+.timeline-item {
+  padding-bottom: 32px;
+  position: relative;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -36px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.timeline-item h4 {
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.timeline-item .year {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Beyond AI — use cases */
+.use-cases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.use-case {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+
+.use-case strong {
+  display: block;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.use-case p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* Stats */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 32px;
+  text-align: center;
+  padding: 48px 0;
+}
+
+.stat-number {
+  font-size: clamp(28px, 4vw, 40px);
+  color: var(--accent);
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Footer */
+footer {
+  padding: 80px 24px 48px;
+  border-top: 1px solid var(--border);
+}
+
+.footer-about {
+  max-width: 560px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.footer-about strong { color: var(--text); }
+
+.footer-etymology {
+  font-size: 13px;
+  color: var(--text-muted);
+  opacity: 0.8;
+  margin-bottom: 24px;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-links a {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+}
+.footer-links a:hover { text-decoration: underline; }
+
+/* Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .section-pad { padding: 64px 0; }
+  .primitives-grid { grid-template-columns: 1fr; }
+  .use-cases-grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
 </head>
 <body>
-  <a href="#main" class="skip-link">Skip to content</a>
-  <header class="header" data-animate="header">
-    <div class="header__top">
-      <a href="index.html" class="header__logo" data-magnetic aria-label="Nobulex home"><img src="images/nobulex-logo.png" alt="Nobulex" class="header__logo-img"></a>
-      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-        <span class="nav-toggle__bar"></span>
-        <span class="nav-toggle__bar"></span>
-        <span class="nav-toggle__bar"></span>
-      </button>
-    </div>
-    <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
-    <nav class="header__nav" aria-label="Main">
-      <button type="button" class="nav-close" aria-label="Close menu">
-        <span aria-hidden="true">×</span>
-      </button>
-      <div class="header__links">
-        <a href="#problem">What is Nobulex</a>
-        <a href="#trust">Trust System</a>
-        <a href="#manifesto">Why it matters</a>
-        <a href="#regulatory">Compliance</a>
-        <a href="#adoption">Adoption</a>
-        <a href="docs/quickstart.html">Guides</a>
-        <a href="https://github.com/agbusiness195/stele" rel="noopener noreferrer">Code &amp; Spec</a>
-      </div>
-      <a href="#get-started" class="header__cta">Get started</a>
-    </nav>
-  </header>
 
-  <main id="main">
-    <section class="hero" id="hero">
-      <div class="hero__video-wrap" aria-hidden="true">
-        <video class="hero__video" autoplay muted loop playsinline preload="auto" src="https://videos.pexels.com/video-files/4939677/4939677-uhd_2560_1440_30fps.mp4" poster="images/video-poster.svg"></video>
-      </div>
-      <div class="hero__bg" aria-hidden="true"></div>
-      <div class="hero__inner">
-        <p class="hero__badge" data-reveal>Free · Open source</p>
-        <h1 class="hero__title">
-          <span class="hero__line" data-split="words">Trust for AI agents</span>
-          <span class="hero__line hero__line--accent" data-split="words">that anyone can verify</span>
-        </h1>
-        <p class="hero__stats-desc" data-reveal>AI agents that book flights, manage money, and make decisions need to prove they do what they promise. Nobulex makes that possible — for developers, enterprises, and regulators.</p>
-        <p class="hero__social-proof" data-reveal>Join developers building the trust layer for the agent economy</p>
-        <div class="hero__join" data-reveal>
-          <a href="https://github.com/agbusiness195/stele/discussions" class="btn btn--ghost btn--small" rel="noopener noreferrer">GitHub Discussions</a>
-        </div>
-        <div class="hero__stats-grid" data-reveal>
-          <div class="hero__stat"><span class="hero__stat-val" id="hero-github-stars">—</span><span class="hero__stat-lbl">Community</span></div>
-          <div class="hero__stat"><span class="hero__stat-val" id="hero-npm-downloads">—</span><span class="hero__stat-lbl">Downloads</span></div>
-          <div class="hero__stat"><span class="hero__stat-val">MIT</span><span class="hero__stat-lbl">Free to use</span></div>
-          <div class="hero__stat"><span class="hero__stat-val">EU</span><span class="hero__stat-lbl">Compliance ready</span></div>
-        </div>
-        <div class="hero__cta hero__cta-buttons">
-          <a href="#get-started" class="btn btn--primary">Get started</a>
-          <a href="#problem" class="btn btn--ghost">Learn how it works</a>
-        </div>
-        <p class="hero__help-note" data-reveal>New here? Click the <strong>?</strong> in the corner to ask any question — we'll explain in plain language.</p>
-      </div>
-      <div class="hero__scroll-hint" aria-hidden="true">
-        <span class="hero__scroll-dash"></span>
-        <span class="hero__scroll-label">Scroll</span>
-      </div>
-    </section>
-
-    <div class="section-buffer" aria-hidden="true"></div>
-
-    <section class="section section--problem section--bg" id="problem" data-section="problem" style="--bg-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1920&q=80')">
-      <div class="section__bg" aria-hidden="true"></div>
-      <div class="section__content">
-      <p class="section__label section__label--center" data-reveal>THE PROBLEM</p>
-      <h2 class="problem__title" data-reveal>AI agents that no one can verify</h2>
-      <div class="problem__content" data-reveal>
-        <p>AI agents will manage money, make decisions, and sign contracts — but today there's no way to prove they do what they promise. No accountability. No trust. Every day without verifiable covenants is a day of unaccountable risk. Nobulex fixes that.</p>
-      </div>
-      <div class="problem__stats" data-reveal>
-        <div class="problem__stat"><span class="problem__stat-val" id="github-stars">—</span><span class="problem__stat-lbl">Community</span></div>
-        <div class="problem__stat"><span class="problem__stat-val" id="npm-downloads">—</span><span class="problem__stat-lbl">Downloads</span></div>
-        <div class="problem__stat"><span class="problem__stat-val">Aug 2026</span><span class="problem__stat-lbl">EU AI Act compliance deadline</span></div>
-      </div>
-      <a href="manifesto.html" class="section__cta section__cta--problem" data-reveal rel="noopener noreferrer">Read the manifesto →</a>
-      </div>
-    </section>
-
-    <div class="section-buffer" aria-hidden="true"></div>
-
-    <section class="section section--protocol" data-section="protocol">
-      <p class="section__label section__label--center" data-reveal>HOW IT WORKS</p>
-      <p class="protocol__subtitle" data-reveal>Declare · Monitor · Prove</p>
-      <div class="protocol-flow">
-        <article class="protocol__card protocol__card--1" data-reveal>
-          <span class="protocol__num">01</span>
-          <h3>Declare</h3>
-          <p>Agents state what they will and won't do. These rules are locked in and can't be changed to allow more.</p>
-        </article>
-        <article class="protocol__card protocol__card--2 protocol__card--up" data-reveal>
-          <span class="protocol__num">02</span>
-          <h3>Monitor</h3>
-          <p>Nobulex watches what agents do. If they break the rules, it stops them or records the violation.</p>
-        </article>
-        <article class="protocol__card protocol__card--3" data-reveal>
-          <span class="protocol__num">03</span>
-          <h3>Prove</h3>
-          <p>Anyone can verify an agent followed the rules — without seeing how it works. Privacy preserved.</p>
-        </article>
-      </div>
-      <a href="https://github.com/agbusiness195/stele/blob/main/SPEC.md" class="section__cta" data-reveal rel="noopener noreferrer">Read the full spec →</a>
-    </section>
-
-    <div class="divider" aria-hidden="true"></div>
-
-    <section class="section section--code section--bg" data-section="code" style="--bg-image: url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&q=80')">
-      <div class="section__bg section__bg--lighter" aria-hidden="true"></div>
-      <div class="section__content">
-      <p class="section__label" data-reveal>FOR DEVELOPERS</p>
-      <h2 class="code__title" data-reveal>Add accountability in minutes</h2>
-      <p class="code__intro" data-reveal>If you build AI agents, add NOBULEX to make them verifiable. Everyone else: NOBULEX lets you verify agents do what they promise — no coding required. See the <a href="#regulatory">Compliance</a> section or <a href="eu-ai-act.html">EU AI Act guide</a>.</p>
-      <div class="code-block code-block--wide" data-reveal>
-        <span class="code-block__lang">JAVASCRIPT</span>
-        <button type="button" class="code-block__copy" aria-label="Copy code">Copy</button>
-        <pre><code><span class="token-key">const</span> { protect } = <span class="token-key">require</span>(<span class="token-str">'@nobulex/sdk'</span>);
-
-<span class="token-key">const</span> agent = <span class="token-key">await</span> protect({
-  name: <span class="token-str">'my-agent'</span>,
-  rules: [<span class="token-str">'no-data-leak'</span>, <span class="token-str">'read-only'</span>]
-});</code></pre>
-        <div class="code-block__footer">
-          <button type="button" class="npm-copy" data-copy="npm install @nobulex/sdk" aria-label="Copy npm command">npm install @nobulex/sdk</button>
-          <span class="code-block__meta">MIT Licensed</span>
-        </div>
-      </div>
-      </div>
-    </section>
-
-    <section class="section section--architecture section--alt" data-section="architecture">
-      <div class="section__content">
-      <p class="section__label section__label--center" data-reveal>BUILT FOR TRUST</p>
-      <div class="architecture-grid" data-reveal>
-        <article class="architecture__card">
-          <h4>Who owns this agent?</h4>
-          <p>Every agent is linked to its owner. You can trace who's responsible.</p>
-        </article>
-        <article class="architecture__card">
-          <h4>What will it do?</h4>
-          <p>Agents declare their rules upfront. They can only get stricter, never looser.</p>
-        </article>
-        <article class="architecture__card">
-          <h4>Can we verify it?</h4>
-          <p>Yes. Third parties can verify compliance without seeing how the agent works.</p>
-        </article>
-      </div>
-      </div>
-    </section>
-
-    <section class="section section--trust section--alt" id="trust" data-section="trust">
-      <div class="section__content">
-      <p class="section__label section__label--center" data-reveal>TRUST SYSTEM</p>
-      <h2 class="trust__title" data-reveal>Trust is mathematics, <em>not reputation</em></h2>
-      <p class="trust__intro" data-reveal>Nobulex doesn't guess — it calculates. Trust is bounded by collateralization: an agent's trust can never exceed its staked value. Formal trust algebra enables composition, intersection, negation, and tensor operations across trust profiles. Five-dimensional scoring replaces crude single-number ratings. Adversarial trust equilibrium ensures the system converges on evolutionarily stable strategies — not just Nash equilibria that collapse under pressure. Trust entanglement enables sublinear network verification: verify one node, constrain thousands.</p>
-      <div class="trust-grid" data-reveal>
-        <div class="trust__cell"><span class="trust__val">T ≤ S</span><span class="trust__lbl">Trust ≤ Staked Value</span></div>
-        <div class="trust__cell"><span class="trust__val">5D</span><span class="trust__lbl">Multidimensional Profile</span></div>
-        <div class="trust__cell"><span class="trust__val">ESS</span><span class="trust__lbl">Adversarial Equilibrium</span></div>
-        <div class="trust__cell"><span class="trust__val">O(√n)</span><span class="trust__lbl">Sublinear Verification</span></div>
-        <div class="trust__cell"><span class="trust__val">⊗</span><span class="trust__lbl">Trust Tensor Operations</span></div>
-        <div class="trust__cell"><span class="trust__val">∩ ∪ ¬</span><span class="trust__lbl">Composition Algebra</span></div>
-      </div>
-      </div>
-    </section>
-
-    <section class="section section--kernel section--alt" data-section="kernel">
-      <div class="section__content">
-      <p class="section__label section__label--center" data-reveal>CORE GUARANTEE</p>
-      <h2 class="kernel__title" data-reveal>The accountability <em>kernel</em></h2>
-      <p class="kernel__intro" data-reveal>Four components. One invariant. The kernel is the minimal verifiable core: identity, covenant, proof, and accounting. If the kernel is correct, the entire system maintains its guarantees — regardless of what's built on top. Everything else is optional. The kernel is not.</p>
-      </div>
-    </section>
-
-    <section class="section section--economics" data-section="economics">
-      <div class="section__content">
-      <p class="section__label section__label--center" data-reveal>ECONOMICS</p>
-      <h2 class="economics__title" data-reveal>Trust and verification built in</h2>
-      <p class="economics__intro" data-reveal>Nobulex is free and open. Value flows with the economy it secures.</p>
-      <p class="section__label section__label--center" data-reveal style="margin-top: 3rem;">Beyond The Rail</p>
-      <div class="economics__revenue-grid" data-reveal>
-        <div class="economics__revenue-row"><span class="economics__revenue-stream">Trust Futures</span><span class="economics__revenue-model">Financial instruments on trust trajectories (CME Group model)</span><span class="economics__revenue-scale">Derivatives market</span></div>
-        <div class="economics__revenue-row"><span class="economics__revenue-stream">Compliance Autopilot</span><span class="economics__revenue-model">0.5–1% of operational budget, continuous monitoring</span><span class="economics__revenue-scale">Per-agent recurring</span></div>
-        <div class="economics__revenue-row"><span class="economics__revenue-stream">Certification Authority</span><span class="economics__revenue-model">$10K–$100K/year per agent class</span><span class="economics__revenue-scale">Enterprise licensing</span></div>
-        <div class="economics__revenue-row"><span class="economics__revenue-stream">Trust Data Monopoly</span><span class="economics__revenue-model">Bloomberg model for behavioral insights</span><span class="economics__revenue-scale">Data-as-a-service</span></div>
-        <div class="economics__revenue-row"><span class="economics__revenue-stream">Stake Pool Yield</span><span class="economics__revenue-model">Collateral interest at billion-agent scale</span><span class="economics__revenue-scale">$7.5B/year</span></div>
-        <div class="economics__revenue-row"><span class="economics__revenue-stream">Sovereign Licensing</span><span class="economics__revenue-model">National-level deployment licensing</span><span class="economics__revenue-scale">$10–100M per country</span></div>
-      </div>
-      </div>
-    </section>
-
-    <section class="section section--stats" data-section="stats">
-      <p class="section__label section__label--center" data-reveal>PROPERTIES</p>
-      <div class="stats stats--nobulex" data-reveal>
-        <div class="stat"><span class="stat__val" id="stats-github-stars">—</span><span class="stat__lbl">Community</span></div>
-        <div class="stat"><span class="stat__val" id="stats-npm-downloads">—</span><span class="stat__lbl">Downloads</span></div>
-        <div class="stat"><span class="stat__val">Private</span><span class="stat__lbl">Verification</span></div>
-        <div class="stat"><span class="stat__val">MIT</span><span class="stat__lbl">Free to use</span></div>
-      </div>
-    </section>
-
-    <div class="section-buffer" aria-hidden="true"></div>
-
-    <section class="section section--eu section--regulatory section--bg" id="regulatory" data-section="eu" style="--bg-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1920&q=80')">
-      <div class="section__bg" aria-hidden="true"></div>
-      <div class="section__content">
-      <p class="section__label" data-reveal>REGULATORY</p>
-      <h2 class="eu__title" data-reveal>EU AI Act · Aug 2026</h2>
-      <div class="eu-countdown" data-reveal>
-        <span class="eu-countdown__date">Aug 2026</span>
-        <span class="eu-countdown__event">FULL ENFORCEMENT</span>
-        <span class="eu-countdown__timer" id="eu-countdown">164 days remaining</span>
-      </div>
-      <div class="eu-content" data-reveal>
-        <p>By August 2026, Europe requires AI systems to be transparent and accountable. Nobulex maps to identity, rules, audit trails, and third-party verification. <a href="eu-ai-act.html">See how Nobulex meets EU AI Act requirements →</a></p>
-      </div>
-      </div>
-    </section>
-
-    <section class="section section--adoption section--alt" id="adoption" data-section="adoption">
-      <div class="section__content">
-      <p class="section__label section__label--center" data-reveal>ADOPTION</p>
-      <h2 class="adoption__title" data-reveal>Three wedges that work <em>without network effects</em></h2>
-      <div class="adoption-grid" data-reveal>
-        <article class="adoption__card">
-          <h4>Regulatory Wedge</h4>
-          <p>EU AI Act compliance. August 2026 deadline creates forced adoption. Enterprises need behavioral transparency and audit trails for autonomous agents. Nobulex is the compliance layer.</p>
-        </article>
-        <article class="adoption__card">
-          <h4>Internal Governance Wedge</h4>
-          <p>Enterprise fleet management. Companies don't need a network to use Nobulex internally. Deploy covenants across your own agent infrastructure. Value from day one, zero external dependencies.</p>
-        </article>
-        <article class="adoption__card">
-          <h4>MCP Certification Wedge</h4>
-          <p>Model Context Protocol trust layer. As MCP becomes the standard for agent-to-tool communication, Nobulex becomes the certification layer that verifies agent identity and behavioral compliance within the ecosystem.</p>
-        </article>
-      </div>
-      </div>
-    </section>
-
-    <section class="section section--why section--alt" data-section="why">
-      <div class="section__content">
-      <p class="section__label section__label--center" data-reveal>WHY NOBULEX</p>
-      <h2 class="why__title" data-reveal>Neutral. Cross-platform. Open.</h2>
-      <p class="why__intro" data-reveal>Other solutions are tied to one company, one blockchain, or one use case. Nobulex works everywhere. Free to use. Anyone can verify.</p>
-      <div class="why__differentiators" data-reveal>
-        <div class="why__diff"><span class="why__diff-label">Neutral</span><span class="why__diff-desc">No vendor lock-in. No single chain or platform.</span></div>
-        <div class="why__diff"><span class="why__diff-label">Cross-platform</span><span class="why__diff-desc">Works with any agent, any protocol, any stack.</span></div>
-        <div class="why__diff"><span class="why__diff-label">Open</span><span class="why__diff-desc">MIT licensed. Anyone can verify. Anyone can build.</span></div>
-      </div>
-      </div>
-    </section>
-
-    <section class="section section--manifesto" id="manifesto" data-section="manifesto">
-      <div class="section__content">
-      <div class="manifesto__block" data-reveal>
-        <blockquote class="manifesto">"If we can't hold AI agents accountable, we can't trust them. If we can't trust them, they can't participate in the economy. The question is whether we build accountability before or after the first catastrophic failure."</blockquote>
-        <cite class="manifesto__cite">— THE NOBULEX MANIFESTO</cite>
-        <a href="manifesto.html" class="manifesto__link" rel="noopener noreferrer">Read the manifesto →</a>
-      </div>
-      </div>
-    </section>
-
-    <section class="section section--get-started" id="get-started" data-section="get-started">
-      <p class="section__label section__label--center" data-reveal>GET STARTED</p>
-      <div class="get-started__grid" data-reveal>
-        <div class="get-started__card">
-          <h4>I'm new to Nobulex</h4>
-          <h3>Learn first</h3>
-          <p>Read the manifesto or see how it works. No coding required.</p>
-          <a href="manifesto.html" class="btn btn--ghost btn--small" rel="noopener noreferrer">Read the manifesto →</a>
-        </div>
-        <div class="get-started__card">
-          <h4>I'm a compliance officer</h4>
-          <h3>EU AI Act</h3>
-          <p>See how Nobulex maps to regulatory requirements. Plain language.</p>
-          <a href="eu-ai-act.html" class="btn btn--ghost btn--small" rel="noopener noreferrer">Compliance guide →</a>
-        </div>
-        <div class="get-started__card">
-          <h4>I'm a developer</h4>
-          <h3>Build with Nobulex</h3>
-          <p>Install the SDK. Add accountability in minutes. MIT licensed.</p>
-          <a href="docs/quickstart.html" class="btn btn--ghost btn--small">Quickstart →</a>
-        </div>
-        <div class="get-started__card">
-          <h4>Enterprise or compliance support</h4>
-          <h3>Get in touch</h3>
-          <p>Integration help, EU AI Act mapping, or custom deployment. We'll respond within 48 hours.</p>
-          <a href="https://github.com/agbusiness195/stele/discussions" class="btn btn--ghost btn--small" rel="noopener noreferrer">GitHub Discussions →</a>
-        </div>
-      </div>
-      <div class="get-started__cta" data-reveal>
-        <p class="get-started__cta-soon">SDK &amp; packages live on npm.</p>
-        <p class="get-started__cta-sub">Free. Open source. Anyone can verify.</p>
-        <div class="get-started__cta-buttons">
-          <a href="manifesto.html" class="btn btn--primary">Read the manifesto</a>
-          <a href="https://github.com/agbusiness195/stele" class="btn btn--ghost" rel="noopener noreferrer">View on GitHub</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer" data-section="footer">
-    <div class="footer__brand">
-      <h3 class="footer__logo">NOBULEX</h3>
-    </div>
-    <nav class="footer__nav">
-      <a href="https://github.com/agbusiness195/stele" rel="noopener noreferrer">GITHUB</a>
-      <a href="https://github.com/agbusiness195/stele/blob/main/SPEC.md" rel="noopener noreferrer">SPEC</a>
-      <a href="https://github.com/agbusiness195/stele/discussions" rel="noopener noreferrer">COMMUNITY</a>
-      <a href="https://x.com/nobulex" rel="noopener noreferrer">X</a>
-      <a href="manifesto.html">MANIFESTO</a>
-      <a href="eu-ai-act.html">EU AI ACT</a>
-    </nav>
-  </footer>
-
-  <div class="scroll-bar" aria-hidden="true"></div>
-
-  <!-- AI Help — corner widget for clarification and depth -->
-  <button type="button" class="help-widget__toggle" id="help-toggle" aria-label="Get help understanding Nobulex" aria-expanded="false">
-    <span class="help-widget__icon" aria-hidden="true">?</span>
-  </button>
-  <div class="help-widget__panel" id="help-panel" aria-hidden="true">
-    <div class="help-widget__header">
-      <h3>Need help?</h3>
-      <button type="button" class="help-widget__close" id="help-close" aria-label="Close help">×</button>
-    </div>
-    <p class="help-widget__intro">Not sure where to start? Ask any question. We'll answer in plain language — no jargon.</p>
-    <div class="help-widget__links">
-      <a href="#problem">What is Nobulex</a>
-      <a href="#trust">Trust System</a>
-      <a href="#manifesto">Why it matters</a>
-      <a href="#regulatory">EU compliance</a>
-      <a href="#adoption">Adoption</a>
-      <a href="manifesto.html">Manifesto</a>
-    </div>
-    <div class="help-widget__chat">
-      <div class="help-widget__messages" id="help-messages"></div>
-      <div class="help-widget__input-wrap">
-        <input type="text" id="help-query" placeholder="e.g. What is Nobulex, in simple terms?" autocomplete="off">
-        <button type="button" class="help-widget__ask" id="help-ask" aria-label="Send">→</button>
-      </div>
-      <p class="help-widget__hint" id="help-hint">Type your question and press Enter</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <h1 class="hero-headline reveal">The Missing Trust Layer of the Internet</h1>
+    <p class="hero-subheadline reveal">TCP/IP gave machines communication. Bitcoin gave machines value. The Covenant Protocol gives machines trust.</p>
+    <p class="hero-desc reveal">The internet was built with three missing primitives: identity, value, and trust. Bitcoin solved value. We're solving trust. As billions of autonomous systems go live — AI agents, robots, vehicles, drones — they need cryptographic behavioral commitments that can be verified at machine speed, without central authority.</p>
+    <div class="hero-cta reveal">
+      <a href="https://github.com/agbusiness195/NOBULEX" class="btn" target="_blank" rel="noopener">View on GitHub</a>
     </div>
   </div>
+</section>
 
-  <script>
-    if (location.protocol === 'file:' || (location.port && location.port !== '3333')) {
-      window.NOBULEX_API_URL = 'http://localhost:3333/api/chat';
-    }
-  </script>
-  <script src="main.js"></script>
+<!-- THE PROBLEM -->
+<section class="section-pad">
+  <div class="container">
+    <h2 class="section-heading reveal">The Internet Has No Trust Layer</h2>
+    <div class="section-body reveal">Every time humanity connects independent actors into a network, three layers emerge in the same order: communication, then value, then trust. Trade routes had roads, then currency, then guild marks. The internet has TCP/IP and Bitcoin. But nothing gives machines trust. We patched it with star ratings, TLS certificates, and API keys — all centralized, all breakable, all controlled by platforms. Now we're deploying billions of autonomous systems onto this broken foundation. AI agents managing portfolios, robots performing surgery, vehicles navigating cities — all without any way to verify what they'll do before they do it.</div>
+  </div>
+</section>
+
+<!-- THE SOLUTION — COVENANT PROTOCOL -->
+<section class="section-pad" style="background: var(--bg-elevated);">
+  <div class="container">
+    <h2 class="section-heading reveal">Cryptographic Trust for Autonomous Systems</h2>
+    <p class="section-body reveal">The Covenant Protocol makes trust computable, composable, and cryptographically verifiable. Any autonomous system can make behavioral commitments that third parties can verify — without trusting a central authority.</p>
+    <div class="primitives-grid">
+      <div class="primitive-card reveal">
+        <h3>Identity</h3>
+        <p>Every autonomous system gets a cryptographic identity. Not an API key. Not a username. A sovereign, verifiable identity that the system owns.</p>
+      </div>
+      <div class="primitive-card reveal">
+        <h3>Covenants</h3>
+        <p>Any system can make verifiable behavioral commitments. "I will not spend more than $10,000." "I will not access data outside this scope." Commitments are cryptographic, not promises.</p>
+      </div>
+      <div class="primitive-card reveal">
+        <h3>Proofs</h3>
+        <p>Third parties verify covenant compliance with zero knowledge. You can prove an agent followed its commitments without revealing the agent's private data or logic.</p>
+      </div>
+      <div class="primitive-card reveal">
+        <h3>Trust Physics</h3>
+        <p>Trust isn't a score. It's a multidimensional, directional, time-decaying, context-dependent vector. An agent trusted for financial transactions isn't automatically trusted for medical decisions. Trust decays without reinforcement. Trust attenuates through chains. We model trust the way it actually works — as a rich mathematical object, not a number.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST PHYSICS -->
+<section class="section-pad">
+  <div class="container">
+    <h2 class="section-heading reveal">A New Science of Machine Trust</h2>
+    <p class="section-body reveal">Existing trust systems — star ratings, credit scores, certificates — are one-dimensional, centralized, and designed for humans. Autonomous systems need something fundamentally different.</p>
+    <ul class="trust-props reveal">
+      <li><span class="prop-name">Directional</span> A trusts B does not mean B trusts A</li>
+      <li><span class="prop-name">Contextual</span> Trusted for finance ≠ trusted for medicine</li>
+      <li><span class="prop-name">Time-Decaying</span> Trust erodes without reinforcement from verified covenants</li>
+      <li><span class="prop-name">Composable</span> If A trusts B and B trusts C, A has derived (attenuated) trust in C</li>
+      <li><span class="prop-name">Asymmetric</span> Hard to build, easy to destroy</li>
+      <li><span class="prop-name">Stakeable</span> Agents can stake reputation on claims about other agents, creating a trust economy</li>
+    </ul>
+  </div>
+</section>
+
+<!-- THE VISION -->
+<section class="section-pad" style="background: var(--bg-elevated);">
+  <div class="container">
+    <h2 class="section-heading reveal">Completing the Internet's Unfinished Architecture</h2>
+    <div class="timeline reveal">
+      <div class="timeline-item">
+        <h4>Communication Layer</h4>
+        <span class="year">TCP/IP (1970s)</span>
+      </div>
+      <div class="timeline-item">
+        <h4>Value Layer</h4>
+        <span class="year">Bitcoin (2009)</span>
+      </div>
+      <div class="timeline-item">
+        <h4>Trust Layer</h4>
+        <span class="year">Covenant Protocol (2026)</span>
+      </div>
+    </div>
+    <p class="section-body reveal" style="margin-top: 32px;">This isn't a bet on whether the trust layer gets built. It's a bet on whether it gets built as an open protocol or a closed platform. We're making sure it's open.</p>
+  </div>
+</section>
+
+<!-- BEYOND AI AGENTS -->
+<section class="section-pad">
+  <div class="container">
+    <h2 class="section-heading reveal">Trust Infrastructure for the Autonomous Era</h2>
+    <p class="section-body reveal">The Covenant Protocol starts with AI agents — the most urgent use case. But the protocol is agent-agnostic. Any autonomous system that acts without direct human supervision needs the same primitive: a cryptographic behavioral commitment that can be verified by a third party.</p>
+    <div class="use-cases-grid">
+      <div class="use-case reveal">
+        <strong>AI Agents</strong>
+        <p>Verifiable behavior in financial transactions, data access, tool use</p>
+      </div>
+      <div class="use-case reveal">
+        <strong>Robotics</strong>
+        <p>Surgical robots proving compliance with safety constraints</p>
+      </div>
+      <div class="use-case reveal">
+        <strong>Autonomous Vehicles</strong>
+        <p>Vehicles committing to navigation boundaries and speed limits</p>
+      </div>
+      <div class="use-case reveal">
+        <strong>Drone Swarms</strong>
+        <p>Coordinated behavior verification without central command</p>
+      </div>
+      <div class="use-case reveal">
+        <strong>IoT Networks</strong>
+        <p>Device-to-device trust without cloud dependency</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="section-pad" style="background: var(--bg-elevated);">
+  <div class="container">
+    <div class="stats">
+      <div class="reveal">
+        <div class="stat-number">117,000+</div>
+        <div class="stat-label">Lines of TypeScript</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-number">45</div>
+        <div class="stat-label">Packages</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-number">MIT</div>
+        <div class="stat-label">Licensed — open source forever</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-number">1</div>
+        <div class="stat-label">Founder, age 15</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p class="footer-about reveal"><strong>Built by Arian Gogani.</strong> 15 years old. Founder of Nobulex. Also founded a 24/7 emergency dental practice. Creates art for Pagani Automobili and Gunther Werks. Believes the trust layer of the internet should be open, neutral, and owned by no one.</p>
+    <p class="footer-etymology reveal">Nobulex — from Japanese–Latin: "law of trust."</p>
+    <div class="footer-links reveal">
+      <a href="https://github.com/agbusiness195/NOBULEX" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.npmjs.com/org/nobulex" target="_blank" rel="noopener">npm (@nobulex)</a>
+      <a href="https://x.com/nobulexlabs" target="_blank" rel="noopener">X (@nobulexlabs)</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  var revealObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.reveal').forEach(function(el) {
+    revealObs.observe(el);
+  });
+})();
+</script>
 </body>
 </html>
