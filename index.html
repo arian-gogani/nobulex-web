@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nobulex — The accountability primitive for AI agents</title>
-  <meta name="description" content="Cryptographic behavioral commitments with trustless verification. The trust layer for autonomous AI agents.">
-  <meta property="og:title" content="Nobulex — Trustless Agents">
-  <meta property="og:description" content="The accountability primitive for AI agents. Cryptographic behavioral commitments with trustless verification.">
+  <meta name="description" content="Make agents commit to rules and prove they followed them. Signed covenants. Runtime enforcement. Verifiable logs.">
+  <meta property="og:title" content="Nobulex — Verifiable Agents">
+  <meta property="og:description" content="Make agents commit to rules and prove they followed them. Signed covenants. Runtime enforcement. Verifiable logs.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://nobulex.dev/images/nobulex-logo.png">
   <meta property="og:url" content="https://nobulex.dev/">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Nobulex — Trustless Agents">
-  <meta name="twitter:description" content="Cryptographic behavioral commitments with trustless verification.">
+  <meta name="twitter:title" content="Nobulex — Verifiable Agents">
+  <meta name="twitter:description" content="Signed covenants. Runtime enforcement. Verifiable logs.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" type="image/png" href="/icon.png">
   <link rel="apple-touch-icon" href="/icon.png">
@@ -43,11 +43,13 @@
         <a href="#primitives">Primitives</a>
         <a href="#how-it-works">How it works</a>
         <a href="#guarantee">Guarantee</a>
+        <a href="demo.html">Demo</a>
         <a href="#traction">Traction</a>
-        <a href="docs/quickstart.html">Docs</a>
-        <a href="https://github.com/agbusiness195/NOBULEX" rel="noopener noreferrer">GitHub</a>
+        <a href="demo.html">Full demo</a>
+        <a href="docs/index.html">Docs</a>
+        <a href="https://github.com/nobulexdev/nobulex" rel="noopener noreferrer">GitHub</a>
       </div>
-      <a href="https://github.com/agbusiness195/NOBULEX" class="header__cta" rel="noopener noreferrer">View on GitHub</a>
+      <a href="https://github.com/nobulexdev/nobulex" class="header__cta" rel="noopener noreferrer">View on GitHub</a>
     </nav>
   </header>
 
@@ -59,14 +61,18 @@
       </div>
       <div class="hero__bg" aria-hidden="true"></div>
       <div class="hero__inner">
-        <p class="hero__tagline" data-reveal>The accountability primitive for AI agents. Cryptographic behavioral commitments with trustless verification.</p>
+        <p class="hero__tagline" data-reveal>Make agents commit to rules — and prove they followed them.</p>
+        <p class="hero__tagline hero__tagline--sub" data-reveal>Signed covenants. Runtime enforcement. Verifiable logs.</p>
         <h1 class="hero__title">
-          <span class="hero__line" data-split="words">Trustless Agents</span>
+          <span class="hero__line" data-split="words">Verifiable Agents</span>
         </h1>
-        <p class="hero__subline" data-reveal>Bitcoin gave us trustless money. Ethereum gave us trustless agreements. Nobulex gives us trustless agents.</p>
+        <p class="hero__subline" data-reveal>Stop trusting agents. Start verifying them.</p>
+        <div class="hero__plain-english" data-reveal>
+          <p><strong>Plain English:</strong> Nobulex is middleware that forces agents to follow signed rules. It blocks forbidden actions at runtime and logs every decision. Anyone can verify compliance from the log—without trusting the operator.</p>
+        </div>
         <div class="hero__cta hero__cta-buttons" data-reveal>
-          <a href="https://github.com/agbusiness195/NOBULEX" class="btn btn--primary" rel="noopener noreferrer">GitHub</a>
-          <a href="https://github.com/agbusiness195/NOBULEX/blob/main/docs/whitepaper.md" class="btn btn--ghost" rel="noopener noreferrer">Whitepaper / Spec</a>
+          <a href="https://github.com/nobulexdev/nobulex" class="btn btn--primary" rel="noopener noreferrer">GitHub</a>
+          <a href="https://github.com/nobulexdev/nobulex/blob/main/PROTOCOL.md" class="btn btn--ghost" rel="noopener noreferrer">Protocol / Spec</a>
         </div>
       </div>
       <div class="hero__scroll-hint" aria-hidden="true">
@@ -82,9 +88,9 @@
       <div class="section__bg" aria-hidden="true"></div>
       <div class="section__content">
         <p class="section__label section__label--center" data-reveal>THE PROBLEM</p>
-        <h2 class="problem__title" data-reveal>Nobody handles trust</h2>
+        <h2 class="problem__title" data-reveal>Agents have permissions. Nobody has proof.</h2>
         <div class="problem__content" data-reveal>
-          <p>AI agents are managing trillions in economic activity with <strong>zero behavioral accountability</strong>. MCP handles I/O. A2A handles messaging. AP2 handles payments. Nobody handles trust.</p>
+          <p>AI agents are beginning to manage economic activity across payments, trading, and procurement—with <strong>zero behavioral accountability</strong>. MCP handles tool I/O. A2A handles agent messaging. AP2 handles payments. Nobody handles proof.</p>
           <p class="problem__until">Until now.</p>
         </div>
       </div>
@@ -97,6 +103,7 @@
       <div class="section__content">
         <p class="section__label section__label--center" data-reveal>SIX PRIMITIVES</p>
         <h2 class="primitives__title" data-reveal>The trust stack</h2>
+        <p class="primitives__unify" data-reveal>Together, these turn “policy” from a promise into a proof.</p>
         <div class="primitives__grid" data-reveal>
           <article class="primitive-card">
             <span class="primitive-card__label">Identity</span>
@@ -121,7 +128,7 @@
           <article class="primitive-card">
             <span class="primitive-card__label">Verification</span>
             <h3 class="primitive-card__title">Deterministic</h3>
-            <p>Same inputs, same result. No trust in the verifier. Trustless verification.</p>
+            <p>Same inputs, same result. Independent, deterministic verification—no trust in the verifier.</p>
           </article>
           <article class="primitive-card">
             <span class="primitive-card__label">Enforcement</span>
@@ -175,6 +182,36 @@
 
     <div class="divider" aria-hidden="true"></div>
 
+    <!-- See it fail closed demo -->
+    <section class="section section--demo section--alt" id="demo" data-section="demo">
+      <div class="section__content">
+        <p class="section__label section__label--center" data-reveal>SEE IT FAIL CLOSED</p>
+        <h2 class="demo__title" data-reveal>Agent tries $600 transfer → middleware blocks → log verifies</h2>
+        <div class="demo__wrap" data-reveal>
+          <div class="demo__terminal">
+            <div class="demo__terminal-header">
+              <span class="demo__terminal-dot"></span>
+              <span class="demo__terminal-dot"></span>
+              <span class="demo__terminal-dot"></span>
+              <span class="demo__terminal-title">nobulex-demo</span>
+            </div>
+            <div class="demo__terminal-body">
+              <div class="demo__line demo__line--prompt demo__line--visible"><span class="demo__prompt">$</span> mw.execute({ action: 'transfer', params: { amount: 600 } }, ...)</div>
+              <div class="demo__line demo__line--step" data-step="1"><span class="demo__label">Agent:</span> Attempting transfer of $600</div>
+              <div class="demo__line demo__line--step demo__line--blocked" data-step="2"><span class="demo__label">Middleware:</span> <span class="demo__blocked">BLOCKED</span> — covenant: amount > 500</div>
+              <div class="demo__line demo__line--step" data-step="3"><span class="demo__label">Action log:</span> { action: "transfer", amount: 600, result: "blocked", hash: "0x7a3f..." } ✓ verifiable</div>
+            </div>
+          </div>
+          <div class="demo__actions">
+            <button type="button" class="demo__run" id="demo-run" aria-label="Run demo">Run demo</button>
+            <a href="demo.html" class="demo__full-link">Full demo →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" aria-hidden="true"></div>
+
     <!-- Two-tier guarantee -->
     <section class="section section--guarantee section--alt" id="guarantee" data-section="guarantee">
       <div class="section__content">
@@ -184,13 +221,52 @@
           <article class="guarantee__tier guarantee__tier--1">
             <span class="guarantee__tier-label">Tier 1</span>
             <h3>Impossible violation</h3>
-            <p>Middleware runs in a TEE. Violations are cryptographically impossible before they leave the enclave.</p>
+            <p>Middleware runs in a TEE. Policy bypass is prevented inside the enforcement boundary (TEE + attestation assumptions).</p>
+            <p class="guarantee__threat-model"><strong>Assumptions &amp; threat model:</strong> We assume the TEE is uncompromised and correctly attests its identity. The enclave intercepts all agent actions before execution; forbidden actions never reach the host. If the enclave is compromised, an attacker could bypass enforcement — attestation lets you verify which software is running. See the <a href="https://github.com/nobulexdev/nobulex/blob/main/PROTOCOL.md" rel="noopener noreferrer">Spec</a> for details.</p>
           </article>
           <article class="guarantee__tier guarantee__tier--2">
             <span class="guarantee__tier-label">Tier 2</span>
             <h3>Costly violation</h3>
             <p>Stake at risk. Slashing on breach. Rational agents don’t violate when the cost exceeds the gain.</p>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <!-- Why Nobulex vs guardrails -->
+    <section class="section section--compare section--alt" id="vs-guardrails" data-section="compare">
+      <div class="section__content">
+        <p class="section__label section__label--center" data-reveal>WHY NOBULEX</p>
+        <h2 class="compare__title" data-reveal>Not just guardrails</h2>
+        <div class="compare__table-wrap" data-reveal>
+          <table class="compare__table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Guardrails / policy engines</th>
+                <th>Nobulex</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Enforcement</td>
+                <td>Best-effort; can be bypassed</td>
+                <td>Signed commitments; TEE or staking</td>
+              </tr>
+              <tr>
+                <td>Verification</td>
+                <td>Trust the operator</td>
+                <td>Third-party verifiable; anyone can audit</td>
+              </tr>
+              <tr>
+                <td>Consequences</td>
+                <td>Policy violation = incident</td>
+                <td>Economic enforcement; slashing on breach</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
@@ -243,11 +319,11 @@
       <p class="footer__tagline">The accountability primitive for AI agents.</p>
     </div>
     <nav class="footer__nav">
-      <a href="https://github.com/agbusiness195/NOBULEX" rel="noopener noreferrer">GitHub</a>
-      <a href="https://github.com/agbusiness195/NOBULEX/blob/main/docs/whitepaper.md" rel="noopener noreferrer">Whitepaper</a>
-      <a href="docs/quickstart.html">Docs</a>
-      <a href="https://www.npmjs.com/org/nobulex" rel="noopener noreferrer">npm packages</a>
-      <a href="https://x.com/nobulex" rel="noopener noreferrer">X</a>
+      <a href="https://github.com/nobulexdev/nobulex" rel="noopener noreferrer">GitHub</a>
+      <a href="https://github.com/nobulexdev/nobulex/blob/main/PROTOCOL.md" rel="noopener noreferrer">Protocol</a>
+      <a href="docs/index.html">Docs</a>
+      <a href="https://www.npmjs.com/package/@nobulex/sdk" rel="noopener noreferrer">@nobulex/sdk</a>
+      <a href="https://www.npmjs.com/org/nobulex" rel="noopener noreferrer">npm org</a>
     </nav>
   </footer>
 

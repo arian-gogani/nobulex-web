@@ -1,6 +1,6 @@
 # Nobulex — The trust layer for the agent economy
 
-Marketing site for [Nobulex](https://github.com/agbusiness195/stele), a protocol that makes honesty the only rational strategy for any autonomous system. Verifiable commitments for AI agents. Open source. MIT licensed.
+Marketing site for [Nobulex](https://github.com/nobulexdev/nobulex), a protocol that makes honesty the only rational strategy for any autonomous system. Verifiable commitments for AI agents. Open source. MIT licensed.
 
 ## Run locally
 

@@ -96,7 +96,7 @@
   });
 
   /* ——— Live stats (GitHub stars, npm downloads) ——— */
-  const GITHUB_REPO = 'agbusiness195/stele';
+  const GITHUB_REPO = 'nobulexdev/nobulex';
   const NPM_PACKAGE = '@nobulex/sdk';
 
   function formatNum(n) {
@@ -276,6 +276,32 @@
       { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
     );
     reveal.forEach((el) => io.observe(el));
+  }
+
+  /* ——— See it fail closed demo ——— */
+  const demoRun = document.getElementById('demo-run');
+  const demoLines = document.querySelectorAll('.demo__line--step');
+  if (demoRun && demoLines.length) {
+    function resetDemo() {
+      demoLines.forEach((line) => line.classList.remove('demo__line--visible'));
+    }
+    function runDemo() {
+      resetDemo();
+      demoRun.disabled = true;
+      demoRun.textContent = 'Running…';
+      let delay = 0;
+      demoLines.forEach((line, i) => {
+        setTimeout(() => {
+          line.classList.add('demo__line--visible');
+        }, delay);
+        delay += 600;
+      });
+      setTimeout(() => {
+        demoRun.disabled = false;
+        demoRun.textContent = 'Replay';
+      }, delay + 200);
+    }
+    demoRun.addEventListener('click', runDemo);
   }
 
   /* ——— Hero word split animation ——— */
