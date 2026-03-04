@@ -64,14 +64,11 @@
     <div class="quickstart-code-wrap">
       <div class="code-block">
         <button type="button" class="code-block__copy" aria-label="Copy code">Copy</button>
-        <pre><code>const { protect } = require('@nobulex/sdk');
-
-const agent = await protect({
-  name: 'my-agent',
-  rules: ['no-data-leak', 'read-only']
-});</code></pre>
+        <pre><code>const { protect } = require('@nobulex/quickstart');
+const agent = protect('permit read; forbid transfer where amount > 500; require log_all;');
+const result = agent.check({ action: 'transfer', amount: 200 });</code></pre>
       </div>
-      <p>Install: <button type="button" class="npm-copy" data-copy="npm install @nobulex/sdk" aria-label="Copy npm command">npm install @nobulex/sdk</button></p>
+      <p>Install: <button type="button" class="npm-copy" data-copy="npm install @nobulex/quickstart" aria-label="Copy npm command">npm install @nobulex/quickstart</button></p>
     </div>
     <div class="quickstart__links">
       <a href="https://github.com/nobulexdev/nobulex#quick-start" class="section__cta" rel="noopener noreferrer">View on GitHub →</a>

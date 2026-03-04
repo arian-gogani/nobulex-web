@@ -388,14 +388,11 @@
         <div class="code-block code-block--wide" data-reveal>
           <span class="code-block__lang">JAVASCRIPT</span>
           <button type="button" class="code-block__copy" aria-label="Copy code">Copy</button>
-          <pre><code><span class="token-key">const</span> { protect } = <span class="token-key">require</span>(<span class="token-str">'@nobulex/sdk'</span>);
-
-<span class="token-key">const</span> agent = <span class="token-key">await</span> protect({
-  name: <span class="token-str">'my-agent'</span>,
-  rules: [<span class="token-str">'no-data-leak'</span>, <span class="token-str">'read-only'</span>]
-});</code></pre>
+          <pre><code><span class="token-key">const</span> { protect } = <span class="token-key">require</span>(<span class="token-str">'@nobulex/quickstart'</span>);
+<span class="token-key">const</span> agent = protect(<span class="token-str">'permit read; forbid transfer where amount > 500; require log_all;'</span>);
+<span class="token-key">const</span> result = agent.check({ action: <span class="token-str">'transfer'</span>, amount: <span class="token-num">200</span> });</code></pre>
           <div class="code-block__footer">
-            <button type="button" class="npm-copy" data-copy="npm install @nobulex/sdk" aria-label="Copy npm command">npm install @nobulex/sdk</button>
+            <button type="button" class="npm-copy" data-copy="npm install @nobulex/quickstart" aria-label="Copy npm command">npm install @nobulex/quickstart</button>
             <span class="code-block__meta">MIT Licensed</span>
           </div>
         </div>
@@ -413,7 +410,7 @@
       <a href="https://github.com/nobulexdev/nobulex" rel="noopener noreferrer">GitHub</a>
       <a href="https://github.com/nobulexdev/nobulex/blob/main/PROTOCOL.md" rel="noopener noreferrer">Protocol</a>
       <a href="docs/index.html">Docs</a>
-      <a href="https://www.npmjs.com/package/@nobulex/sdk" rel="noopener noreferrer">@nobulex/sdk</a>
+      <a href="https://www.npmjs.com/package/@nobulex/quickstart" rel="noopener noreferrer">@nobulex/quickstart</a>
       <a href="https://www.npmjs.com/org/nobulex" rel="noopener noreferrer">npm org</a>
       <a href="https://x.com/nobulexlabs" rel="noopener noreferrer">X</a>
     </nav>

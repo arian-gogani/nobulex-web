@@ -97,7 +97,7 @@
 
   /* ——— Live stats (GitHub stars, npm downloads) ——— */
   const GITHUB_REPO = 'nobulexdev/nobulex';
-  const NPM_PACKAGE = '@nobulex/sdk';
+  const NPM_PACKAGE = '@nobulex/quickstart';
 
   function formatNum(n) {
     if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
