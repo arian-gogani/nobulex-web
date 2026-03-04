@@ -46,7 +46,10 @@
     .demo-nav__btn#demo-next { background: rgba(255,255,255,0.1); min-width: 5rem; }
     .demo-nav__btn#demo-next:hover:not(:disabled) { background: rgba(255,255,255,0.15); }
     .demo-nav__btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .demo-page__links { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+    .demo-page__links { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+    .demo-page__contact { font-size: 0.8125rem; color: var(--text-muted); }
+    .demo-page__contact a { color: var(--accent); text-decoration: none; }
+    .demo-page__contact a:hover { text-decoration: underline; }
     @media (prefers-reduced-motion: reduce) { .demo-step__blocked { animation: none; } }
   </style>
 </head>
@@ -139,6 +142,7 @@
     <div class="demo-page__links">
       <a href="https://github.com/nobulexdev/nobulex#quick-start" class="section__cta" rel="noopener noreferrer">Run real demo on your machine →</a>
       <a href="index.html#demo" class="section__cta">← Home demo</a>
+      <span class="demo-page__contact">Questions? <a href="mailto:nobulex.dev@gmail.com">nobulex.dev@gmail.com</a></span>
     </div>
   </main>
 
