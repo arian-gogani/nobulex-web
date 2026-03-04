@@ -43,7 +43,7 @@
         <a href="#primitives">Primitives</a>
         <a href="#how-it-works">How it works</a>
         <a href="#guarantee">Guarantee</a>
-        <a href="demo.html">Demo</a>
+        <a href="#try-demo">Try it</a>
         <a href="#traction">Traction</a>
         <a href="demo.html">Full demo</a>
         <a href="docs/index.html">Docs</a>
@@ -267,6 +267,39 @@
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <!-- Interactive Live Demo -->
+    <section class="section section--trydemo" id="try-demo" data-section="trydemo">
+      <div class="section__content">
+        <p class="section__label section__label--center" data-reveal>TRY IT YOURSELF</p>
+        <h2 class="trydemo__title" data-reveal>See the covenant engine in action</h2>
+        <div class="trydemo__wrap" data-reveal>
+          <div class="trydemo__left">
+            <div class="trydemo__terminal">
+              <div class="trydemo__terminal-header">
+                <span class="demo__terminal-dot"></span>
+                <span class="demo__terminal-dot"></span>
+                <span class="demo__terminal-dot"></span>
+                <span class="trydemo__terminal-title">covenant.nbl</span>
+              </div>
+              <pre class="trydemo__code"><code><span class="token-key">permit</span> read;
+<span class="token-key">forbid</span> transfer <span class="token-key">where</span> amount > <span class="token-num">500</span>;
+<span class="token-key">require</span> log_all;</code></pre>
+            </div>
+          </div>
+          <div class="trydemo__right">
+            <div class="trydemo__buttons">
+              <button type="button" class="trydemo__btn" data-action="read" data-amount="0">Read Data</button>
+              <button type="button" class="trydemo__btn" data-action="transfer" data-amount="200">Transfer $200</button>
+              <button type="button" class="trydemo__btn" data-action="transfer" data-amount="600">Transfer $600</button>
+            </div>
+            <div class="trydemo__result" id="trydemo-result" aria-live="polite"></div>
+          </div>
         </div>
       </div>
     </section>

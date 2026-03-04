@@ -304,6 +304,41 @@
     demoRun.addEventListener('click', runDemo);
   }
 
+  /* ——— Interactive live demo ——— */
+  document.querySelectorAll('.trydemo__btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const action = btn.getAttribute('data-action');
+      const amount = parseInt(btn.getAttribute('data-amount'), 10);
+      const resultEl = document.getElementById('trydemo-result');
+      if (!resultEl) return;
+
+      let allowed = true;
+      let reason = '';
+
+      if (action === 'read') {
+        allowed = true;
+        reason = 'Action: read — matched "permit read"';
+      } else if (action === 'transfer' && amount > 500) {
+        allowed = false;
+        reason = 'Action: transfer $' + amount + ' — blocked by "forbid transfer where amount > 500"';
+      } else if (action === 'transfer') {
+        allowed = true;
+        reason = 'Action: transfer $' + amount + ' — permitted (amount \u2264 500)';
+      }
+
+      const card = document.createElement('div');
+      card.className = 'trydemo__result-card trydemo__result-card--' + (allowed ? 'allowed' : 'blocked');
+      card.innerHTML =
+        '<span class="trydemo__verdict trydemo__verdict--' + (allowed ? 'allowed' : 'blocked') + '">' +
+        (allowed ? 'ALLOWED' : 'BLOCKED') +
+        '</span>' +
+        '<span class="trydemo__detail">' + reason + '</span>';
+
+      resultEl.innerHTML = '';
+      resultEl.appendChild(card);
+    });
+  });
+
   /* ——— Hero word split animation ——— */
   if (!prefersReducedMotion) {
     document.querySelectorAll('[data-split="words"]').forEach((line) => {
