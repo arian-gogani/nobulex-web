@@ -2994,26 +2994,27 @@ button:focus-visible {
 }
 
 .hero__plain-english {
-  max-width: 36em;
+  max-width: 32em;
   margin: 0 auto 2rem;
-  padding: 1rem 1.25rem;
-  background: rgba(255, 255, 255, 0.04);
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
 }
 .hero__plain-english p {
-  font-size: 0.9375rem;
-  color: var(--text-secondary);
+  font-size: 0.875rem;
+  color: var(--text-muted);
   line-height: 1.6;
   margin: 0;
 }
 .hero__subline {
-  font-size: 1.1875rem;
-  color: var(--text-secondary);
-  line-height: 1.65;
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  line-height: 1.5;
   max-width: 34em;
-  margin: 0 auto 2.25rem;
-  letter-spacing: -0.01em;
+  margin: 0 auto 1.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .problem__until {
