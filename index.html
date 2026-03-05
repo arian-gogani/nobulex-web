@@ -419,14 +419,34 @@
         <p class="section__label section__label--center" data-reveal>FOR DEVELOPERS</p>
         <h2 class="code__title" data-reveal>Add accountability in minutes</h2>
         <div class="code-block code-block--wide" data-reveal>
-          <span class="code-block__lang">JAVASCRIPT</span>
+          <div class="code-block__tabs">
+            <button type="button" class="code-block__tab code-block__tab--active" data-tab="js">JavaScript</button>
+            <button type="button" class="code-block__tab" data-tab="py">Python</button>
+          </div>
           <button type="button" class="code-block__copy" aria-label="Copy code">Copy</button>
-          <pre><code><span class="token-key">const</span> { protect } = <span class="token-key">require</span>(<span class="token-str">'@nobulex/quickstart'</span>);
+          <div class="code-block__panel code-block__panel--active" data-panel="js">
+            <pre><code><span class="token-key">const</span> { protect } = <span class="token-key">require</span>(<span class="token-str">'@nobulex/quickstart'</span>);
 <span class="token-key">const</span> agent = protect(<span class="token-str">'permit read; forbid transfer where amount > 500; require log_all;'</span>);
 <span class="token-key">const</span> result = agent.check({ action: <span class="token-str">'transfer'</span>, amount: <span class="token-num">200</span> });</code></pre>
+          </div>
+          <div class="code-block__panel" data-panel="py">
+            <pre><code><span class="token-key">from</span> langchain_nobulex <span class="token-key">import</span> NobulexComplianceMiddleware
+
+agent = create_agent(
+    model=<span class="token-str">'gpt-4'</span>,
+    tools=tools,
+    middleware=[NobulexComplianceMiddleware(
+        rules=<span class="token-str">'permit read; forbid transfer where amount > 500;'</span>
+    )]
+)</code></pre>
+          </div>
           <div class="code-block__footer">
-            <button type="button" class="npm-copy" data-copy="npm install @nobulex/quickstart" aria-label="Copy npm command">npm install @nobulex/quickstart</button>
+            <button type="button" class="npm-copy" data-copy="npm install @nobulex/quickstart" data-alt-copy="pip install langchain-nobulex" aria-label="Copy install command">npm install @nobulex/quickstart</button>
             <span class="code-block__meta">MIT Licensed</span>
+          </div>
+          <div class="code-block__badges">
+            <span class="code-block__badge">Works with LangChain</span>
+            <span class="code-block__badge">Available on PyPI</span>
           </div>
         </div>
       </div>

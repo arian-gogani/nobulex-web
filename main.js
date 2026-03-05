@@ -82,7 +82,8 @@
   document.querySelectorAll('.code-block__copy').forEach((btn) => {
     btn.addEventListener('click', () => {
       const block = btn.closest('.code-block');
-      const code = block?.querySelector('pre code');
+      const activePanel = block?.querySelector('.code-block__panel--active');
+      const code = (activePanel || block)?.querySelector('pre code');
       const text = (code ? (code.textContent || code.innerText) : '').trim();
       copyToClipboard(text).then(() => showCopied(btn, 'Copied!')).catch(() => showCopied(btn, 'Select & copy'));
     });
@@ -92,6 +93,28 @@
     btn.addEventListener('click', () => {
       const text = (btn.getAttribute('data-copy') || btn.textContent || '').trim();
       if (text) copyToClipboard(text).then(() => showCopied(btn, 'Copied!')).catch(() => showCopied(btn, 'Select & copy'));
+    });
+  });
+
+  /* ——— Code block tab switching ——— */
+  document.querySelectorAll('.code-block__tab').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const block = tab.closest('.code-block');
+      const targetPanel = tab.getAttribute('data-tab');
+      block.querySelectorAll('.code-block__tab').forEach((t) => t.classList.remove('code-block__tab--active'));
+      block.querySelectorAll('.code-block__panel').forEach((p) => p.classList.remove('code-block__panel--active'));
+      tab.classList.add('code-block__tab--active');
+      block.querySelector(`[data-panel="${targetPanel}"]`)?.classList.add('code-block__panel--active');
+      const installBtn = block.querySelector('.npm-copy');
+      if (installBtn) {
+        if (targetPanel === 'py') {
+          installBtn.setAttribute('data-copy', installBtn.getAttribute('data-alt-copy'));
+          installBtn.textContent = installBtn.getAttribute('data-alt-copy');
+        } else {
+          installBtn.setAttribute('data-copy', 'npm install @nobulex/quickstart');
+          installBtn.textContent = 'npm install @nobulex/quickstart';
+        }
+      }
     });
   });
 
