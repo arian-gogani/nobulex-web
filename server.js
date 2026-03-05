@@ -97,9 +97,25 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // Serve Nobulex logo for all favicon requests (icon.png = nobulex logo)
-  if (urlPath === '/favicon.ico' || urlPath === '/favicon.png' || urlPath === '/icon.png') {
-    const iconPath = path.join(__dirname, 'icon.png');
+  // Serve Nobulex N logo for all favicon requests
+  if (urlPath === '/favicon.ico') {
+    const icoPath = path.join(__dirname, 'favicon.ico');
+    try {
+      const data = await fs.promises.readFile(icoPath);
+      res.writeHead(200, {
+        'Content-Type': 'image/x-icon',
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+      });
+      res.end(data);
+    } catch {
+      res.writeHead(404);
+      res.end();
+    }
+    return;
+  }
+  if (urlPath === '/favicon.png' || urlPath === '/icon.png' || urlPath === '/apple-touch-icon.png') {
+    const iconFile = urlPath === '/apple-touch-icon.png' ? 'apple-touch-icon.png' : 'icon.png';
+    const iconPath = path.join(__dirname, iconFile);
     try {
       const data = await fs.promises.readFile(iconPath);
       res.writeHead(200, {
