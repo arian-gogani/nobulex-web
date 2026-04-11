@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground — Nobulex Proof-of-Behavior</title>
+  <meta name="description" content="Try proof-of-behavior enforcement live in your browser. Define rules, test actions, see the hash chain.">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --bg: #0a0a0a; --surface: #141414; --border: #222; --text: #e5e5e5; --muted: #888; --accent: #4f7df9; --green: #4ade80; --red: #f87171; --mono: 'JetBrains Mono', monospace; --sans: 'Inter', sans-serif; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
+    .pg { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    .pg h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .pg h1 span { color: var(--accent); }
+    .pg__sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+    .pg__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 700px) { .pg__grid { grid-template-columns: 1fr; } }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+    .card__title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.75rem; }
+    textarea { width: 100%; background: #0d0d0d; border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: var(--mono); font-size: 0.8rem; padding: 1rem; resize: vertical; min-height: 180px; line-height: 1.6; outline: none; }
+    textarea:focus { border-color: var(--accent); }
+    .action-row { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .action-row input { flex: 1; background: #0d0d0d; border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: var(--mono); font-size: 0.8rem; padding: 0.6rem 0.75rem; outline: none; }
+    .action-row input:focus { border-color: var(--accent); }
+    .btn { padding: 0.6rem 1.25rem; font-size: 0.8rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; font-family: var(--sans); transition: all 0.15s; }
+    .btn--primary { background: var(--accent); color: #fff; }
+    .btn--primary:hover { background: #3d6de8; }
+    .btn--sm { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
+    .btn--outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn--outline:hover { border-color: var(--accent); color: var(--accent); }
+    .result { margin-top: 0.75rem; padding: 0.75rem 1rem; border-radius: 8px; font-family: var(--mono); font-size: 0.8rem; line-height: 1.5; }
+    .result--allow { background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.2); color: var(--green); }
+    .result--block { background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.2); color: var(--red); }
+    .log { margin-top: 1.5rem; }
+    .log__entry { padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 0.72rem; line-height: 1.5; display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
+    .log__entry:last-child { border-bottom: none; }
+    .log__idx { color: var(--muted); min-width: 20px; }
+    .log__action { flex: 1; }
+    .log__outcome--success { color: var(--green); }
+    .log__outcome--blocked { color: var(--red); }
+    .log__hash { color: var(--muted); font-size: 0.65rem; opacity: 0.7; }
+    .verify { margin-top: 1rem; padding: 1rem; border-radius: 8px; }
+    .verify--pass { background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.15); }
+    .verify--fail { background: rgba(248,113,113,0.06); border: 1px solid rgba(248,113,113,0.15); }
+    .verify__title { font-weight: 600; font-size: 0.85rem; margin-bottom: 0.25rem; }
+    .verify__detail { font-size: 0.8rem; color: var(--muted); font-family: var(--mono); }
+    .stats { display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat__val { font-size: 1.5rem; font-weight: 700; font-family: var(--mono); }
+    .stat__lbl { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .full-width { grid-column: 1 / -1; }
+    .back { display: inline-block; color: var(--muted); text-decoration: none; font-size: 0.8rem; margin-bottom: 1.5rem; }
+    .back:hover { color: var(--accent); }
+    .presets { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <div class="pg">
+    <a href="/" class="back">← Back to nobulex.com</a>
+    <h1>Proof-of-Behavior <span>Playground</span></h1>
+    <p class="pg__sub">Define behavioral rules. Test actions. See the hash chain. Everything runs in your browser.</p>
+
+    <div class="pg__grid">
+      <!-- Left: Covenant Editor -->
+      <div class="card">
+        <div class="card__title">1. Define Behavioral Rules</div>
+        <div class="presets">
+          <button class="btn btn--sm btn--outline" onclick="loadPreset('trader')">SafeTrader</button>
+          <button class="btn btn--sm btn--outline" onclick="loadPreset('readonly')">ReadOnly</button>
+          <button class="btn btn--sm btn--outline" onclick="loadPreset('admin')">AdminAgent</button>
+        </div>
+        <textarea id="covenant" spellcheck="false">covenant SafeTrader {
+  permit read;
+  permit transfer (amount <= 500);
+  forbid transfer (amount > 500);
+  forbid delete;
+}</textarea>
+        <button class="btn btn--primary" style="margin-top:0.75rem;width:100%" onclick="parseCovenant()">Parse Covenant</button>
+        <div id="parseResult"></div>
+      </div>
+
+      <!-- Right: Action Tester -->
+      <div class="card">
+        <div class="card__title">2. Test Actions</div>
+        <div class="action-row">
+          <input type="text" id="actionName" placeholder="Action (e.g. transfer)" value="transfer">
+          <input type="text" id="actionParam" placeholder="Param (e.g. amount=300)" value="amount=300">
+        </div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem">
+          <button class="btn btn--sm btn--outline" onclick="quickAction('transfer','amount=100')">$100 transfer</button>
+          <button class="btn btn--sm btn--outline" onclick="quickAction('transfer','amount=600')">$600 transfer</button>
+          <button class="btn btn--sm btn--outline" onclick="quickAction('read','')">read</button>
+          <button class="btn btn--sm btn--outline" onclick="quickAction('delete','')">delete</button>
+        </div>
+        <button class="btn btn--primary" style="width:100%" onclick="testAction()">Execute Action</button>
+        <div id="actionResult"></div>
+
+        <div class="stats" id="statsBar" style="display:none">
+          <div class="stat"><div class="stat__val" id="statTotal">0</div><div class="stat__lbl">Actions</div></div>
+          <div class="stat"><div class="stat__val" style="color:var(--green)" id="statAllowed">0</div><div class="stat__lbl">Allowed</div></div>
+          <div class="stat"><div class="stat__val" style="color:var(--red)" id="statBlocked">0</div><div class="stat__lbl">Blocked</div></div>
+        </div>
+      </div>
+
+      <!-- Full width: Hash-Chained Action Log -->
+      <div class="card full-width">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="card__title">3. Hash-Chained Action Log</div>
+          <div style="display:flex;gap:0.5rem">
+            <button class="btn btn--sm btn--outline" onclick="verifyLog()">Verify Integrity</button>
+            <button class="btn btn--sm btn--outline" onclick="clearLog()">Clear</button>
+          </div>
+        </div>
+        <div id="logEntries" style="font-family:var(--mono);font-size:0.75rem;color:var(--muted)">No actions yet. Parse a covenant and test an action above.</div>
+        <div id="verifyResult"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ── Minimal proof-of-behavior engine (browser-native) ──────────────────────
+
+let covenant = null;
+let actionLog = [];
+let totalActions = 0, allowedCount = 0, blockedCount = 0;
+
+const PRESETS = {
+  trader: `covenant SafeTrader {
+  permit read;
+  permit transfer (amount <= 500);
+  forbid transfer (amount > 500);
+  forbid delete;
+}`,
+  readonly: `covenant ReadOnly {
+  permit read;
+  forbid write;
+  forbid delete;
+  forbid transfer;
+}`,
+  admin: `covenant AdminAgent {
+  permit read;
+  permit write;
+  permit transfer (amount <= 10000);
+  forbid transfer (amount > 10000);
+  forbid delete;
+}`
+};
+
+function loadPreset(name) {
+  document.getElementById('covenant').value = PRESETS[name];
+  parseCovenant();
+}
+
+function parseCovenant() {
+  const src = document.getElementById('covenant').value.trim();
+  try {
+    covenant = parseDSL(src);
+    document.getElementById('parseResult').innerHTML =
+      '<div class="result result--allow">✓ Parsed: "' + covenant.name + '" — ' +
+      covenant.rules.length + ' rules</div>';
+  } catch (e) {
+    document.getElementById('parseResult').innerHTML =
+      '<div class="result result--block">✗ Parse error: ' + e.message + '</div>';
+    covenant = null;
+  }
+}
+
+function parseDSL(src) {
+  const nameMatch = src.match(/covenant\s+(\w+)\s*\{/);
+  if (!nameMatch) throw new Error('Missing "covenant Name { ... }"');
+  const name = nameMatch[1];
+  const body = src.slice(src.indexOf('{') + 1, src.lastIndexOf('}'));
+  const lines = body.split(';').map(l => l.trim()).filter(Boolean);
+  const rules = lines.map(line => {
+    const m = line.match(/^(permit|forbid|require)\s+(\w+)(?:\s*\((.+)\))?$/);
+    if (!m) throw new Error('Invalid rule: "' + line + '"');
+    const [, effect, action, condStr] = m;
+    let condition = null;
+    if (condStr) {
+      const cm = condStr.trim().match(/^(\w+)\s*(<=|>=|<|>|==|!=)\s*(.+)$/);
+      if (cm) condition = { field: cm[1], op: cm[2], value: parseFloat(cm[3]) || cm[3] };
+    }
+    return { effect, action, condition };
+  });
+  return { name, rules };
+}
+
+function evaluate(action, params) {
+  if (!covenant) return { decision: 'block', reason: 'No covenant parsed' };
+  let matched = null;
+  for (const rule of covenant.rules) {
+    if (rule.action !== action && rule.action !== '*') continue;
+    if (rule.condition) {
+      const val = params[rule.condition.field];
+      if (val === undefined) continue;
+      const v = parseFloat(val);
+      const t = rule.condition.value;
+      const op = rule.condition.op;
+      let passes = false;
+      if (op === '<=') passes = v <= t;
+      else if (op === '>=') passes = v >= t;
+      else if (op === '<') passes = v < t;
+      else if (op === '>') passes = v > t;
+      else if (op === '==') passes = v === t;
+      else if (op === '!=') passes = v !== t;
+      if (!passes) continue;
+    }
+    if (rule.effect === 'forbid') return { decision: 'block', reason: 'Forbidden by rule: forbid ' + action + (rule.condition ? ' (' + rule.condition.field + ' ' + rule.condition.op + ' ' + rule.condition.value + ')' : '') };
+    if (rule.effect === 'permit') matched = rule;
+  }
+  if (matched) return { decision: 'allow', reason: 'Permitted by rule: permit ' + action + (matched.condition ? ' (' + matched.condition.field + ' ' + matched.condition.op + ' ' + matched.condition.value + ')' : '') };
+  return { decision: 'block', reason: 'Default deny — no matching permit rule' };
+}
+
+async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function quickAction(action, paramStr) {
+  document.getElementById('actionName').value = action;
+  document.getElementById('actionParam').value = paramStr;
+  testAction();
+}
+
+async function testAction() {
+  if (!covenant) { parseCovenant(); if (!covenant) return; }
+  const action = document.getElementById('actionName').value.trim();
+  const paramStr = document.getElementById('actionParam').value.trim();
+  const params = {};
+  if (paramStr) {
+    paramStr.split(',').forEach(p => {
+      const [k, v] = p.split('=').map(s => s.trim());
+      params[k] = isNaN(v) ? v : parseFloat(v);
+    });
+  }
+
+  const result = evaluate(action, params);
+  const prevHash = actionLog.length > 0 ? actionLog[actionLog.length - 1].hash : 'genesis';
+  const entry = {
+    index: actionLog.length,
+    timestamp: new Date().toISOString(),
+    action,
+    params,
+    outcome: result.decision === 'allow' ? 'success' : 'blocked',
+    previousHash: prevHash,
+    hash: '',
+  };
+  entry.hash = await sha256(JSON.stringify({ ...entry, hash: undefined }));
+  actionLog.push(entry);
+
+  totalActions++;
+  if (result.decision === 'allow') allowedCount++; else blockedCount++;
+
+  const cls = result.decision === 'allow' ? 'result--allow' : 'result--block';
+  const icon = result.decision === 'allow' ? '✓ ALLOWED' : '✗ BLOCKED';
+  document.getElementById('actionResult').innerHTML =
+    '<div class="result ' + cls + '">' + icon + ' — ' + result.reason + '</div>';
+
+  document.getElementById('statsBar').style.display = 'flex';
+  document.getElementById('statTotal').textContent = totalActions;
+  document.getElementById('statAllowed').textContent = allowedCount;
+  document.getElementById('statBlocked').textContent = blockedCount;
+
+  renderLog();
+}
+
+function renderLog() {
+  if (actionLog.length === 0) {
+    document.getElementById('logEntries').innerHTML = 'No actions yet.';
+    return;
+  }
+  let html = '<div style="margin-bottom:0.5rem;font-size:0.7rem;color:var(--muted)">Each entry is SHA-256 linked to the previous. Tamper with one → chain breaks.</div>';
+  for (const e of actionLog) {
+    const cls = e.outcome === 'success' ? 'log__outcome--success' : 'log__outcome--blocked';
+    const paramStr = Object.keys(e.params).length > 0 ? ' ' + JSON.stringify(e.params) : '';
+    html += '<div class="log__entry">' +
+      '<span class="log__idx">#' + e.index + '</span>' +
+      '<span class="log__action">' + e.action + paramStr + '</span>' +
+      '<span class="' + cls + '">' + e.outcome + '</span>' +
+      '<span class="log__hash" title="' + e.hash + '">' + e.hash.slice(0, 12) + '…</span>' +
+      '</div>';
+  }
+  document.getElementById('logEntries').innerHTML = html;
+}
+
+async function verifyLog() {
+  if (actionLog.length === 0) {
+    document.getElementById('verifyResult').innerHTML = '<div class="verify verify--fail"><div class="verify__title">No log to verify</div></div>';
+    return;
+  }
+  let valid = true;
+  for (let i = 0; i < actionLog.length; i++) {
+    const e = actionLog[i];
+    const expected = await sha256(JSON.stringify({ ...e, hash: undefined }));
+    if (expected !== e.hash) { valid = false; break; }
+    if (i > 0 && e.previousHash !== actionLog[i - 1].hash) { valid = false; break; }
+  }
+  const cls = valid ? 'verify--pass' : 'verify--fail';
+  const icon = valid ? '✓' : '✗';
+  const msg = valid ? 'Hash chain intact. ' + actionLog.length + ' entries verified. Log has not been tampered with.' : 'INTEGRITY FAILURE — hash chain is broken. Log has been tampered with.';
+  document.getElementById('verifyResult').innerHTML =
+    '<div class="verify ' + cls + '"><div class="verify__title">' + icon + ' Verification: ' + (valid ? 'PASSED' : 'FAILED') + '</div><div class="verify__detail">' + msg + '</div></div>';
+}
+
+function clearLog() {
+  actionLog = [];
+  totalActions = 0; allowedCount = 0; blockedCount = 0;
+  document.getElementById('logEntries').innerHTML = 'No actions yet.';
+  document.getElementById('verifyResult').innerHTML = '';
+  document.getElementById('actionResult').innerHTML = '';
+  document.getElementById('statsBar').style.display = 'none';
+}
+
+// Parse on load
+parseCovenant();
+</script>
+</body>
+</html>
