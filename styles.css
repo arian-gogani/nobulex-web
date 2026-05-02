@@ -577,31 +577,22 @@ main {
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.72) 100%),
-    radial-gradient(ellipse 100% 80% at 50% -30%, var(--accent-muted) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 50% at 90% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 10% 60%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.65) 100%),
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(94, 234, 212, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 30% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 75% 55%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
   pointer-events: none;
 }
 
 .hero__grid {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(ellipse 75% 65% at 50% 42%, #000 15%, transparent 72%);
-  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 42%, #000 15%, transparent 72%);
-  pointer-events: none;
+  display: none;
 }
 
 .hero__vignette {
   position: absolute;
   inset: 0;
   z-index: 3;
-  background: radial-gradient(ellipse 90% 75% at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.55) 100%);
+  background: radial-gradient(ellipse 90% 75% at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.35) 100%);
   pointer-events: none;
 }
 
