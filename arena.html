@@ -43,7 +43,7 @@ Star for entry
 <div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#27ae60">0</div><div style="font-size:9px;color:#444;letter-spacing:2px;font-family:'JetBrains Mono',monospace;margin-top:4px">WINNERS</div></div>
 </div>
 <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#333">nobulex.com/arena</div>
-<a href="/" style="display:inline-block;margin-top:20px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#555;text-decoration:none;border-bottom:1px solid #333;padding-bottom:2px">← back to nobulex.com</a>
+<a href="/" style="display:inline-block;margin-top:20px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#999;text-decoration:none;border:1px solid #333;padding:10px 24px;border-radius:6px;transition:border-color .2s,color .2s">← back to nobulex.com</a>
 </div>
 </div>
 <script>fetch('https://api.github.com/repos/arian-gogani/nobulex').then(r=>r.json()).then(d=>{const el=document.getElementById('waitlistCount');if(el&&d.stargazers_count){let n=0;const t=d.stargazers_count;const s=()=>{n+=Math.ceil((t-n)/8);if(n>=t){el.textContent=t;return}el.textContent=n;requestAnimationFrame(s)};s();}}).catch(()=>{});</script>
