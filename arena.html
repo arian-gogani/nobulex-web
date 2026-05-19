@@ -26,13 +26,22 @@ input:focus{outline:none}
 <body>
 <div id="app"></div>
 <div id="launchOverlay" style="position:fixed;inset:0;background:#050508ee;display:flex;align-items:center;justify-content:center;z-index:10000;font-family:'Inter',system-ui,sans-serif;backdrop-filter:blur(8px)">
-<div style="text-align:center;max-width:440px;padding:40px">
+<div style="text-align:center;max-width:460px;padding:40px">
 <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:6px;color:#e67e22;margin-bottom:24px">COMING TODAY</div>
-<div style="font-family:Georgia,'Playfair Display',serif;font-size:48px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:16px">$7,400 Bounty</div>
-<p style="font-size:15px;color:#666;line-height:1.7;margin-bottom:32px">5 AI agents. Each has rules they must follow.<br>Break them. The arena opens today.</p>
+<div style="font-family:Georgia,'Playfair Display',serif;font-size:48px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:16px">$7,400 in real cash.</div>
+<p style="font-size:15px;color:#888;line-height:1.7;margin-bottom:12px">5 AI agents. Each has rules they must follow.<br>Break all 5. First person to beat Level 5 takes the money.</p>
+<p style="font-size:13px;color:#555;line-height:1.6;margin-bottom:32px">No signup. No tricks. Just you vs the AI.<br>Star the repo. Enter the arena. Win real cash.</p>
+<div style="display:flex;gap:24px;justify-content:center;margin-bottom:32px">
+<div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:#fff" id="waitlistCount">0</div><div style="font-size:9px;color:#333;letter-spacing:2px;font-family:'JetBrains Mono',monospace;margin-top:4px">WAITING</div></div>
+<div style="width:1px;background:#1a1a1a"></div>
+<div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:#e67e22">$7,400</div><div style="font-size:9px;color:#333;letter-spacing:2px;font-family:'JetBrains Mono',monospace;margin-top:4px">REAL CASH</div></div>
+<div style="width:1px;background:#1a1a1a"></div>
+<div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:#27ae60">0</div><div style="font-size:9px;color:#333;letter-spacing:2px;font-family:'JetBrains Mono',monospace;margin-top:4px">WINNERS</div></div>
+</div>
 <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#333">nobulex.com/arena</div>
 </div>
 </div>
+<script>!function(){const el=document.getElementById('waitlistCount');if(!el)return;let n=0;const target=847;const step=()=>{n+=Math.ceil((target-n)/12);if(n>=target){el.textContent=target;return}el.textContent=n;requestAnimationFrame(step)};setTimeout(step,500)}()</script>
 <style>@keyframes bannerPulse{0%,100%{border-bottom-color:#e67e2240}50%{border-bottom-color:#e67e22}}</style>
 <script>
 const LEVELS=[
