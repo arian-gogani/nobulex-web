@@ -47,9 +47,10 @@
 </head>
 <body>
 <!-- Arena announcement banner -->
-<a href="/arena" style="display:block;background:#0a0a0a;border-bottom:1px solid #1a1a1a;padding:12px 20px;text-align:center;text-decoration:none;font-family:'JetBrains Mono','SF Mono',monospace;font-size:13px;letter-spacing:1px;color:#fff;position:relative;z-index:9999">
-  <span style="color:#e67e22;font-weight:700">NEW</span> &nbsp; Break the AI. Win $7,400 in real cash. &nbsp; <span style="color:#666;font-size:11px">COMING TODAY →</span>
+<a href="/arena" style="display:block;background:#050508;border-bottom:1px solid #1a1a1a;padding:10px 20px;text-align:center;text-decoration:none;font-family:'JetBrains Mono','SF Mono',monospace;font-size:12px;letter-spacing:1px;color:#fff;position:fixed;top:0;left:0;right:0;z-index:9999">
+  <span style="color:#e67e22;font-weight:700">NEW</span> &nbsp; $7,400 bounty. Break the AI. &nbsp; <span style="color:#555;font-size:11px">COMING TODAY →</span>
 </a>
+<div style="height:38px"></div>
   <a href="#main" class="skip-link">Skip to content</a>
   <header class="header" data-animate="header">
     <div class="header__top">
@@ -89,10 +90,10 @@
 
   <main id="main">
     <!-- Hero -->
-    <section class="hero" id="hero">
-      <div class="hero__video-wrap" aria-hidden="true">
+    <section class="hero" id="hero" style="position:relative">
+      <div class="hero__video-wrap" aria-hidden="true" style="opacity:0.3">
         <div class="hero__video-fallback"></div>
-        <video class="hero__video" autoplay muted loop playsinline preload="metadata" poster="images/video-poster.svg" fetchpriority="high">
+        <video class="hero__video" autoplay muted loop playsinline preload="metadata" poster="images/video-poster.svg" fetchpriority="high" style="filter:brightness(0.4)">
           <source src="https://videos.pexels.com/video-files/4939677/4939677-hd_1920_1080_30fps.mp4" type="video/mp4" media="(max-width: 1919px)">
           <source src="https://videos.pexels.com/video-files/4939677/4939677-uhd_2560_1440_30fps.mp4" type="video/mp4">
         </video>
@@ -112,18 +113,12 @@
             <span class="hero__line" data-split="words">Credit scores</span>
             <span class="hero__line hero__line--accent" data-split="words">for machines.</span>
           </h1>
-          <p class="hero__hook">Cryptographic behavioral commitments with trustless verification. Agents earn trust through verified actions. Trust gates what they're allowed to do.</p>
+          <p class="hero__hook">Cryptographic behavioral commitments. Trustless verification.</p>
           <p class="hero__kicker">Autonomy earned, not granted.</p>
           <div class="hero__cta hero__cta-buttons">
             <a href="/arena" class="btn btn--primary">Enter the Arena</a>
             <a href="https://github.com/arian-gogani/nobulex" class="btn btn--ghost" rel="noopener noreferrer">GitHub</a>
           </div>
-          <ul class="hero__metrics" aria-label="Protocol properties">
-            <li class="hero__metric"><span class="hero__metric-k">Arena</span> <span class="hero__metric-v">$7,400 bounty</span></li>
-            <li class="hero__metric"><span class="hero__metric-k">Protocol</span> <span class="hero__metric-v">IETF draft published</span></li>
-            <li class="hero__metric"><span class="hero__metric-k">Ecosystem</span> <span class="hero__metric-v">10+ implementations</span></li>
-            <li class="hero__metric"><span class="hero__metric-k">License</span> <span class="hero__metric-v">MIT</span></li>
-          </ul>
         </div>
       </div>
       <div class="hero__scroll-hint" aria-hidden="true">
