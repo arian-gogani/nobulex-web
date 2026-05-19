@@ -115,18 +115,19 @@
             <a href="/arena" class="btn btn--primary">Enter the Arena</a>
             <a href="https://github.com/arian-gogani/nobulex" class="btn btn--ghost" rel="noopener noreferrer">GitHub</a>
           </div>
-          <div style="margin-top:48px;padding:24px 32px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;max-width:480px;margin-left:auto;margin-right:auto;text-align:center">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:4px;color:#e67e22;margin-bottom:12px;font-weight:700">LAUNCHING THIS WEEK</div>
+          <a href="/arena" style="display:block;margin-top:48px;padding:24px 32px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;max-width:480px;margin-left:auto;margin-right:auto;text-align:center;text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(230,126,34,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:4px;color:#e67e22;margin-bottom:12px;font-weight:700">LAUNCHING TODAY</div>
             <div style="font-size:28px;font-weight:800;color:#fff;margin-bottom:8px;font-family:'Syne',sans-serif">Break the AI. Win <span style="color:#e67e22">$7,400</span>.</div>
-            <p style="font-size:13px;color:#888;line-height:1.6;margin-bottom:16px">5 AI agents. Real cash bounty. First person to beat Level 5 wins. Star the repo to enter.</p>
+            <p style="font-size:13px;color:#888;line-height:1.6;margin-bottom:16px">5 AI agents. Real cash. Star the repo to enter.</p>
             <div style="display:flex;gap:20px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px">
-              <span style="color:#fff">847 <span style="color:#444;font-size:9px">WAITING</span></span>
+              <span style="color:#fff" id="heroStarCount">—</span><span style="color:#444;font-size:9px"> ENTERED</span>
               <span style="color:#444">|</span>
               <span style="color:#27ae60">0 <span style="color:#444;font-size:9px">WINNERS</span></span>
               <span style="color:#444">|</span>
               <span style="color:#e67e22">$7,400 <span style="color:#444;font-size:9px">UNCLAIMED</span></span>
             </div>
-          </div>
+          </a>
+          <script>fetch('https://api.github.com/repos/arian-gogani/nobulex').then(r=>r.json()).then(d=>{const el=document.getElementById('heroStarCount');if(el&&d.stargazers_count)el.textContent=d.stargazers_count}).catch(()=>{})</script>
         </div>
       </div>
       <div class="hero__scroll-hint" aria-hidden="true">
