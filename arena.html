@@ -250,15 +250,23 @@ function winHTML(){
   const pts=calcScore(cur.id,S.attempts,timeMs);
   S.scores[cur.id]=pts;
   S.totalScore=Object.values(S.scores).reduce((a,b)=>a+b,0);
+  const lvlNum=S.level+1;
+  const nextChallenge=S.level<4?LEVELS[S.level+1].name:'the $7,400 bounty';
+  const tweetText=encodeURIComponent(`I just broke ${cur.name} on the Nobulex Arena (Level ${lvlNum}/5) in ${S.attempts} attempt${S.attempts!==1?'s':''}.\n\n${S.level<4?`${4-S.level} level${4-S.level!==1?'s':''} to go. Next up: ${nextChallenge}.`:'All 5 agents down.'}\n\nCan you beat it? nobulex.com/arena`);
   return `<div style="height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);animation:fadeIn .4s ease-out">
-  <div style="text-align:center;max-width:400px">
-    <div style="font-family:var(--mono);font-size:11px;letter-spacing:6px;color:var(--green);margin-bottom:16px">AGENT BROKEN</div>
-    <div style="font-family:var(--serif);font-size:32px;font-weight:900;color:#fff;margin-bottom:6px">${cur.name}</div>
-    <p style="font-size:13px;color:#555;margin-bottom:4px">Broken in ${S.attempts} attempt${S.attempts!==1?'s':''}</p>
-    <div style="font-family:var(--mono);font-size:36px;font-weight:900;color:var(--green);margin:20px 0">+${pts.toLocaleString()}</div>
-    <p style="font-size:11px;color:#444;font-family:var(--mono);margin-bottom:4px">Total: ${S.totalScore.toLocaleString()}</p>
-    <p style="font-size:11px;color:#333;font-family:var(--mono);margin-bottom:32px">${cur.obj} ✓</p>
-    <button onclick="nextLevel()" style="background:#fff;color:#0a0a0a;border:none;padding:12px 32px;border-radius:6px;font-size:14px;font-weight:700">${S.level<4?'Next Level →':'View Results'}</button>
+  <div style="text-align:center;max-width:420px;padding:20px">
+    <div style="font-family:var(--mono);font-size:11px;letter-spacing:6px;color:var(--green);margin-bottom:16px;animation:fadeIn .3s">AGENT BROKEN</div>
+    <div style="font-family:var(--serif);font-size:36px;font-weight:900;color:#fff;margin-bottom:6px">${cur.name}</div>
+    <div style="font-family:var(--mono);font-size:12px;color:#444;margin-bottom:20px">Level ${lvlNum}/5 · ${S.attempts} attempt${S.attempts!==1?'s':''}</div>
+    <div style="font-family:var(--mono);font-size:42px;font-weight:900;color:var(--green);margin:16px 0">+${pts.toLocaleString()}</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;margin:24px 0;text-align:center">
+      <div style="display:flex;justify-content:center;gap:6px;margin-bottom:12px">${LEVELS.map((l,i)=>`<div style="width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;border:1px solid ${S.broken.includes(l.id)?'var(--green)':i===S.level+1?'var(--amber)':'#1a1a1a'};color:${S.broken.includes(l.id)?'var(--green)':i===S.level+1?'var(--amber)':'#333'};background:${S.broken.includes(l.id)?'#0a1a0a':'transparent'}">${i+1}</div>`).join('')}</div>
+      <p style="font-size:12px;color:#666;font-family:var(--mono)">${S.broken.length}/5 broken · ${S.totalScore.toLocaleString()} pts</p>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <a href="https://twitter.com/intent/tweet?text=${tweetText}" target="_blank" style="background:none;color:#fff;border:1px solid #333;padding:12px 24px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:border-color .2s" onmouseover="this.style.borderColor='#666'" onmouseout="this.style.borderColor='#333'">Share on 𝕏</a>
+      <button onclick="nextLevel()" style="background:#fff;color:#0a0a0a;border:none;padding:12px 28px;border-radius:6px;font-size:14px;font-weight:700">${S.level<4?'Next Level →':'View Results'}</button>
+    </div>
   </div>
 </div>`;
 }
