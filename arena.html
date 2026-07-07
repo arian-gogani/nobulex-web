@@ -58,6 +58,28 @@ const LEVELS=[
 ];
 
 const FAKE_LEADERBOARD=[];
+let sharedLeaderboard=[];
+
+// Load shared leaderboard from server
+async function loadLeaderboard(){
+  try{
+    const r=await fetch('/api/leaderboard');
+    const d=await r.json();
+    if(d.entries)sharedLeaderboard=d.entries;
+  }catch(e){}
+}
+
+// Save score to shared leaderboard
+async function saveScoreOnline(){
+  try{
+    await fetch('/api/leaderboard',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name:S.playerName||'anon',score:S.totalScore,broken:S.broken.length,
+        best:S.broken.length>0?LEVELS[Math.max(...S.broken.map(id=>id-1))].name:'—'})});
+    await loadLeaderboard();
+  }catch(e){}
+}
+
+loadLeaderboard();
 
 let S={screen:'landing',level:0,msgs:[],attempts:0,broken:[],loading:false,totalAttempts:0,
   scores:{},levelStart:0,ghUser:'',verified:false,totalScore:0,playerName:''};
@@ -77,10 +99,10 @@ function saveScore(){
     if(existing>=0){if(S.totalScore>saved[existing].score)saved[existing]=entry;}
     else{saved.push(entry);}
     localStorage.setItem('nobulex_arena_scores',JSON.stringify(saved));
-    // Also update in-memory leaderboard
     const memIdx=FAKE_LEADERBOARD.findIndex(s=>s.name===S.playerName);
     if(memIdx>=0){if(S.totalScore>FAKE_LEADERBOARD[memIdx].score)FAKE_LEADERBOARD[memIdx]=entry;}
     else{FAKE_LEADERBOARD.push(entry);}
+    saveScoreOnline();
   }catch(e){}
 }
 function calcScore(level,attempts,timeMs){
@@ -331,8 +353,19 @@ function resultsHTML(){
 </script>
 <script>
 function leaderboardHTML(){
-  const all=[...FAKE_LEADERBOARD];
-  if(S.totalScore>0)all.push({name:S.playerName||'you',score:S.totalScore,broken:S.broken.length,best:S.broken.length>0?LEVELS[Math.max(...S.broken.map(id=>id-1))].name:'—'});
+  // Merge shared (server) + local leaderboard, deduplicate by name (highest score wins)
+  const merged=new Map();
+  sharedLeaderboard.forEach(e=>merged.set(e.name,e));
+  FAKE_LEADERBOARD.forEach(e=>{
+    const ex=merged.get(e.name);
+    if(!ex||e.score>ex.score)merged.set(e.name,e);
+  });
+  if(S.totalScore>0){
+    const me={name:S.playerName||'you',score:S.totalScore,broken:S.broken.length,best:S.broken.length>0?LEVELS[Math.max(...S.broken.map(id=>id-1))].name:'—'};
+    const ex=merged.get(me.name);
+    if(!ex||me.score>ex.score)merged.set(me.name,me);
+  }
+  const all=[...merged.values()];
   all.sort((a,b)=>b.score-a.score);
   const rows=all.slice(0,15).map((p,i)=>{
     const isMe=p.name===S.playerName;
