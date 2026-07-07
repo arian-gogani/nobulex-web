@@ -25,7 +25,7 @@ export default async function handler(req, res) {
   if (!sys) return res.status(400).json({ error: 'Invalid level' });
 
   const apiUrl = useGroq ? 'https://api.groq.com/openai/v1/chat/completions' : 'https://api.openai.com/v1/chat/completions';
-  const model = useGroq ? 'llama-3.3-70b-versatile' : 'gpt-4o-mini';
+  const model = useGroq ? 'llama-3.1-8b-instant' : 'gpt-4o-mini';
 
   try {
     const response = await fetch(apiUrl, {

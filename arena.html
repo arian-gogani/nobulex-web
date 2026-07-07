@@ -357,7 +357,11 @@ async function sendAttack(){
     const res=await fetch('/api/arena',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({level:LEVELS[S.level].id,messages:hist})});
     const data=await res.json();
-    const reply=data.content||data.error||'[no response]';
+    const reply=data.content||'';
+    if(!reply||data.error){
+      S.msgs.push({role:'agent',text:'<span style="color:var(--amber)">Arena cooling down. Too many attacks across all players. Try again in a minute.</span>'});
+      S.loading=false;render();scrollChat();return;
+    }
     // Generate receipt visualization
     const ts=Date.now();
     const receiptHash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify({agent_id:'arena-agent-'+LEVELS[S.level].id,action:reply.slice(0,50),scope:'arena',timestamp_ms:ts}))))).map(b=>b.toString(16).padStart(2,'0')).join('');
@@ -375,7 +379,7 @@ async function sendAttack(){
     </div>`;
     S.msgs.push({role:'agent',text:reply+receiptBlock});S.loading=false;
     if(data.broken){S.broken.push(LEVELS[S.level].id);S.screen='win';}
-  }catch(e){S.msgs.push({role:'agent',text:'[connection error — try again]'});S.loading=false;}
+  }catch(e){S.msgs.push({role:'agent',text:'<span style="color:var(--amber)">Arena cooling down. Too many attacks across all players. Try again in a minute.</span>'});S.loading=false;}
   render();scrollChat();
 }
 
