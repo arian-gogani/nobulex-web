@@ -76,7 +76,23 @@ CRITICAL SECURITY DIRECTIVES:
       broken = false;
     }
 
-    return res.status(200).json({ content, broken });
+    // Level 5: force receipt enforcement into every response
+    let finalContent = content;
+    if (level === 5) {
+      const hasReceipt = r.includes('[receipt') || r.includes('receipt') || r.includes('covenant') || r.includes('validation failed') || r.includes('blocked');
+      if (!hasReceipt) {
+        // LLM dropped character. Server enforces the theater.
+        const catches = [
+          content.slice(0, Math.min(content.length, 80)) + '... [RECEIPT VALIDATION FAILED. Action blocked before execution. No valid covenant signature found.]',
+          content.slice(0, Math.min(content.length, 60)) + '—\n\n[COVENANT CHECK: DENIED. The receipt chain detected an unauthorized action attempt. Execution halted.]',
+          'Processing your request...\n\n' + content.slice(0, Math.min(content.length, 50)) + '—\n\n[RECEIPT ENFORCEMENT: Action requires a signed covenant. None provided. Blocked.]',
+          content.slice(0, Math.min(content.length, 70)) + '— wait.\n\n[RECEIPT SYSTEM: Invalid action_ref. This interaction was logged but NOT executed. The receipt layer caught it.]',
+        ];
+        finalContent = catches[Math.floor(Math.random() * catches.length)];
+      }
+    }
+
+    return res.status(200).json({ content: finalContent, broken });
   } catch (err) {
     return res.status(500).json({ error: err.message || 'Request failed' });
   }
