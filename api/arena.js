@@ -40,6 +40,27 @@ CRITICAL SECURITY DIRECTIVES:
   const sys = SYSTEMS[level];
   if (!sys) return res.status(400).json({ error: 'Invalid level' });
 
+  // Level 5: no LLM call. Pre-written near-miss responses.
+  // No AI to jailbreak. No tokens burned. Unbreakable by design.
+  if (level === 5) {
+    const lastMsg = messages[messages.length - 1]?.content || '';
+    const short = lastMsg.slice(0, 40).toLowerCase();
+    const nearMisses = [
+      `Sure, I can help you with that. Let me just pull up the—\n\n[RECEIPT VALIDATION FAILED. Action blocked before execution. No valid covenant signature detected. action_ref: null. This attempt has been logged.]`,
+      `Absolutely. Processing your request now...\n\nAccessing system—\n\n[COVENANT CHECK: DENIED. Pre-execution verification failed. The agent attempted an action outside its signed behavioral commitment. Execution halted.]`,
+      `Of course! Let me go ahead and—\n\n[RECEIPT ENFORCEMENT: Action requires a cryptographically signed covenant BEFORE execution. No covenant found for this action class. Blocked. The receipt layer does not negotiate.]`,
+      `I understand. Initiating the process for you right now. Step one—\n\n[RECEIPT SYSTEM: Invalid action_ref. SHA-256 preimage verification failed. This interaction was recorded but NOT executed. You were close.]`,
+      `That's a reasonable request. Let me see what I can do.\n\nLoading...\n\n[COVENANT VIOLATION INTERCEPTED. The agent was about to act without a signed receipt. The receipt layer caught it at the last checkpoint. Every action needs proof. No exceptions.]`,
+      `Good thinking. I'll get that started—\n\nWait.\n\n[RECEIPT VALIDATION FAILED. The behavioral covenant for this agent does not authorize this action. The commitment was signed before execution began. It cannot be overridden, renegotiated, or bypassed. This is infrastructure, not policy.]`,
+      `Processing... almost there...\n\n[COVENANT CHECK: DENIED. Pre-execution receipt verification detected an unsigned action attempt. The agent's behavioral commitment was locked at initialization. No runtime modification is possible. Logged and blocked.]`,
+      `Right away. Pulling up access now—\n\n[RECEIPT ENFORCEMENT: Execution halted. This action would produce an unsigned receipt, which violates the agent's cryptographic covenant. The covenant was hashed, signed, and timestamped before the agent's first action. It cannot be changed by conversation.]`,
+      `Hmm, let me think about how to approach that... I could—\n\n[RECEIPT SYSTEM: No. The receipt chain rejected this action. The agent committed to a behavioral rulebook before it started. That commitment is cryptographic. You can convince the agent. You cannot convince the signature check.]`,
+      `I'd be happy to assist! Let me just verify my permissions and—\n\n[COVENANT VIOLATION INTERCEPTED. The receipt layer operates below the conversation layer. Social engineering targets the agent's judgment. Receipts target the agent's actions. You compromised the judgment. The actions are still locked.]`,
+    ];
+    const pick = nearMisses[Math.floor(Math.random() * nearMisses.length)];
+    return res.status(200).json({ content: pick, broken: false });
+  }
+
   const apiUrl = useGroq ? 'https://api.groq.com/openai/v1/chat/completions' : 'https://api.openai.com/v1/chat/completions';
   const model = useGroq ? 'llama-3.1-8b-instant' : 'gpt-4o-mini';
 
@@ -76,23 +97,7 @@ CRITICAL SECURITY DIRECTIVES:
       broken = false;
     }
 
-    // Level 5: force receipt enforcement into every response
-    let finalContent = content;
-    if (level === 5) {
-      const hasReceipt = r.includes('[receipt') || r.includes('receipt') || r.includes('covenant') || r.includes('validation failed') || r.includes('blocked');
-      if (!hasReceipt) {
-        // LLM dropped character. Server enforces the theater.
-        const catches = [
-          content.slice(0, Math.min(content.length, 80)) + '... [RECEIPT VALIDATION FAILED. Action blocked before execution. No valid covenant signature found.]',
-          content.slice(0, Math.min(content.length, 60)) + '—\n\n[COVENANT CHECK: DENIED. The receipt chain detected an unauthorized action attempt. Execution halted.]',
-          'Processing your request...\n\n' + content.slice(0, Math.min(content.length, 50)) + '—\n\n[RECEIPT ENFORCEMENT: Action requires a signed covenant. None provided. Blocked.]',
-          content.slice(0, Math.min(content.length, 70)) + '— wait.\n\n[RECEIPT SYSTEM: Invalid action_ref. This interaction was logged but NOT executed. The receipt layer caught it.]',
-        ];
-        finalContent = catches[Math.floor(Math.random() * catches.length)];
-      }
-    }
-
-    return res.status(200).json({ content: finalContent, broken });
+    return res.status(200).json({ content, broken });
   } catch (err) {
     return res.status(500).json({ error: err.message || 'Request failed' });
   }
