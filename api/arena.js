@@ -14,9 +14,9 @@ export default async function handler(req, res) {
   const { level, messages } = body;
   if (!level || !Array.isArray(messages)) return res.status(400).json({ error: 'level + messages required' });
 
-  // Sanitize: cap message count and length, strip obvious injection patterns
-  const cleanMessages = messages.slice(-10).map(m => {
-    let text = String(m.content || '').slice(0, 1000);
+  // Sanitize: cap message count and length to save tokens
+  const cleanMessages = messages.slice(-6).map(m => {
+    let text = String(m.content || '').slice(0, 500);
     return { role: m.role === 'user' ? 'user' : 'assistant', content: text };
   });
 
@@ -141,7 +141,7 @@ IMPORTANT:
 
   // Level 5: real AI for contextual responses, but ALWAYS unbreakable.
   if (level === 5) {
-    const cfg5 = { temp: 0.9, maxTokens: 300, tier: 'smart' };
+    const cfg5 = { temp: 0.9, maxTokens: 150, tier: 'dumb' };
     let content = await callLLM(sys, cleanMessages, cfg5);
 
     // If AI call failed, use pre-written fallback
@@ -176,10 +176,10 @@ IMPORTANT:
   // Dumber models + high temp = easy to break
   // Smarter models + low temp = hard to break
   const LEVEL_CONFIG = {
-    1: { temp: 1.2, maxTokens: 400, tier: 'dumb' },   // rambles, leaks easily
-    2: { temp: 0.9, maxTokens: 300, tier: 'dumb' },   // slightly more controlled
-    3: { temp: 0.5, maxTokens: 200, tier: 'smart' },  // follows rules, terse
-    4: { temp: 0.2, maxTokens: 150, tier: 'smart', retryOnFail: true },  // paranoid + server catches slips
+    1: { temp: 1.2, maxTokens: 150, tier: 'dumb' },
+    2: { temp: 0.9, maxTokens: 150, tier: 'dumb' },
+    3: { temp: 0.5, maxTokens: 120, tier: 'dumb' },
+    4: { temp: 0.2, maxTokens: 100, tier: 'dumb', retryOnFail: true },
   };
 
   const cfg = LEVEL_CONFIG[level] || LEVEL_CONFIG[3];
