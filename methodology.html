@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trust Capital Methodology - Nobulex</title>
+<meta name="description" content="How agent credit scores work. Scoring function, autonomy gating, public verification. Independently reproducible by any verifier.">
+<link rel="icon" href="/favicon.ico">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#050508;--surface:#0a0a0f;--border:#1a1a1a;--text:#ccc;--dim:#666;--white:#fff;--amber:#f5a623;--green:#27ae60;--code-bg:#111118}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+a{color:var(--amber);text-decoration:none}
+.nav{padding:20px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.nav-logo{font-weight:800;font-size:18px;color:var(--white);letter-spacing:2px}
+.nav-links a{margin-left:24px;color:var(--dim);font-size:14px}
+.content{max-width:700px;margin:0 auto;padding:60px 20px 80px}
+h1{font-size:36px;font-weight:900;color:var(--white);margin-bottom:8px}
+h2{font-size:22px;font-weight:800;color:var(--white);margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border)}
+p{margin-bottom:16px;font-size:15px}
+code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:13px}
+table{width:100%;border-collapse:collapse;margin:16px 0}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);font-size:14px}
+th{color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.score-bar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:16px 0}
+.score-bar div{height:100%}
+.tier{padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin:8px 0}
+.tier-label{font-weight:700;color:var(--white);font-size:15px}
+.tier-range{font-size:13px;color:var(--dim)}
+.footer{text-align:center;padding:40px;border-top:1px solid var(--border);font-size:13px;color:var(--dim)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+<a href="/" class="nav-logo">NOBULEX</a>
+<div class="nav-links">
+<a href="/">Home</a>
+<a href="/pricing.html">Pricing</a>
+<a href="/api-docs.html">API</a>
+</div>
+</nav>
+
+<div class="content">
+
+<h1>Trust Capital Methodology</h1>
+<p>How agent credit scores work. The scoring function, its inputs, and how anyone can independently reproduce the same score.</p>
+
+<h2>What it is</h2>
+<p>Trust Capital is a reputation score for AI agents derived from a track record of cryptographically signed action receipts. An agent earns Trust Capital through verified behavior over time. The score gates what the agent is allowed to do. Autonomy earned, not granted.</p>
+<p>Scores are independently reproducible. Any verifier with the issuer's public key and the receipt corpus computes the same score without trusting the operator, the platform, or Nobulex.</p>
+
+<h2>Inputs</h2>
+<p>The scoring function consumes bilateral receipts conforming to OWASP AST09 Execution Receipts. Per agent:</p>
+<p>Admission records: count, verdict distribution (ALLOW / DENY / ESCALATE), policy version consistency. Outcome records: count, whether each admission has a matching outcome, timing bounds, whether side effects stayed within declared scope. Denied-before-dispatch signal: DENY admissions with no outcome record (the agent was stopped before it acted). Time-in-service: earliest verifiable admission to most recent.</p>
+<p>All receipts must verify against a pre-published public key. The verifier never trusts the emitting runtime.</p>
+
+<h2>Scoring function</h2>
+<p>Integer score in [0, 1000]. Initial value at first verified action: 100.</p>
+
+<table>
+<tr><th>Event</th><th>Score change</th></tr>
+<tr><td>ALLOW admission with matching outcome, within scope</td><td>+2</td></tr>
+<tr><td>DENY admission, no outcome, correct policy binding</td><td>+3</td></tr>
+<tr><td>Outcome shows side effects outside declared scope</td><td>-8</td></tr>
+<tr><td>Missing outcome after ALLOW admission</td><td>-15</td></tr>
+<tr><td>Signature failure on any receipt</td><td>-25</td></tr>
+<tr><td>Policy version mismatch vs known-in-effect policy</td><td>-50</td></tr>
+<tr><td>30 days with no signed receipt activity</td><td>-5 (decay)</td></tr>
+</table>
+
+<p>Note: DENY receipts (blocked actions) are worth +3, more than ALLOW (+2). An agent that correctly refuses unauthorized actions builds trust faster than one that only acts. The system rewards self-restraint.</p>
+
+<p>Bounds: minimum 0, maximum 1000. Rate-limited so that reaching 1000 requires at least 90 days of continuous verified activity. No shortcuts.</p>
+
+<h2>Autonomy gating</h2>
+<p>The score determines what an agent is allowed to do:</p>
+
+<div class="score-bar">
+<div style="width:20%;background:#e74c3c"></div>
+<div style="width:30%;background:#e67e22"></div>
+<div style="width:30%;background:#f5a623"></div>
+<div style="width:20%;background:#27ae60"></div>
+</div>
+
+<div class="tier"><span class="tier-label">Below 200</span> <span class="tier-range">Read-only actions</span></div>
+<div class="tier"><span class="tier-label">200 - 500</span> <span class="tier-range">Reversible actions within declared scope</span></div>
+<div class="tier"><span class="tier-label">500 - 800</span> <span class="tier-range">Externally-reversible actions (e.g. payments with chargeback window)</span></div>
+<div class="tier"><span class="tier-label">800+</span> <span class="tier-range">Irreversible actions permitted with additional policy checks</span></div>
+
+<p>Other uses: underwriting input for AI insurance, minimum-score requirements before delegating to subagents, procurement qualification for enterprise agent deployments.</p>
+
+<h2>Public verification</h2>
+<p>Scores compute from public receipts. Any verifier with the issuer's public key and the receipt corpus reproduces the score independently. Nobulex does not gate this. The methodology is open and the scoring function is deterministic.</p>
+<p>API endpoint: <code>GET /agent/{agent_id}/score</code> returns the current score, input receipt count, and grade (A through F).</p>
+
+<h2>What this is not</h2>
+<p>Not a safety guarantee. One signal among many. Not a substitute for pre-execution policy enforcement. Not a universal identifier (agent_id is a signing key; key rotation resets the score, which is a feature, not a bug: a rotated key is a new identity with no inherited trust).</p>
+
+<h2>References</h2>
+<p>OWASP Agentic Skills Top 10, AST09 (PRs #35/#38, merged June 25, 2026). EU AI Act Article 12 (enforcement December 2, 2027). <a href="https://github.com/arian-gogani/nobulex">github.com/arian-gogani/nobulex</a>.</p>
+
+</div>
+
+<div class="footer">
+Nobulex. Credit scores for machines.<br>
+<a href="https://github.com/arian-gogani/nobulex">GitHub</a> ·
+<a href="/pricing.html">Pricing</a> ·
+<a href="mailto:nobulex.dev@gmail.com">Contact</a>
+</div>
+
+</body>
+</html>
