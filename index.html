@@ -326,8 +326,20 @@
           </div>
           <div class="demo__actions">
             <button type="button" class="demo__run" id="demo-run" aria-label="Run demo">Run demo</button>
-            <a href="demo.html" class="demo__full-link">Full demo →</a>
+            <button type="button" onclick="runLiveDemo()" style="background:none;border:1px solid rgba(245,166,35,0.5);color:#f5a623;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600">Try live API</button>
+            <a href="demo.html" class="demo__full-link">Full demo</a>
           </div>
+          <pre id="live-demo-out" style="display:none;margin-top:12px;font-size:12px;color:#ccc;background:rgba(0,0,0,0.3);padding:12px;border-radius:6px;white-space:pre-wrap"></pre>
+          <script>
+          async function runLiveDemo(){
+            var o=document.getElementById('live-demo-out');
+            o.style.display='block';o.textContent='Calling live API...';
+            try{var r=await fetch('/api/verify?action=demo');var d=await r.json();
+            o.textContent='ORIGINAL: scope='+d.original.scope+' -> '+d.original.verdict+
+            '\nTAMPERED: scope='+d.tampered.scope+' -> '+d.tampered.verdict+
+            '\n\n'+d.explanation;}catch(e){o.textContent='Error: '+e.message;}
+          }
+          </script>
         </div>
       </div>
     </section>
