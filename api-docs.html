@@ -54,8 +54,20 @@ th{color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;lett
 <h1>Verify API</h1>
 <p>Verify agent receipts, check trust scores, generate compliance reports. The SDK produces receipts. The API verifies them.</p>
 
-<p>Base URL: <code>https://api.nobulex.com/v1</code></p>
-<p>Auth: <code>X-API-Key: nbx_pro_your_key</code></p>
+<p>Base URL: <code>https://nobulex.com/api/verify</code></p>
+
+<h2>Try it now</h2>
+<p>The verify endpoint and tamper demo are live. No API key needed for the free tier.</p>
+<pre><code># See a live tamper detection
+curl https://nobulex.com/api/verify?action=demo
+
+# Verify a receipt (POST)
+curl -X POST https://nobulex.com/api/verify \
+  -H "Content-Type: application/json" \
+  -d '{"agent_id":"test","action_type":"tool:search","scope":"q=hello","timestamp_ms":1720000000000,"action_ref":"your_hash_here"}'
+
+# Check an agent's trust score
+curl "https://nobulex.com/api/verify?action=score&agent_id=test"</code></pre>
 
 <h2>Verify a receipt</h2>
 
@@ -63,19 +75,14 @@ th{color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;lett
 <p>Verify a single receipt's Ed25519 signature and recompute its action_ref from the preimage fields. Returns VALID or INVALID with reasons.</p>
 
 <h3>Request</h3>
-<pre><code>curl -X POST https://api.nobulex.com/v1/verify \
+<pre><code>curl -X POST https://nobulex.com/api/verify \
   -H "Content-Type: application/json" \
-  -H "X-API-Key: nbx_pro_your_key" \
   -d '{
     "agent_id": "my-agent",
     "action_type": "tool:search",
     "scope": "query=weather",
     "timestamp_ms": 1720000000000,
-    "action_ref": "a3f7c2...",
-    "signature": "e4b1d9...",
-    "signer_public_key": "8bdd8b...",
-    "verdict": "ALLOW",
-    "version": "1.0"
+    "action_ref": "a3f7c2..."
   }'</code></pre>
 
 <h3>Response</h3>
@@ -97,7 +104,9 @@ th{color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;lett
 <p>Verify a sequence of receipts: each signature individually, plus hash-chain integrity (each receipt links to the previous). Pro tier required.</p>
 
 <h3>Request</h3>
-<pre><code>curl -X POST https://api.nobulex.com/v1/verify/chain \
+<pre><code># Chain and bundle require the full verify-api server
+# (packages/verify-api/server.py, port 7749)
+curl -X POST http://localhost:7749/verify/chain \
   -H "Content-Type: application/json" \
   -H "X-API-Key: nbx_pro_your_key" \
   -d '{
@@ -121,7 +130,7 @@ th{color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;lett
 <p>Submit a bundle of receipts and get a compliance report: trust score, grade, compliance flags, verified/failed breakdown. This is the artifact you hand a regulator. Pro tier required.</p>
 
 <h3>Request</h3>
-<pre><code>curl -X POST https://api.nobulex.com/v1/verify/bundle \
+<pre><code>curl -X POST http://localhost:7749/verify/bundle \
   -H "Content-Type: application/json" \
   -H "X-API-Key: nbx_pro_your_key" \
   -d '{
