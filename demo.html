@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nobulex Demo — Live Bilateral Receipt</title>
+  <title>Nobulex Demo - Live Bilateral Receipt</title>
   <link rel="icon" type="image/png" href="/favicon.png">
   <meta name="description" content="Watch a bilateral receipt generate in real-time. Two signatures, one chain, zero trust required.">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
@@ -60,11 +60,11 @@
     <p class="scenario-desc">Two AI agents in a healthcare pipeline. Agent A triages a patient inquiry. Agent B schedules a procedure. Watch what happens when Agent B tries to schedule something Agent A didn't authorize.</p>
     <div class="agent-box">
       <div class="agent">
-        <div class="agent-name">AGENT A — Triage</div>
+        <div class="agent-name">AGENT A - Triage</div>
         <div class="agent-action">Authorized: "Evaluate symptoms, recommend consultation"</div>
       </div>
       <div class="agent">
-        <div class="agent-name">AGENT B — Scheduling</div>
+        <div class="agent-name">AGENT B - Scheduling</div>
         <div class="agent-action">Attempts: "Schedule knee surgery for Thursday"</div>
       </div>
     </div>
@@ -78,7 +78,7 @@
     <a href="https://github.com/arian-gogani/nobulex" target="_blank">GITHUB</a>
     <a href="https://nobulex.com" target="_blank">HOME</a>
     <a href="https://nobulex.com/yc" target="_blank">YC VERIFICATION</a>
-    <p class="footer-copy">NOBULEX — RECEIPTS THAT AI AGENTS CAN'T FAKE</p>
+    <p class="footer-copy">NOBULEX - RECEIPTS THAT AI AGENTS CAN'T FAKE</p>
   </div>
 </div>
 <script>
@@ -140,7 +140,7 @@ document.getElementById('btn-run').onclick=async()=>{
 
   await sleep(800);
   const failHash=await sha256('MISMATCH:'+preBHash);
-  addStep('810ms',`<span class="fail">✗ VERIFICATION FAILED</span> — action blocked before execution`);
+  addStep('810ms',`<span class="fail">✗ VERIFICATION FAILED</span> - action blocked before execution`);
   await sleep(400);
   addStep('811ms',`Failure receipt: <span class="fail">${trunc(failHash)}</span>`);
   await sleep(400);
