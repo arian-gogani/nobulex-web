@@ -23,15 +23,15 @@ export default function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const path = req.url.split('?')[0].replace('/api/verify', '');
+  const path = req.query.action || '';
 
   // GET /api/verify - health
-  if (req.method === 'GET' && (path === '' || path === '/')) {
-    return res.json({ status: 'ok', version: '0.1.0', note: 'POST a receipt to verify' });
+  if (req.method === 'GET' && !path) {
+    return res.json({ status: 'ok', version: '0.1.0', endpoints: ['POST /api/verify', 'GET /api/verify?action=demo', 'GET /api/verify?action=score&agent_id=X'] });
   }
 
-  // GET /api/verify/demo - tamper test
-  if (req.method === 'GET' && path === '/demo') {
+  // GET /api/verify?action=demo - tamper test
+  if (req.method === 'GET' && path === 'demo') {
     const ts = Date.now();
     const original = { agent_id: 'demo', action_type: 'tool:transfer', scope: 'amount=500,to=alice', timestamp_ms: ts };
     const tampered = { ...original, scope: 'amount=50000,to=attacker' };
@@ -48,7 +48,7 @@ export default function handler(req, res) {
   }
 
   // POST /api/verify - verify a receipt
-  if (req.method === 'POST' && (path === '' || path === '/')) {
+  if (req.method === 'POST' && !path) {
     const body = req.body;
     if (!body) return res.status(400).json({ error: 'JSON body required' });
 
@@ -81,8 +81,8 @@ export default function handler(req, res) {
     });
   }
 
-  // GET /api/verify/score?agent_id=xxx
-  if (req.method === 'GET' && path === '/score') {
+  // GET /api/verify?action=score&agent_id=xxx
+  if (req.method === 'GET' && path === 'score') {
     const aid = req.query.agent_id;
     if (!aid) return res.status(400).json({ error: 'agent_id query param required' });
 
