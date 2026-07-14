@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quickstart — Nobulex</title>
+  <title>Quickstart - Nobulex</title>
   <meta name="description" content="Add trust to any MCP server in minutes.">
-  <meta property="og:title" content="Quickstart — Nobulex">
+  <meta property="og:title" content="Quickstart - Nobulex">
   <meta property="og:description" content="Add trust to any MCP server in minutes.">
   <meta property="og:type" content="article">
   <link rel="icon" type="image/png" href="/icon.png">
@@ -59,23 +59,50 @@
 
   <main class="quickstart-page" id="main">
     <h1>Quickstart</h1>
-    <p class="quickstart-page__soon">SDK live on npm.</p>
-    <p>Add accountability to your AI agent in minutes. Every action is evaluated against declared rules and logged for independent verification.</p>
+    <p>Credit scores for AI agents. Add verifiable receipts in 5 minutes.</p>
+
+    <h2 style="margin-top:2rem;font-size:1.1rem">Python</h2>
     <div class="quickstart-code-wrap">
       <div class="code-block">
-        <button type="button" class="code-block__copy" aria-label="Copy code">Copy</button>
-        <pre><code>const { protect } = require('@nobulex/sdk');
-
-const agent = await protect({
-  name: 'my-agent',
-  rules: ['no-data-leak', 'read-only']
-});</code></pre>
+        <pre><code>pip install nobulex</code></pre>
       </div>
-      <p>Install: <button type="button" class="npm-copy" data-copy="npm install @nobulex/sdk" aria-label="Copy npm command">npm install @nobulex/sdk</button></p>
+      <div class="code-block" style="margin-top:1rem">
+        <pre><code>from nobulex import Agent
+
+agent = Agent("my-agent")
+
+# Every action produces a signed receipt
+receipt = agent.act(action_type="tool:search", scope="query=weather")
+print(receipt.action_ref)   # content-derived, recomputable
+print(receipt.verify())     # True
+print(agent.trust_score)    # builds over time
+
+# Denied actions are recorded too
+agent.deny(action_type="tool:delete", scope="all_files")</code></pre>
+      </div>
     </div>
-    <div class="quickstart__links">
-      <a href="https://github.com/arian-gogani/nobulex#quick-start" class="section__cta" rel="noopener noreferrer">View on GitHub →</a>
-      <a href="../index.html" class="section__cta">← Back to Nobulex</a>
+
+    <h2 style="margin-top:2rem;font-size:1.1rem">TypeScript</h2>
+    <div class="quickstart-code-wrap">
+      <div class="code-block">
+        <pre><code>npm install @nobulex/core</code></pre>
+      </div>
+    </div>
+
+    <h2 style="margin-top:2rem;font-size:1.1rem">Verify against the live API</h2>
+    <div class="quickstart-code-wrap">
+      <div class="code-block">
+        <pre><code>curl -X POST https://nobulex.com/api/verify \
+  -H "Content-Type: application/json" \
+  -d '{"agent_id":"my-agent","action_type":"tool:search",...}'</code></pre>
+      </div>
+      <p style="margin-top:0.5rem;font-size:0.9rem"><a href="/api-docs">API docs</a> | <a href="/pricing">Pricing</a> | <a href="/docs/integrations">Framework integrations</a></p>
+    </div>
+
+    <div class="quickstart__links" style="margin-top:2rem">
+      <a href="https://github.com/arian-gogani/nobulex" class="section__cta" rel="noopener noreferrer">GitHub</a>
+      <a href="/methodology" class="section__cta">Methodology</a>
+      <a href="/" class="section__cta">Home</a>
     </div>
   </main>
 
@@ -83,7 +110,7 @@ const agent = await protect({
   <button type="button" class="help-widget__toggle" id="help-toggle" aria-label="Get help understanding Nobulex" aria-expanded="false"><span class="help-widget__icon" aria-hidden="true">?</span></button>
   <div class="help-widget__panel" id="help-panel" aria-hidden="true">
     <div class="help-widget__header"><h3>Need help?</h3><button type="button" class="help-widget__close" id="help-close" aria-label="Close help">×</button></div>
-    <p class="help-widget__intro">Not sure where to start? Ask any question. We'll explain in plain English—with a jargon-free option when you need it.</p>
+    <p class="help-widget__intro">Not sure where to start? Ask any question. We'll explain in plain English, with a jargon-free option when you need it.</p>
     <div class="help-widget__links">
       <a href="what-it-is.html">What it is</a>
       <a href="threat-model.html">Threat model</a>
