@@ -18,7 +18,7 @@ nobulex-web/
 ├── .gitignore
 │
 ├── api/
-│   ├── chat.js         # Vercel serverless — AI help (Groq/OpenAI)
+│   ├── chat.js         # Vercel serverless - AI help (Groq/OpenAI)
 │   └── README.md
 │
 ├── docs/

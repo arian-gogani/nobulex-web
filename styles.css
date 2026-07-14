@@ -1,4 +1,4 @@
-/* Nobulex — The trust layer for the agent economy */
+/* Nobulex - The trust layer for the agent economy */
 
 *,
 *::before,
@@ -26,7 +26,7 @@
   --accent-muted: rgba(255, 255, 255, 0.06);
   --accent-glow: rgba(255, 255, 255, 0.08);
   --accent-warm: #f8f6f1;
-  /* Brand accent — proof / verify (distinct from generic white CTAs) */
+  /* Brand accent: proof / verify (distinct from generic white CTAs) */
   --brand: #5eead4;
   --brand-strong: #99f6e4;
   --brand-muted: rgba(94, 234, 212, 0.14);
@@ -129,7 +129,7 @@ body {
   }
 }
 
-/* Desktop “chapter” rail — scan long pages faster */
+/* Desktop “chapter” rail: scan long pages faster */
 .section-rail {
   display: none;
   position: fixed;
@@ -270,7 +270,7 @@ body {
   }
 }
 
-/* Header — minimal glass nav */
+/* Header: minimal glass nav */
 .header {
   position: fixed;
   top: 0;
@@ -612,7 +612,7 @@ main {
   padding: 0;
 }
 
-/* Hero stagger — premium entrance (reduced-motion overrides below) */
+/* Hero stagger: premium entrance (reduced-motion overrides below) */
 @media (prefers-reduced-motion: no-preference) {
   .hero__content > * {
     opacity: 0;
@@ -1313,7 +1313,7 @@ main {
   text-align: center;
 }
 
-/* Section backgrounds — full bleed edge to edge */
+/* Section backgrounds: full bleed edge to edge */
 .section--bg {
   position: relative;
   overflow: hidden;
@@ -2955,7 +2955,7 @@ main {
   text-decoration: underline;
 }
 
-/* Help widget — AI assistance in corner */
+/* Help widget: AI assistance in corner */
 .help-widget__toggle {
   position: fixed;
   bottom: 1.5rem;
@@ -3365,7 +3365,7 @@ main {
   color: var(--text-muted);
 }
 
-/* Scroll reveal — real motion (needs html.js-motion from <head>) */
+/* Scroll reveal: real motion (needs html.js-motion from <head>) */
 [data-reveal] {
   opacity: 1;
   transform: translate3d(0, 0, 0);
@@ -3387,7 +3387,7 @@ html.js-motion [data-reveal].visible {
   transform: translate3d(0, 0, 0);
 }
 
-/* Flow connectors — subtle scale-in */
+/* Flow connectors: subtle scale-in */
 html.js-motion .flow__line--reveal:not(.visible) {
   opacity: 0;
   transform: scaleX(0.2);
@@ -3468,7 +3468,7 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-/* ——— Hero: floating hook + Proof of Behavior ——— */
+/* --- Hero: floating hook + Proof of Behavior --- */
 .hero__hook {
   font-family: var(--font-sans);
   font-size: clamp(1.0625rem, 2.05vw, 1.25rem);
@@ -3589,7 +3589,7 @@ button:focus-visible {
   margin-top: 1rem;
 }
 
-/* ——— Six Primitives ——— */
+/* --- Six Primitives --- */
 .section--primitives {
   padding: 5.5rem 1.75rem;
 }
@@ -3678,7 +3678,7 @@ button:focus-visible {
   }
 }
 
-/* ——— How it works flow ——— */
+/* --- How it works flow --- */
 .section--flow {
   position: relative;
   overflow: hidden;
@@ -3718,7 +3718,7 @@ button:focus-visible {
   margin: 0 auto;
 }
 
-/* ——— Demo (see it fail closed) ——— */
+/* --- Demo (see it fail closed) --- */
 .section--demo {
   padding: 5rem 1.5rem;
 }
@@ -4140,7 +4140,7 @@ button:focus-visible {
   }
 }
 
-/* ——— Two-tier guarantee ——— */
+/* --- Two-tier guarantee --- */
 .section--guarantee {
   padding: 5rem 1.5rem;
 }
@@ -4228,7 +4228,7 @@ button:focus-visible {
   }
 }
 
-/* ——— Compare (vs guardrails) ——— */
+/* --- Compare (vs guardrails) --- */
 .section--compare {
   padding: 5rem 1.5rem;
 }
@@ -4273,7 +4273,7 @@ button:focus-visible {
   color: var(--text);
 }
 
-/* ——— Ecosystem ——— */
+/* --- Ecosystem --- */
 .section--ecosystem {
   position: relative;
   overflow: hidden;
@@ -4393,7 +4393,7 @@ button:focus-visible {
   }
 }
 
-/* ——— Waitlist (replaces SaaS pricing) ——— */
+/* --- Waitlist (replaces SaaS pricing) --- */
 .section--waitlist {
   padding: clamp(3.5rem, 8vw, 5.5rem) clamp(1rem, 4vw, 1.75rem);
   background: var(--bg);
@@ -4500,7 +4500,7 @@ button:focus-visible {
   }
 }
 
-/* ——— Traction ——— */
+/* --- Traction --- */
 .section--traction {
   padding: 5rem 1.5rem;
 }
@@ -4554,7 +4554,7 @@ button:focus-visible {
   margin: 0;
 }
 
-/* ——— Architecture diagram ——— */
+/* --- Architecture diagram --- */
 .section--architecture {
   padding: 5rem 1.5rem;
 }
@@ -4587,7 +4587,7 @@ button:focus-visible {
   margin: 0 auto 1.75rem;
 }
 
-/* Architecture — responsive pipeline (replaces wide SVG) */
+/* Architecture: responsive pipeline (replaces wide SVG) */
 .arch-flow {
   position: relative;
   padding: clamp(1.25rem, 3vw, 1.75rem) clamp(1rem, 2.5vw, 1.5rem);
@@ -4805,7 +4805,7 @@ button:focus-visible {
   border-radius: 4px;
 }
 
-/* ——— Integrations + standards ——— */
+/* --- Integrations + standards --- */
 .section--integrations {
   padding: 5rem 1.5rem;
 }
@@ -4928,7 +4928,7 @@ button:focus-visible {
   border-bottom-color: rgba(94, 234, 212, 0.4);
 }
 
-/* ——— FAQ ——— */
+/* --- FAQ --- */
 .section--faq {
   padding: 5rem 1.5rem;
 }

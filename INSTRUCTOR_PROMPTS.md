@@ -8,7 +8,7 @@ Use these prompts in your stele repo or with your Claude instructor for tasks th
 
 **Prompt to give:**
 
-> In the stele repo (agbusiness195/stele), ensure a file `SPEC.md` exists at the repo root. The Nobulex website links to `https://github.com/agbusiness195/stele/blob/main/SPEC.md` — if this file is missing, create it with the Nobulex protocol specification. If the spec content lives elsewhere, either move it to SPEC.md or add a SPEC.md that redirects/links to the correct location.
+> In the stele repo (agbusiness195/stele), ensure a file `SPEC.md` exists at the repo root. The Nobulex website links to `https://github.com/agbusiness195/stele/blob/main/SPEC.md` - if this file is missing, create it with the Nobulex protocol specification. If the spec content lives elsewhere, either move it to SPEC.md or add a SPEC.md that redirects/links to the correct location.
 
 ---
 
@@ -36,7 +36,7 @@ Use these prompts in your stele repo or with your Claude instructor for tasks th
 **Prompt to give:**
 
 > The Nobulex-web footer has a newsletter signup form (`.footer__form`). It currently shows "Thanks!" on submit but does not store emails. Wire it to a real backend:
-> - Option A: Use a service like Mailchimp, Buttondown, Resend, or ConvertKit — get the form action URL or API endpoint, update the form `action` in `index.html`, or add a fetch in `main.js` to POST the email.
+> - Option A: Use a service like Mailchimp, Buttondown, Resend, or ConvertKit - get the form action URL or API endpoint, update the form `action` in `index.html`, or add a fetch in `main.js` to POST the email.
 > - Option B: Add a serverless function (e.g. in `api/`) that receives the email and forwards it to your email provider or CRM.
 > - Ensure the form has proper `action`, `method`, and optionally a hidden field for the service (e.g. Mailchimp list ID).
 
