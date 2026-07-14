@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Integrations — Nobulex</title>
-  <meta name="description" content="Nobulex integrations: MCP, LangGraph, OpenAI tools, ElizaOS.">
+  <title>Integrations - Nobulex</title>
+  <meta name="description" content="Nobulex integrations: PydanticAI, CrewAI, LangChain, Google ADK, Haystack, LlamaIndex.">
   <link rel="icon" type="image/png" href="/icon.png">
   <link rel="stylesheet" href="../styles.css">
   <style>
@@ -42,24 +42,37 @@
 
   <main class="doc-page" id="main">
     <h1>Integrations</h1>
-    <p>How Nobulex plugs into the agent stack.</p>
+        <p>Credit scores for AI agents work with any framework. Install the SDK, add receipts to your tool calls.</p>
 
     <div class="doc-page__card">
-      <h3>MCP (Model Context Protocol)</h3>
-      <p>Add trust to any MCP server. Nobulex middleware intercepts tool calls and enforces covenants before they execute. <a href="quickstart.html">Quickstart</a> shows the basic pattern.</p>
+      <h3>PydanticAI</h3>
+      <p>Record receipts on tool success and error. <a href="https://github.com/arian-gogani/nobulex/blob/main/packages/python/examples/pydantic_ai_receipts.py">Example</a></p>
     </div>
-
     <div class="doc-page__card">
-      <h3>ElizaOS</h3>
-      <p>Nobulex plugin available for <a href="https://github.com/elizaos/eliza" rel="noopener noreferrer">ElizaOS</a>. Add accountability to Eliza agents with minimal config.</p>
+      <h3>CrewAI</h3>
+      <p>Per-agent trust scores. Failed agents score lower. <a href="https://github.com/arian-gogani/nobulex/blob/main/packages/python/examples/crewai_receipts.py">Example</a></p>
     </div>
-
     <div class="doc-page__card">
-      <h3>LangGraph / OpenAI tools</h3>
-      <p>Wrap your agent’s tool layer with Nobulex. The SDK’s <code>protect()</code> pattern works with any tool-calling framework. See <a href="https://github.com/arian-gogani/nobulex#quick-start" rel="noopener noreferrer">GitHub</a> for examples.</p>
+      <h3>LangChain</h3>
+      <p>Receipts on tool start and error. <a href="https://github.com/arian-gogani/nobulex/blob/main/packages/python/examples/langchain_receipts.py">Example</a></p>
     </div>
-
-    <p style="margin-top: 2rem;"><a href="quickstart.html" class="section__cta">Quickstart →</a> · <a href="../index.html" class="section__cta">← Home</a></p>
+    <div class="doc-page__card">
+      <h3>Google ADK</h3>
+      <p>Bilateral receipts per action, chain verified. <a href="https://github.com/arian-gogani/nobulex/blob/main/packages/python/examples/google_adk_receipts.py">Example</a></p>
+    </div>
+    <div class="doc-page__card">
+      <h3>Haystack</h3>
+      <p>Receipt per pipeline component. <a href="https://github.com/arian-gogani/nobulex/blob/main/packages/python/examples/haystack_receipts.py">Example</a></p>
+    </div>
+    <div class="doc-page__card">
+      <h3>LlamaIndex</h3>
+      <p>Receipts on tool start and end. <a href="https://github.com/arian-gogani/nobulex/blob/main/packages/python/examples/llamaindex_receipts.py">Example</a></p>
+    </div>
+    <div class="doc-page__card">
+      <h3>Any framework</h3>
+      <p>The core SDK works with anything. <code>agent.act()</code> on success, <code>agent.deny()</code> on failure. Five lines.</p>
+    </div>
+    <p style="margin-top:2rem"><a href="/api-docs">API docs</a> | <a href="/pricing">Pricing</a> | <a href="/">Home</a></p>
   </main>
 
   <script src="../main.js"></script>
