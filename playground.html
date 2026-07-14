@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Playground — Nobulex Trust Capital</title>
+  <title>Playground - Nobulex Trust Capital</title>
   <meta name="description" content="Try Trust Capital enforcement live in your browser. Define rules, test actions, see the hash chain.">
   <link rel="icon" type="image/png" href="/icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -160,7 +160,7 @@ function parseCovenant() {
   try {
     covenant = parseDSL(src);
     document.getElementById('parseResult').innerHTML =
-      '<div class="result result--allow">✓ Parsed: "' + covenant.name + '" — ' +
+      '<div class="result result--allow">✓ Parsed: "' + covenant.name + '" - ' +
       covenant.rules.length + ' rules</div>';
   } catch (e) {
     document.getElementById('parseResult').innerHTML =
@@ -213,7 +213,7 @@ function evaluate(action, params) {
     if (rule.effect === 'permit') matched = rule;
   }
   if (matched) return { decision: 'allow', reason: 'Permitted by rule: permit ' + action + (matched.condition ? ' (' + matched.condition.field + ' ' + matched.condition.op + ' ' + matched.condition.value + ')' : '') };
-  return { decision: 'block', reason: 'Default deny — no matching permit rule' };
+  return { decision: 'block', reason: 'Default deny: no matching permit rule' };
 }
 
 async function sha256(str) {
@@ -260,7 +260,7 @@ async function testAction() {
   const cls = result.decision === 'allow' ? 'result--allow' : 'result--block';
   const icon = result.decision === 'allow' ? '✓ ALLOWED' : '✗ BLOCKED';
   document.getElementById('actionResult').innerHTML =
-    '<div class="result ' + cls + '">' + icon + ' — ' + result.reason + '</div>';
+    '<div class="result ' + cls + '">' + icon + ' - ' + result.reason + '</div>';
 
   document.getElementById('statsBar').style.display = 'flex';
   document.getElementById('statTotal').textContent = totalActions;
@@ -303,7 +303,7 @@ async function verifyLog() {
   }
   const cls = valid ? 'verify--pass' : 'verify--fail';
   const icon = valid ? '✓' : '✗';
-  const msg = valid ? 'Hash chain intact. ' + actionLog.length + ' entries verified. Log has not been tampered with.' : 'INTEGRITY FAILURE — hash chain is broken. Log has been tampered with.';
+  const msg = valid ? 'Hash chain intact. ' + actionLog.length + ' entries verified. Log has not been tampered with.' : 'INTEGRITY FAILURE: hash chain is broken. Log has been tampered with.';
   document.getElementById('verifyResult').innerHTML =
     '<div class="verify ' + cls + '"><div class="verify__title">' + icon + ' Verification: ' + (valid ? 'PASSED' : 'FAILED') + '</div><div class="verify__detail">' + msg + '</div></div>';
 }
