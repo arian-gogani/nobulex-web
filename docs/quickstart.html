@@ -67,18 +67,19 @@
         <pre><code>pip install nobulex</code></pre>
       </div>
       <div class="code-block" style="margin-top:1rem">
-        <pre><code>from nobulex import Agent
+        <pre><code>from nobulex import track
 
-agent = Agent("my-agent")
+@track(agent_id="my-agent")
+def send_email(to, subject, body):
+    # your existing code, unchanged
+    return smtp.send(to, subject, body)
 
-# Every action produces a signed receipt
-receipt = agent.act(action_type="tool:search", scope="query=weather")
-print(receipt.action_ref)   # content-derived, recomputable
-print(receipt.verify())     # True
-print(agent.trust_score)    # builds over time
-
-# Denied actions are recorded too
-agent.deny(action_type="tool:delete", scope="all_files")</code></pre>
+# Every call produces a signed receipt automatically
+# Exceptions produce a DENY receipt
+# Trust score accumulates over time
+send_email("user@example.com", "Hello", "Report attached")
+print(send_email.receipts)
+print(send_email.trust_score)</code></pre>
       </div>
     </div>
 
