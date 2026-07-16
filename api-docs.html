@@ -67,7 +67,12 @@ curl -X POST https://nobulex.com/api/verify \
   -d '{"agent_id":"test","action_type":"tool:search","scope":"q=hello","timestamp_ms":1720000000000,"action_ref":"your_hash_here"}'
 
 # Check an agent's trust score
-curl "https://nobulex.com/api/verify?action=score&agent_id=test"</code></pre>
+curl "https://nobulex.com/api/verify?action=score&agent_id=test"
+
+# Batch verify + Merkle root
+curl -X POST "https://nobulex.com/api/verify?action=batch" \
+  -H "Content-Type: application/json" \
+  -d '{"receipts":[{"agent_id":"a","action_type":"tool:x","scope":"y","timestamp_ms":1720000000000,"action_ref":"..."}]}'</code></pre>
 
 <h2>Verify a receipt</h2>
 
