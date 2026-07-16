@@ -27,7 +27,16 @@ export default function handler(req, res) {
 
   // GET /api/verify - health
   if (req.method === 'GET' && !path) {
-    return res.json({ status: 'ok', version: '0.1.0', endpoints: ['POST /api/verify', 'GET /api/verify?action=demo', 'GET /api/verify?action=score&agent_id=X'] });
+    return res.json({
+      status: 'ok',
+      version: '0.2.0',
+      endpoints: [
+        'POST /api/verify - verify a single receipt',
+        'POST /api/verify?action=batch - batch verify + merkle root',
+        'GET /api/verify?action=demo - tamper detection demo',
+        'GET /api/verify?action=score&agent_id=X - trust score lookup'
+      ]
+    });
   }
 
   // GET /api/verify?action=demo - tamper test
@@ -96,5 +105,64 @@ export default function handler(req, res) {
     return res.json({ agent_id: aid, score, grade, receipts: total, allow: data.allow, deny: data.deny });
   }
 
-  return res.status(404).json({ error: 'not found', endpoints: ['POST /api/verify', 'GET /api/verify/demo', 'GET /api/verify/score?agent_id=X'] });
+  // POST /api/verify?action=batch - batch verify + merkle root
+  if (req.method === 'POST' && path === 'batch') {
+    const body = req.body;
+    if (!body || !body.receipts || !Array.isArray(body.receipts)) {
+      return res.status(400).json({ error: 'receipts array required' });
+    }
+
+    const results = body.receipts.map((r, i) => {
+      const preimage = jcsCanonical({
+        agent_id: r.agent_id || '',
+        action_type: r.action_type || '',
+        scope: r.scope || '',
+        timestamp_ms: r.timestamp_ms || 0
+      });
+      const recomputed = sha256hex(preimage);
+      return {
+        index: i,
+        action_ref_match: recomputed === r.action_ref,
+        verdict: recomputed === r.action_ref ? 'VALID' : 'INVALID'
+      };
+    });
+
+    // RFC 6962 Merkle root over all action_refs
+    const leaves = body.receipts.map(r => sha256hex('\x00' + (r.action_ref || '')));
+    const merkleRoot = computeMerkleRoot(leaves);
+
+    const allValid = results.every(r => r.verdict === 'VALID');
+    return res.json({
+      batch_size: body.receipts.length,
+      all_valid: allValid,
+      merkle_root: merkleRoot,
+      results
+    });
+  }
+
+  return res.status(404).json({
+    error: 'not found',
+    endpoints: [
+      'POST /api/verify',
+      'POST /api/verify?action=batch',
+      'GET /api/verify?action=demo',
+      'GET /api/verify?action=score&agent_id=X'
+    ]
+  });
+}
+
+// RFC 6962 Merkle tree
+function computeMerkleRoot(leaves) {
+  if (leaves.length === 0) return sha256hex('');
+  if (leaves.length === 1) return leaves[0];
+  const k = largestPow2LessThan(leaves.length);
+  const left = computeMerkleRoot(leaves.slice(0, k));
+  const right = computeMerkleRoot(leaves.slice(k));
+  return sha256hex('\x01' + Buffer.from(left, 'hex').toString() + Buffer.from(right, 'hex').toString());
+}
+
+function largestPow2LessThan(n) {
+  let k = 1;
+  while (k * 2 < n) k *= 2;
+  return k;
 }
