@@ -895,15 +895,19 @@ main {
   opacity: 1;
 }
 
+/* No overflow clip here. The headline carries a wide dark text-shadow so it
+   stays legible over the video, and clipping the word box cuts that shadow
+   into a hard-edged dark rectangle behind every word. The reveal is done with
+   opacity and a short rise instead, which needs no mask. */
 .hero__line .word {
   display: inline-block;
-  overflow: hidden;
   margin-right: 0.2em;
 }
 
 .hero__line .word-inner {
   display: inline-block;
-  transform: translateY(100%);
+  opacity: 0;
+  transform: translateY(0.42em);
   animation: slideUp 0.85s var(--ease-out-long) forwards;
 }
 
@@ -917,6 +921,7 @@ main {
 
 @keyframes slideUp {
   to {
+    opacity: 1;
     transform: translateY(0);
   }
 }
@@ -3237,11 +3242,13 @@ main {
   border-color: var(--border-hover);
 }
 
+/* The footer is centred, so the measure cap needs auto side margins or the
+   line sits flush left inside a centred column. */
 .footer__tagline {
   font-size: 0.875rem;
   color: var(--text-secondary);
   line-height: 1.5;
-  margin: 0;
+  margin: 0 auto;
   max-width: 40ch;
 }
 
@@ -4400,8 +4407,10 @@ button:focus-visible {
   border-top: 1px solid var(--border);
 }
 
+/* Widened from the old 400px email-capture box. This block now carries a
+   sentence of prose rather than an input field, and 400px broke it badly. */
 .waitlist__content {
-  max-width: 400px;
+  max-width: 620px;
   margin: 0 auto;
   text-align: center;
 }
@@ -5047,4 +5056,88 @@ button:focus-visible {
     opacity: 1 !important;
     transform: none !important;
   }
+}
+
+
+/* ==========================================================================
+   Document pages (why, methodology, manifesto)
+   One shared reading surface so the site has one subpage aesthetic, not three.
+   ========================================================================== */
+.doc-page { font-family: "Instrument Serif", Georgia, serif; }
+.doc-page__body { max-width: 46rem; margin: 0 auto; padding: 5rem 1.5rem 6rem; }
+.doc-page__kicker {
+  font-family: var(--font-sans); font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 1.25rem;
+}
+.doc-page h1 {
+  font-size: clamp(2rem, 5vw, 3.1rem); font-weight: 400; color: var(--text);
+  margin-bottom: 1.25rem; line-height: 1.15; letter-spacing: -0.012em;
+}
+.doc-page__meta {
+  font-family: var(--font-sans); font-size: 0.8rem; line-height: 1.65;
+  color: var(--text-muted); margin-bottom: 3rem;
+  padding-bottom: 2rem; border-bottom: 1px solid var(--border);
+}
+.doc-page h2 {
+  font-family: var(--font-sans); font-size: 1.05rem; font-weight: 600;
+  color: var(--text); margin: 3.25rem 0 1rem; letter-spacing: -0.01em;
+}
+.doc-page h3 {
+  font-family: var(--font-sans); font-size: 0.85rem; font-weight: 600;
+  color: var(--text); margin: 2rem 0 0.6rem; letter-spacing: 0.02em;
+}
+.doc-page p {
+  font-size: 1.2rem; line-height: 1.72; color: var(--text-secondary);
+  margin-bottom: 1.4rem;
+}
+.doc-page p.lead { font-size: 1.45rem; line-height: 1.55; color: var(--text); }
+.doc-page strong { color: var(--text); font-weight: 400; }
+.doc-page a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.doc-page ul, .doc-page ol { margin: 0 0 1.6rem 1.15rem; padding: 0; }
+.doc-page li { font-size: 1.12rem; line-height: 1.65; color: var(--text-secondary); margin-bottom: 0.7rem; }
+.doc-page code {
+  font-family: var(--font-mono); font-size: 0.82em; color: var(--text);
+  background: rgba(255, 255, 255, 0.05); padding: 0.12em 0.36em; border-radius: 3px;
+}
+.doc-page__rule { border: 0; border-top: 1px solid var(--border); margin: 3.5rem 0; }
+.doc-page__note {
+  font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.7;
+  color: var(--text-muted); border-left: 2px solid var(--brand);
+  padding-left: 1.1rem; margin: 2rem 0 2.2rem;
+}
+.doc-page__verdict {
+  font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em;
+  color: var(--brand);
+}
+.doc-page__back {
+  font-family: var(--font-sans); display: inline-block; margin-top: 3.5rem;
+  font-size: 0.85rem; color: var(--accent); text-decoration: none;
+  border-bottom: 1px solid var(--border); padding-bottom: 0.25rem;
+}
+.doc-page__back:hover { color: var(--accent-hover); border-bottom-color: var(--border-hover); }
+@media (max-width: 640px) {
+  .doc-page__body { padding: 3.5rem 1.25rem 4rem; }
+  .doc-page p { font-size: 1.08rem; }
+  .doc-page p.lead { font-size: 1.22rem; }
+}
+
+.doc-page__table-wrap { overflow-x: auto; margin: 1.6rem 0 2.2rem; }
+.doc-page table {
+  width: 100%; border-collapse: collapse; font-family: var(--font-sans);
+  font-size: 0.9rem; line-height: 1.6;
+}
+.doc-page th, .doc-page td {
+  text-align: left; padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.doc-page th {
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--text-muted);
+  border-bottom-color: var(--border-hover);
+}
+.doc-page td { color: var(--text-secondary); }
+.doc-page td:first-child {
+  font-family: var(--font-mono); font-size: 0.8rem; color: var(--brand);
+  letter-spacing: 0.03em; white-space: nowrap;
 }

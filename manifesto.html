@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>document.documentElement.classList.add('js-motion');</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Uncovenanted Agent Problem - Nobulex</title>
-  <meta name="description" content="Why we need a protocol-level trust layer for the agent economy.">
-  <meta property="og:title" content="The Uncovenanted Agent Problem - Nobulex">
-  <meta property="og:description" content="Why we need a protocol-level trust layer for the agent economy.">
+  <title>Fail loud, or lie quiet - Nobulex</title>
+  <meta name="description" content="A tool that stops when it cannot answer is doing its job. A tool that returns something plausible and wrong is not. Everything this register does follows from refusing to call those the same thing.">
+  <meta property="og:title" content="Fail loud, or lie quiet - Nobulex">
+  <meta property="og:description" content="A tool that stops when it cannot answer is doing its job. A tool that answers anyway is not. Everything follows from refusing to call those the same thing.">
   <meta property="og:type" content="article">
+  <meta property="og:url" content="https://nobulex.com/manifesto">
+  <meta property="og:image" content="https://nobulex.com/images/nobulex-logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fail loud, or lie quiet - Nobulex">
+  <meta name="twitter:description" content="A tool that stops when it cannot answer is doing its job. A tool that answers anyway is not.">
+  <meta name="theme-color" content="#030708">
   <link rel="icon" type="image/png" href="/icon.png">
   <link rel="apple-touch-icon" href="/icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Sora:wght@600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <style>
-    .manifesto-page { font-family: 'Instrument Serif', Georgia, serif; }
-    .manifesto-page .manifesto-page__body { max-width: 56rem; margin: 0 auto; padding: 4rem 1.5rem; }
-    .manifesto-page h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 400; color: var(--text); margin-bottom: 2rem; line-height: 1.2; }
-    .manifesto-page .manifesto-page__meta { font-family: var(--font-sans); font-size: 0.75rem; color: var(--text-muted); margin-bottom: 3rem; }
-    .manifesto-page p { font-size: 1.25rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.5rem; }
-    .manifesto-page p.lead { font-size: 1.5rem; color: var(--text); }
-    .manifesto-page .manifesto-page__back { font-family: var(--font-sans); display: inline-block; margin-top: 3rem; font-size: 0.875rem; color: var(--accent); text-decoration: none; transition: color 0.2s; }
-    .manifesto-page .manifesto-page__back:hover { color: var(--accent-hover); }
-  </style>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
   <header class="header" data-animate="header">
     <div class="header__top">
-      <a href="index.html" class="header__logo" aria-label="Nobulex home"><img src="images/nobulex-logo.png" alt="Nobulex" class="header__logo-img"></a>
+      <a href="/" class="header__logo" aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
+      <nav class="header__quick" aria-label="Quick links">
+        <a href="/register">Register</a>
+        <a href="/methodology">Method</a>
+        <a href="/why">Why</a>
+      </nav>
       <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
         <span class="nav-toggle__bar"></span>
         <span class="nav-toggle__bar"></span>
@@ -39,54 +41,71 @@
     <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
     <nav class="header__nav" aria-label="Main">
       <button type="button" class="nav-close" aria-label="Close menu">
-        <span aria-hidden="true">×</span>
+        <span aria-hidden="true">&times;</span>
       </button>
       <div class="header__links">
-        <a href="index.html#problem">What is Nobulex</a>
-        <a href="index.html#manifesto">Why it matters</a>
-        <a href="index.html#regulatory">Compliance</a>
-        <a href="docs/quickstart.html">Guides</a>
-        <a href="https://github.com/arian-gogani/nobulex" rel="noopener noreferrer">Code &amp; Spec</a>
+        <a href="/">Home</a>
+        <a href="/register">The register</a>
+        <a href="/methodology">Method</a>
+        <a href="/why">Why this exists</a>
+        <a href="/manifesto">Manifesto</a>
       </div>
-      <a href="index.html#get-started" class="header__cta">Get started</a>
+      <a href="/register" class="header__cta">Read the register</a>
     </nav>
   </header>
 
-  <main class="manifesto-page" id="main">
-    <article class="manifesto-page__body">
-      <h1>The Uncovenanted Agent Problem</h1>
-      <p class="manifesto-page__meta">A manifesto for protocol-level trust in the agent economy</p>
-      <p class="lead">AI agents book flights, execute trades, manage infrastructure, negotiate contracts, and call other agents to do the same. By 2027, autonomous systems will manage trillions in economic value. Every one of them operates on a handshake.</p>
-      <p>There is no protocol-level mechanism for an agent to declare what it will do, prove that it did, or face consequences when it doesn't. We are building the most powerful autonomous systems in history on a foundation of trust me.</p>
-      <p><strong>This is the Uncovenanted Agent Problem.</strong></p>
-      <p>The question is not whether AI agents will manage trillions in economic value. The question is whether they will do so with any mechanism for accountability at all. Without a trust layer, every transaction is a leap of faith. Every integration is a vulnerability. Every delegation is a blind spot.</p>
-      <p>Nobulex changes that. A protocol that makes honesty the only rational strategy. Verifiable commitments for every AI agent. Carved in stone. Verified in code.</p>
-      <a href="index.html" class="manifesto-page__back">← Back to Nobulex</a>
+  <main class="doc-page" id="main">
+    <article class="doc-page__body">
+      <p class="doc-page__kicker">Manifesto</p>
+      <h1>Fail loud, or lie quiet</h1>
+      <p class="doc-page__meta">One question, asked of every tool an agent depends on. Everything else here is a consequence of taking the answer seriously.</p>
+
+      <p class="lead">A tool that stops when it cannot answer is doing its job. A tool that returns something plausible and wrong is not. Almost nothing in the way software is currently assessed distinguishes between those two, and that refusal to distinguish is the whole problem.</p>
+
+      <h2>Wrong data is worse than no data</h2>
+      <p>When a call fails loudly, a system handles it. It retries, falls back, degrades, or stops and asks a person. Every one of those paths exists because someone anticipated the failure and wrote something for it.</p>
+      <p>When a call fails quietly, none of those paths run. There is nothing to catch. A number arrived, it had the right type and a plausible magnitude, and the next step ran on it. The failure does not appear where it happened. It appears later, somewhere else, as a decision nobody can explain.</p>
+      <p>A human reading a report notices when the revenue figure is off by an order of magnitude. An agent does not notice, because noticing requires knowing what the answer should have been, and if it knew that it would not have made the call.</p>
+
+      <h2>Nobody is checking the answer</h2>
+      <p>Two questions get asked before anyone trusts a tool. Is this the package it claims to be, and does it contain something known to be dangerous. Both are about the code. Neither is about whether the answer it returned was true.</p>
+      <p>So there is a class of failure that passes every existing check. The package is authentic. The signature verifies. The scanner is clean. The tests are green, because the tests were written by the same people who wrote the assumption that is wrong. And the tool returns a number that is not the number.</p>
+      <p>Nobody grades that today, because grading it means saying something adverse about a named piece of software with your name attached, and almost every organisation positioned to do it has a commercial reason not to.</p>
+
+      <h2>Somebody has to be willing to say something bad</h2>
+      <p>An assessment that never comes back negative is not an assessment. It is marketing with a methodology section.</p>
+      <p>The moment the graded party pays for its own verdict, the verdict becomes a negotiation, and everybody involved knows it. That is why the rule here is buyer funded, never vendor funded, and why it is written into the method rather than into a values page. It is expensive. It is also the only thing that makes any of the output worth reading.</p>
+      <p>The corollary is that this register has to be able to publish something bad about a tool people like, from a maintainer who will be upset, and survive that. Everything about how records are held, hashed, replied to and published is built for that moment, not for the easy ones.</p>
+
+      <h2>No score. Ever.</h2>
+      <p>The obvious product here is a number. A reliability rating out of a hundred, sortable, embeddable, easy to explain to someone who has ten seconds. It is also the exact thing that would destroy this.</p>
+      <p>A score is an average, and an average hides the distinction the whole thing exists to draw. A tool that refuses cleanly and a tool that lies quietly can land on the same number, and once they do, the number has erased the only information worth having. Worse, a score invites optimisation. Anything reducible to one figure eventually gets gamed, and the gaming is easier than the fixing.</p>
+      <p>So there are five verdicts, a record carries exactly one, and there is no arithmetic anywhere. A reader who wants to know whether a tool lies has to read what was actually found, which is the correct amount of work.</p>
+
+      <h2>The mark cannot outlive the evidence</h2>
+      <p>Every trust badge that has ever been printed keeps rendering after the thing it certified stopped being true. The image sits in a readme, green, permanent, referring to a version that shipped years ago and a check nobody has rerun.</p>
+      <p>So there is no badge image here, and there will not be one. A mark is resolved live against the register or it does not resolve. Records carry a validity window and return <span class="doc-page__verdict">EXPIRED</span> outside it. The schema is not able to express a pass that is out of date, because anything able to express one will eventually be used to.</p>
+
+      <h2>Say less than you have proven</h2>
+      <p>A register that overclaims has already failed its own test, which makes the temptation to overclaim the most dangerous one available.</p>
+      <p>So the language is deliberately small. Nothing here is certified. Nothing here is verified safe. A record covers one exact version under one exact configuration observed at one exact time, and it says nothing about tomorrow, nothing about a different commit, and nothing about whether a maintainer is a good person. When the evidence is thin the page says the evidence is thin.</p>
+      <p>The same rule points inward. A withdrawn record publishes its withdrawal in place of itself rather than disappearing, and that applies to records this register issued about its own work exactly as it applies to everyone else's. A register that can quietly delete its own mistakes is asking for a trust it has not earned.</p>
+
+      <h2>Rules that only bind when convenient are not rules</h2>
+      <p>Every constraint on this page costs something. Refusing vendor money costs revenue. Refusing a score costs reach. Holding a finding through a reply window costs the news cycle. Naming no held subject at all costs the ability to hint.</p>
+      <p>That cost is the point. A constraint that never binds is decoration, and every reader can tell the difference between a rule that has been paid for and a rule that has been posted.</p>
+
+      <hr class="doc-page__rule">
+
+      <p>None of this is a claim about scale. It is one person, no company, an early register, and a method published so it can be attacked. The strongest honest statement available is that the rules are written down, they were applied to this register before they were applied to anyone else, and what the register says is compiled from records rather than typed by hand.</p>
+      <p>The test stays the same regardless of who is doing the grading. Does it fail loud, or does it lie quiet.</p>
+      <p>If a rule on this page is wrong, or is being broken somewhere on this site, say so: <a href="mailto:nobulex.dev@gmail.com">nobulex.dev@gmail.com</a>. A rule nobody can report a breach of is decoration too.</p>
+
+      <a href="/register" class="doc-page__back">Read the register &rarr;</a>
     </article>
   </main>
 
-  <!-- AI Help widget -->
-  <button type="button" class="help-widget__toggle" id="help-toggle" aria-label="Get help understanding Nobulex" aria-expanded="false"><span class="help-widget__icon" aria-hidden="true">?</span></button>
-  <div class="help-widget__panel" id="help-panel" aria-hidden="true">
-    <div class="help-widget__header"><h3>Need help?</h3><button type="button" class="help-widget__close" id="help-close" aria-label="Close help">×</button></div>
-    <p class="help-widget__intro">Not sure where to start? Ask any question. We'll answer in plain language, no jargon.</p>
-    <div class="help-widget__links">
-      <a href="index.html#problem">What is Nobulex</a>
-      <a href="index.html#manifesto">Why it matters</a>
-      <a href="eu-ai-act.html">EU compliance</a>
-      <a href="index.html">Home</a>
-    </div>
-    <div class="help-widget__chat">
-      <div class="help-widget__messages" id="help-messages"></div>
-      <div class="help-widget__input-wrap">
-        <input type="text" id="help-query" placeholder="e.g. What is Nobulex, in simple terms?" autocomplete="off">
-        <button type="button" class="help-widget__ask" id="help-ask" aria-label="Send">→</button>
-      </div>
-      <p class="help-widget__hint" id="help-hint">Type your question and press Enter</p>
-    </div>
-  </div>
-
-  <script>if (location.protocol === 'file:' || (location.port && location.port !== '3333')) { window.NOBULEX_API_URL = 'http://localhost:3333/api/chat'; }</script>
+  <div class="scroll-bar" aria-hidden="true"></div>
   <script src="main.js"></script>
 </body>
 </html>

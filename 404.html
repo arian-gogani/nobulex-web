@@ -1,60 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>document.documentElement.classList.add('js-motion');</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page not found - Nobulex</title>
+  <title>Not found - Nobulex</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#030708">
   <link rel="icon" type="image/png" href="/icon.png">
-  <link rel="apple-touch-icon" href="/icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css">
-  <style>
-    .error-page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
-    .error-page__code { font-family: var(--font-mono); font-size: 4rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; }
-    .error-page__title { font-size: 1.25rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
-    .error-page__desc { font-size: 0.9375rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 28ch; }
-    .error-page__links { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-    .error-page__links a { font-size: 0.875rem; color: var(--accent); text-decoration: none; }
-    .error-page__links a:hover { text-decoration: underline; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="header">
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="header" data-animate="header">
     <div class="header__top">
-      <a href="/" class="header__logo" aria-label="Nobulex home"><img src="/images/nobulex-logo.png" alt="Nobulex" class="header__logo-img"></a>
-      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-        <span class="nav-toggle__bar"></span>
-        <span class="nav-toggle__bar"></span>
-        <span class="nav-toggle__bar"></span>
-      </button>
+      <a href="/" class="header__logo" aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
+      <nav class="header__quick" aria-label="Quick links">
+        <a href="/register">Register</a>
+        <a href="/methodology">Method</a>
+        <a href="/why">Why</a>
+      </nav>
     </div>
-    <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
-    <nav class="header__nav" aria-label="Main">
-      <button type="button" class="nav-close" aria-label="Close menu"><span aria-hidden="true">×</span></button>
-      <div class="header__links">
-        <a href="/docs/what-it-is.html">What it is</a>
-        <a href="/docs/quickstart.html">Quickstart</a>
-        <a href="/eu-ai-act.html">Compliance</a>
-        <a href="https://github.com/arian-gogani/nobulex" rel="noopener noreferrer">Code &amp; Spec</a>
-      </div>
-      <a href="/#get-started" class="header__cta">Get started</a>
-    </nav>
   </header>
-  <main class="error-page" id="main">
-    <p class="error-page__code">404</p>
-    <h1 class="error-page__title">Page not found</h1>
-    <p class="error-page__desc">This page doesn't exist or has moved.</p>
-    <div class="error-page__links">
-      <a href="/">← Home</a>
-      <a href="/demo.html">Demo</a>
-      <a href="/docs/">Docs</a>
-      <a href="/docs/quickstart.html">Quickstart</a>
-      <a href="https://github.com/arian-gogani/nobulex" rel="noopener noreferrer">GitHub</a>
-      <a href="mailto:nobulex.com@gmail.com">Questions? Email us</a>
-    </div>
+
+  <main class="doc-page" id="main">
+    <article class="doc-page__body">
+      <p class="doc-page__kicker">404</p>
+      <h1>Nothing is recorded at this address</h1>
+      <p class="doc-page__meta">Either the page never existed, or it belonged to an earlier version of this site that has been retired.</p>
+
+      <p class="lead">The register is the only page here that states anything about a record, and it is compiled from the records on every build.</p>
+
+      <p>If you were looking for a verdict on a specific subject, it is either on the register or it does not exist. Nothing is served from a second copy.</p>
+
+      <ul>
+        <li><a href="/register">The register</a>, for what is published and what is held</li>
+        <li><a href="/methodology">The method</a>, for how a verdict is decided</li>
+        <li><a href="/why">Why this exists</a>, for the gap it sits in</li>
+        <li><a href="/manifesto">Manifesto</a>, for what it refuses to do</li>
+      </ul>
+
+      <p>If you followed a link from somewhere and landed here, that link is wrong and worth telling us about: <a href="mailto:nobulex.dev@gmail.com">nobulex.dev@gmail.com</a>.</p>
+
+      <a href="/" class="doc-page__back">Back to Nobulex</a>
+    </article>
   </main>
-  <script src="/main.js"></script>
+
+  <div class="scroll-bar" aria-hidden="true"></div>
+  <script src="main.js"></script>
 </body>
 </html>

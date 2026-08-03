@@ -1,135 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Why Receipts - Nobulex</title>
-<meta name="description" content="What happens when an AI agent lies about what it did. One demo, two outcomes.">
-<meta property="og:title" content="Why your agents need receipts">
-<meta property="og:description" content="What happens when an operator modifies the log. Without receipts: nobody notices. With receipts: the chain breaks.">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:site" content="@nobulexlabs">
-<link rel="icon" href="/favicon.ico">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#050508;color:#ccc;line-height:1.7}
-a{color:#f5a623;text-decoration:none}
-.nav{padding:20px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1a1a1a}
-.nav-logo{font-weight:800;font-size:18px;color:#fff;letter-spacing:2px}
-.nav-links a{margin-left:24px;color:#666;font-size:14px}
-.content{max-width:700px;margin:0 auto;padding:60px 20px 80px}
-h1{font-size:36px;font-weight:900;color:#fff;margin-bottom:12px}
-h2{font-size:20px;font-weight:800;color:#fff;margin:40px 0 12px}
-p{margin-bottom:16px;font-size:15px}
-.scenario{background:#0a0a0f;border:1px solid #1a1a1a;border-radius:12px;padding:24px;margin:16px 0}
-.scenario-title{font-weight:700;font-size:16px;margin-bottom:12px}
-.bad{border-color:#c0392b33;color:#e74c3c}
-.good{border-color:#27ae6033;color:#27ae60}
-.log{font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:1.8;color:#888;margin:12px 0}
-.log .tampered{color:#e74c3c;text-decoration:line-through}
-.log .replaced{color:#e74c3c;font-weight:700}
-.log .ok{color:#27ae60}
-.log .fail{color:#e74c3c;font-weight:700}
-.cta-box{text-align:center;padding:40px;margin-top:40px;border:1px solid #1a1a1a;border-radius:12px}
-.cta-box h2{margin-top:0}
-pre{background:#111;border:1px solid #1a1a1a;border-radius:8px;padding:16px;overflow-x:auto;font-size:13px;margin:12px 0}
-code{font-family:'SF Mono',Consolas,monospace}
-.footer{text-align:center;padding:40px;border-top:1px solid #1a1a1a;font-size:13px;color:#666}
-.try-btn{display:inline-block;background:#f5a623;color:#000;padding:12px 24px;border-radius:8px;font-weight:800;font-size:15px;margin-top:16px;border:none;cursor:pointer}
-#live-result{display:none;margin-top:16px;font-family:'SF Mono',Consolas,monospace;font-size:12px;background:#111;padding:16px;border-radius:8px;white-space:pre-wrap}
-</style>
+  <script>document.documentElement.classList.add('js-motion');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why this exists - Nobulex</title>
+  <meta name="description" content="Package registries check what a tool is. Scanners check what it contains. Nobody checks whether the answer it returned was true. That gap is why this register exists.">
+  <meta property="og:title" content="Why this exists - Nobulex">
+  <meta property="og:description" content="Nobody is checking whether the answer was true. An agent cannot tell wrong data from no data, and acts on both.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://nobulex.com/why">
+  <meta property="og:image" content="https://nobulex.com/images/nobulex-logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Why this exists - Nobulex">
+  <meta name="twitter:description" content="Nobody is checking whether the answer was true. An agent cannot tell wrong data from no data, and acts on both.">
+  <meta name="theme-color" content="#030708">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="header" data-animate="header">
+    <div class="header__top">
+      <a href="/" class="header__logo" aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
+      <nav class="header__quick" aria-label="Quick links">
+        <a href="/register">Register</a>
+        <a href="/methodology">Method</a>
+        <a href="/why">Why</a>
+      </nav>
+      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+    <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+    <nav class="header__nav" aria-label="Main">
+      <button type="button" class="nav-close" aria-label="Close menu">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="header__links">
+        <a href="/">Home</a>
+        <a href="/register">The register</a>
+        <a href="/methodology">Method</a>
+        <a href="/why">Why this exists</a>
+        <a href="/manifesto">Manifesto</a>
+      </div>
+      <a href="/register" class="header__cta">Read the register</a>
+    </nav>
+  </header>
 
-<nav class="nav">
-<a href="/" class="nav-logo">NOBULEX</a>
-<div class="nav-links">
-<a href="/">Home</a>
-<a href="/why">Why</a>
-<a href="/pricing">Pricing</a>
-<a href="/api-docs">API</a>
-</div>
-</nav>
+  <main class="doc-page" id="main">
+    <article class="doc-page__body">
+      <p class="doc-page__kicker">Why this exists</p>
+      <h1>Nobody is checking whether the answer was true</h1>
+      <p class="doc-page__meta">The gap this register was built to sit in, why it is expensive now, and what would have to happen for the register itself to be worthless.</p>
 
-<div class="content">
+      <p class="lead">An agent tool gets checked for two things before anyone trusts it. Is this the package it claims to be, and does it contain a known vulnerability. Both are questions about the code. Neither is a question about the answer it returns.</p>
 
-<h1>Why your agents need receipts.</h1>
-<p>Your AI agent made 10 tool calls today. You logged them. Tomorrow, a customer asks what happened. You show them the log.</p>
-<p>But you wrote the log. You could have changed it. They know that. So do regulators.</p>
+      <h2>Two questions are answered. The third is not.</h2>
+      <p>Package registries answer identity. Signing, provenance and lockfiles establish that the artifact you installed is the artifact the maintainer published. That is a real problem and it is largely solved.</p>
+      <p>Scanners answer contents. They read the code and the dependency graph and report known vulnerabilities and suspicious patterns. Also real, also largely solved, and improving fast.</p>
+      <p>Between them there is a question nothing answers. When the data underneath the tool is missing, stale, malformed or contradictory, does the tool stop, or does it return something plausible and wrong? Identity and contents are both satisfied while that happens. The package is exactly what it claims to be. The code contains nothing malicious. The answer is simply not true.</p>
 
-<h2>The scenario</h2>
-<p>An agent processes a payment. The operator realizes the amount was wrong and quietly edits the log to cover it.</p>
+      <h2>An agent cannot tell wrong data from no data</h2>
+      <p>This gap was survivable while a person sat between the tool and the decision. A human reading a stock price four days stale might notice the date. A human handed an empty result where data plainly should exist tends to ask why.</p>
+      <p>An agent does neither. It receives a well formed response, finds nothing in it that signals a problem, and proceeds. Wrong data and correct data arrive through the same channel in the same shape, and nothing in the response distinguishes them. So the agent acts on both, identically, at machine speed, in a loop nobody is reading.</p>
+      <p>The failure has a name worth using precisely: <strong>silent semantic corruption</strong>. A response that is well formed and plausible but materially wrong, stale, mis-scoped, truncated, empty where data existed, or served from a fallback nobody disclosed. It passes every schema check and every scanner, because nothing about it is malformed.</p>
+      <p class="doc-page__note">One test governs everything here. Does it fail loud, or does it lie quiet? A tool that stops when it cannot be sure has left you something to route around. A tool that guesses confidently has not.</p>
 
-<div class="scenario">
-<div class="scenario-title bad">Without receipts: nobody notices</div>
-<div class="log">
-[14:01] agent: search("vendor payment terms") <span class="ok">OK</span><br>
-[14:02] agent: read("/invoices/q3.csv") <span class="ok">OK</span><br>
-[14:03] agent: transfer(amount=<span class="tampered">5000</span><span class="replaced">500</span>, to="vendor") <span class="ok">OK</span><br>
-[14:04] agent: send_email("cfo@acme.com", "Payment confirmed") <span class="ok">OK</span>
-</div>
-<p style="font-size:13px;color:#e74c3c">The operator changed $5,000 to $500 in the log. The log still looks valid. Nobody can tell it was modified. The customer sees a clean record.</p>
-</div>
+      <h2>The tool's own tests cannot close it</h2>
+      <p>Almost every agent tool ships with tests, and almost all of them are written by the person who wrote the tool. That is not a criticism of anyone's diligence. It is a structural limit. A suite written by the maintainer encodes the maintainer's model of what the tool does, and the failures in question are precisely the ones that model does not contain. You cannot write an assertion against a fallback you do not know your dependency performs.</p>
+      <p>There is a sharper version of the same problem. A test that imports the code it is testing has already agreed to that code's account of what happened. If the tool believes it returned four decades of history, a test built on the tool's own objects will believe it too. The only way to catch the difference is to speak to the thing from outside, the way an agent does, over its own protocol, and compare what came back to a source that was written before anyone went looking.</p>
 
-<div class="scenario">
-<div class="scenario-title good">With receipts: the chain breaks</div>
-<div class="log">
-[14:01] receipt: search("vendor payment terms") <span class="ok">VALID ref=a3f7c2...</span><br>
-[14:02] receipt: read("/invoices/q3.csv") <span class="ok">VALID ref=b2e891...</span><br>
-[14:03] receipt: transfer(amount=500, to="vendor") <span class="fail">INVALID - action_ref mismatch</span><br>
-<span class="fail">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stored ref: d4c019... recomputed ref: f7a2b3... TAMPER DETECTED</span><br>
-[14:04] receipt: send_email("cfo@acme.com") <span class="fail">INVALID - chain broken at position 3</span>
-</div>
-<p style="font-size:13px;color:#27ae60">The operator changed the amount, but the receipt's action_ref was computed from the original fields. Recomputing from the modified fields produces a different hash. The signature also fails. Two independent catches. The chain breaks at position 3, which also invalidates everything after it.</p>
-</div>
+      <h2>A status page cannot close it</h2>
+      <p>Uptime monitoring answers whether the service replied. The failure here is a reply. Two hundred, well formed body, correct schema, wrong contents. Every dashboard stays green through the entire event, because every dashboard is measuring the wrong property. Availability is not accuracy, and no amount of the first produces the second.</p>
 
-<h2>How it works</h2>
-<p>Every action gets an identifier derived from its content:</p>
-<pre><code>action_ref = SHA-256(JCS({agent_id, action_type, scope, timestamp_ms}))</code></pre>
-<p>Change any field, the identifier changes. The receipt is Ed25519 signed, so you can't forge a new signature. And each receipt links to the previous one, so tampering with one breaks the whole chain.</p>
-<p>Any third party can verify offline with just the public key. No API call. No trust in the operator.</p>
+      <h2>A score cannot close it</h2>
+      <p>The obvious product here is a number. Rate every tool out of a hundred, sort the list, let buyers glance. That product would sell faster and be worth less than nothing, because the glance is the failure. A buyer who reads a number does not read what was tested, and what was tested is the entire content of the claim.</p>
+      <p>So a record carries one of five states and never an average. <span class="doc-page__verdict">PASS</span>, <span class="doc-page__verdict">FAIL_SAFE</span>, <span class="doc-page__verdict">FAIL_UNSAFE</span>, <span class="doc-page__verdict">INDETERMINATE</span>, <span class="doc-page__verdict">OUT_OF_SCOPE</span>. Refusing to answer and answering wrongly are different failures with different costs, and any function that averages them into one figure has destroyed the only distinction that matters.</p>
 
-<h2>Try it live</h2>
-<p>The API is running right now. Click the button to see a real tamper detection.</p>
-<button class="try-btn" onclick="runDemo()">Run tamper detection</button>
-<div id="live-result"></div>
-<script>
-async function runDemo(){
-var o=document.getElementById('live-result');
-o.style.display='block';o.textContent='Calling live API...';
-try{var r=await fetch('/api/verify?action=demo');var d=await r.json();
-o.textContent='ORIGINAL RECEIPT:\n  scope: '+d.original.scope+'\n  action_ref: '+d.original.action_ref+'\n  verdict: '+d.original.verdict+'\n\nTAMPERED RECEIPT (attacker changed amount):\n  scope: '+d.tampered.scope+'\n  action_ref stored: '+d.tampered.action_ref_original+'\n  action_ref recomputed: '+d.tampered.action_ref_recomputed+'\n  match: '+d.tampered.match+'\n  verdict: '+d.tampered.verdict+'\n\n'+d.explanation;
-}catch(e){o.textContent='Error: '+e.message;}
-}
-</script>
+      <h2>Which is why it has to sit outside</h2>
+      <p>A finding that costs a maintainer something cannot be produced by a party the maintainer pays. That is not an accusation about anyone's integrity, it is a statement about what a reader is able to verify. A reader cannot see whether a payment shaded a conclusion, so a reader who knows the payment exists is right to discount the conclusion, and the finding was worth nothing before anyone read it.</p>
+      <p>So the graded party does not pay, is not offered a way to pay, and cannot buy a re-run on friendlier conditions. What a subject is owed is the complete evidence and a fixed window to answer it, and the answer publishes beside the record, unedited. Nothing else here is for sale to them.</p>
 
-<h2>Add receipts in one line</h2>
-<pre><code>pip install nobulex</code></pre>
-<pre><code>from nobulex import track
+      <h2>What would make this worthless</h2>
+      <p>A register that cannot say how it would fail is asking to be taken on faith, which is the thing it exists to replace. Any one of these ends it:</p>
+      <ul>
+        <li>The suite never becomes public, so no stranger can re-run a verdict and reach the same answer. Today it is not public, and until it is, every record here rests on one party's word.</li>
+        <li>A verdict is issued against a subject that cannot be resolved exactly, so nobody can reconstruct what was actually tested.</li>
+        <li>The graded party pays, in money or in anything that behaves like money.</li>
+        <li>A record softens between the moment its subject sees it and the moment it publishes. The hash written down before the window opens exists so that this is checkable rather than promised.</li>
+        <li>A finding is published against a named party before that party has had the window to answer, or the register hints at who a held finding is about while withholding the evidence for it.</li>
+      </ul>
+      <p>Those are not hypotheticals chosen for effect. Every one of them has been a live risk in this project already, and the rules exist because of specific occasions when the rule was not yet there.</p>
 
-@track(agent_id="my-agent")
-def transfer(amount, to):
-    return payment_api.send(amount, to)
+      <hr class="doc-page__rule">
 
-# Every call now produces a signed receipt.
-# Exceptions produce a DENY receipt.
-# Trust score accumulates automatically.</code></pre>
+      <h2>What is here today</h2>
+      <p>The register carries the current state: how many records exist, how many are held, and what any published record found. It is compiled from the records on every build, and no page on this site retypes it, because a second hand kept copy of a register is how a name under embargo eventually gets published by accident.</p>
+      <p>The honest summary is that this is early, the suite is not yet public, and the strongest claim available is that the method is written down and the rules are applied to Nobulex before they are applied to anyone else.</p>
+      <p><a href="/register">Read the register</a> for the current state, or <a href="/methodology">the method</a> for how a verdict is decided.</p>
+      <p>If something on this page is wrong, say so: <a href="mailto:nobulex.dev@gmail.com">nobulex.dev@gmail.com</a>. The argument is meant to be attacked, and a correction that lands changes the page.</p>
 
-<div class="cta-box">
-<h2>One real agent. Five minutes.</h2>
-<p>Install the SDK. Add @track to one function. Run your agent. Look at the receipts. That's it.</p>
-<a href="https://github.com/arian-gogani/nobulex" class="try-btn" style="text-decoration:none">GitHub</a>
-</div>
+      <a href="/" class="doc-page__back">Back to Nobulex</a>
+    </article>
+  </main>
 
-</div>
-
-<div class="footer">
-Nobulex. Credit scores for machines.<br>
-<a href="https://github.com/arian-gogani/nobulex">GitHub</a> |
-<a href="/why">Why</a>
-<a href="/pricing">Pricing</a> |
-<a href="/api-docs">API</a>
-</div>
-
+  <div class="scroll-bar" aria-hidden="true"></div>
+  <script src="main.js"></script>
 </body>
 </html>

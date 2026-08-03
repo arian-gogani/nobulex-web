@@ -6,35 +6,35 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nobulex - Credit Scores for AI Agents</title>
-  <meta name="description" content="Tamper-proof receipts for everything your AI agent does. Credit scores for machines. Open source, MIT licensed.">
-  <meta property="og:title" content="Nobulex - trust score for AI Agents">
-  <meta property="og:description" content="Tamper-proof receipts for everything your AI agent does. Credit scores for machines.">
+  <title>Nobulex - The Independent Reliability Registry for Agent Tools</title>
+  <meta name="description" content="Agent tools fail by returning answers that are well formed, plausible and materially wrong, with no error raised. Nobulex tests exact builds against a named ground truth source and records whether each one failed loud or lied quiet.">
+  <meta property="og:title" content="Nobulex - The Independent Reliability Registry for Agent Tools">
+  <meta property="og:description" content="Payment rails prove money moved. Nobulex proves what happened on the other side.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://nobulex.com/images/nobulex-logo.png">
   <meta property="og:url" content="https://nobulex.com/">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Nobulex - Credit Scores for Machines">
-  <meta name="twitter:description" content="Tamper-proof receipts for everything your AI agent does. pip install nobulex.">
+  <meta name="twitter:title" content="Nobulex - The Independent Reliability Registry for Agent Tools">
+  <meta name="twitter:description" content="Does it fail loud, or does it lie quiet? An independent register of how agent tools behave when the data underneath them is wrong.">
   <meta name="twitter:image" content="https://nobulex.com/images/nobulex-logo.png">
   <meta name="theme-color" content="#030708">
   <link rel="dns-prefetch" href="https://videos.pexels.com">
   <link rel="dns-prefetch" href="https://images.unsplash.com">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@graph":[
-    {"@type":"Organization","@id":"https://nobulex.com/#organization","name":"Nobulex","url":"https://nobulex.com","logo":{"@type":"ImageObject","url":"https://nobulex.com/images/nobulex-logo.png"},"sameAs":["https://github.com/arian-gogani/nobulex","https://x.com/nobulexlabs"],"description":"Credit scores for AI agents. Credit scores for AI agents. Every action builds a verifiable track record."},
+    {"@type":"Organization","@id":"https://nobulex.com/#organization","name":"Nobulex","url":"https://nobulex.com","logo":{"@type":"ImageObject","url":"https://nobulex.com/images/nobulex-logo.png"},"description":"An independent reliability registry for agent tools. Tests exact builds against a named ground truth source and records whether each one failed loud or lied quiet."},
     {"@type":"WebSite","@id":"https://nobulex.com/#website","url":"https://nobulex.com","name":"Nobulex","publisher":{"@id":"https://nobulex.com/#organization"}},
-    {"@type":"SoftwareApplication","@id":"https://nobulex.com/#software","name":"Nobulex","applicationCategory":"DeveloperApplication","applicationSubCategory":"AI Infrastructure","operatingSystem":"Cross-platform","url":"https://nobulex.com","description":"Trust economy for autonomous AI agents: bilateral Ed25519 receipts, trust score reputation scoring, and enterprise access controls.","featureList":["trust score - earned machine reputation","Bilateral cryptographic receipts","Pre-execution covenant enforcement","Tamper-evident SHA-256 action logs","Arena verified benchmarks","MCP and LangChain integration","MIT licensed open source"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"provider":{"@id":"https://nobulex.com/#organization"}}
+    {"@type":"WebPage","@id":"https://nobulex.com/register#page","url":"https://nobulex.com/register","name":"The Public Register","isPartOf":{"@id":"https://nobulex.com/#website"},"about":{"@id":"https://nobulex.com/#organization"}}
   ]}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-    {"@type":"Question","name":"What is Nobulex?","acceptedAnswer":{"@type":"Answer","text":"Nobulex is credit scores for AI agents. Every agent action produces a cryptographic bilateral receipt, hash-chained for tamper-evidence. Those receipts accumulate into trust score - a permissioned machine reputation asset that determines what each agent is allowed to do."}},
-    {"@type":"Question","name":"What is trust score?","acceptedAnswer":{"@type":"Answer","text":"trust score is a permissioned machine reputation asset built from verified behavior. Agents earn it by staying within their declared covenant and performing reliably. Higher trust score unlocks higher autonomy, larger transaction limits, lower insurance premiums, and enterprise approval."}},
-    {"@type":"Question","name":"What is a covenant?","acceptedAnswer":{"@type":"Answer","text":"A covenant is a signed behavioral specification: what an agent may and may not do. It can only be narrowed over time, never loosened, so policy drift cannot silently expand permissions."}},
-    {"@type":"Question","name":"Does Nobulex work with MCP and LangChain?","acceptedAnswer":{"@type":"Answer","text":"Yes. Nobulex is designed to sit alongside the surfaces agents already use, including MCP for tools and integrations such as LangChain. See the ecosystem section and documentation for integration paths."}},
-    {"@type":"Question","name":"Is Nobulex open source?","acceptedAnswer":{"@type":"Answer","text":"Nobulex is MIT licensed and developed in the open on GitHub. You can self-host, audit the protocol, and run the live demo locally."}},
-    {"@type":"Question","name":"How does pre-execution enforcement work?","acceptedAnswer":{"@type":"Answer","text":"Middleware intercepts actions before they execute, evaluates them against the covenant, and only allows actions that pass. Blocked attempts can still be recorded in the action log, producing a verifiable trace without executing forbidden behavior."}}
+    {"@type":"Question","name":"What is Nobulex?","acceptedAnswer":{"@type":"Answer","text":"Nobulex is an independent reliability registry for agent tools. It tests exact package versions against a named ground truth source and publishes a reproducible record of whether each one failed loud or lied quiet."}},
+    {"@type":"Question","name":"What is silent semantic corruption?","acceptedAnswer":{"@type":"Answer","text":"A response that is well formed and plausible but materially wrong: stale, mis-scoped, truncated, empty where data existed, or served from an undisclosed fallback. It passes every schema check and every scanner, because nothing about it is malformed. It is simply not true."}},
+    {"@type":"Question","name":"What does a Nobulex record grade?","acceptedAnswer":{"@type":"Answer","text":"A subject tuple, never a project name: the package, an exact version or commit, a stated configuration, a named upstream source, the execution environment, a versioned test suite, and an observation time. Change any one of those and it is a different subject."}},
+    {"@type":"Question","name":"Is there a Nobulex score?","acceptedAnswer":{"@type":"Answer","text":"No. A record carries one of five verdicts: PASS, FAIL_SAFE, FAIL_UNSAFE, INDETERMINATE, or OUT_OF_SCOPE. There is no average, no percentage and no grade out of ten, because a single number invites a buyer to glance at a figure instead of reading what was actually tested."}},
+    {"@type":"Question","name":"Who pays for a verdict?","acceptedAnswer":{"@type":"Answer","text":"The buyer, never the graded party. The moment revenue depends on the subject's satisfaction, the verdicts are worth nothing."}},
+    {"@type":"Question","name":"What happens before an adverse record is published?","acceptedAnswer":{"@type":"Answer","text":"The maintainer receives the full run artifact and has seven days to answer. The answer publishes beside the record, unedited. The verdict is fixed before the window opens and the window cannot change it; only a new run under newly pinned conditions can."}}
   ]}
   </script>
   <link rel="icon" type="image/png" href="/icon.png">
@@ -49,13 +49,11 @@
   <a href="#main" class="skip-link">Skip to content</a>
   <header class="header" data-animate="header">
     <div class="header__top">
-      <a href="index.html" class="header__logo" data-magnetic aria-label="Nobulex home"><img src="images/nobulex-logo.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
+      <a href="/" class="header__logo" data-magnetic aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
       <nav class="header__quick" aria-label="Quick links">
-        <a href="/arena" style="color:#e67e22;font-weight:700;font-size:0.85rem">Arena - $7,400</a>
-        <a href="/pricing.html" style="color:#888;font-weight:600;font-size:0.85rem;margin-left:20px">Pricing</a>
-        <a href="disclosure-vacuum" style="color:#c9524c;font-weight:600">Audit</a>
-        <a href="docs/index.html">Docs</a>
-        <a href="https://github.com/arian-gogani/nobulex" rel="noopener noreferrer">GitHub</a>
+        <a href="/register">Register</a>
+        <a href="/methodology">Method</a>
+        <a href="/why">Why</a>
       </nav>
       <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
         <span class="nav-toggle__bar"></span>
@@ -66,22 +64,21 @@
     <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
     <nav class="header__nav" aria-label="Main">
       <button type="button" class="nav-close" aria-label="Close menu">
-        <span aria-hidden="true">×</span>
+        <span aria-hidden="true">&times;</span>
       </button>
       <div class="header__links">
-        <a href="disclosure-vacuum" style="color:#c9524c">Audit</a>
-        <a href="#problem">Problem</a>
-        <a href="#primitives">Primitives</a>
-        <a href="#how-it-works">How it works</a>
-        <a href="#demo">Demo</a>
-        <a href="#integrations">Integrations</a>
-        <a href="#faq">FAQ</a>
-        <a href="#traction">Traction</a>
-        <a href="/pricing.html">Pricing</a>
-        <a href="docs/index.html">Docs</a>
-        <a href="https://github.com/arian-gogani/nobulex" rel="noopener noreferrer">GitHub</a>
+        <a href="#problem">The failure</a>
+        <a href="#verdicts">Verdicts</a>
+        <a href="#subject">Subject tuple</a>
+        <a href="#how-it-works">How a record is made</a>
+        <a href="#warrant">What it warrants</a>
+        <a href="#reply">Right of reply</a>
+        <a href="#state">Where this stands</a>
+        <a href="/register">The register</a>
+        <a href="/methodology">Method</a>
+        <a href="/manifesto">Manifesto</a>
       </div>
-      <a href="https://github.com/arian-gogani/nobulex#live-demo" class="header__cta" rel="noopener noreferrer">Run the Demo</a>
+      <a href="/register" class="header__cta">Read the register</a>
     </nav>
   </header>
 
@@ -102,297 +99,195 @@
         <div class="hero__content">
           <p class="hero__wordmark" aria-label="Nobulex">N O B U L E X</p>
           <p class="hero__protocol">
-            <span class="hero__protocol-lead">The accountability primitive for AI agents</span>
-            <span class="hero__protocol-sep" aria-hidden="true">·</span>
-            <span class="hero__protocol-rest">MIT · Open source</span>
+            <span class="hero__protocol-lead">The independent reliability registry for agent tools</span>
+            <span class="hero__protocol-sep" aria-hidden="true">&middot;</span>
+            <span class="hero__protocol-rest">Buyer funded, never vendor funded</span>
           </p>
           <h1 class="hero__title">
-            <span class="hero__line" data-split="words">Credit scores</span>
-            <span class="hero__line hero__line--accent" data-split="words">for machines.</span>
+            <span class="hero__line" data-split="words">Does it fail loud,</span>
+            <span class="hero__line hero__line--accent" data-split="words">or lie quiet?</span>
           </h1>
-          <p class="hero__hook">Tamper-proof receipts for everything your AI agent does.</p>
-          <p class="hero__kicker">Autonomy earned, not granted.</p>
+          <p class="hero__hook">Payment rails prove money moved. Nobulex proves what happened on the other side.</p>
+          <p class="hero__kicker">Financial data first, because it is the one place the right answer is checkable.</p>
           <div class="hero__cta hero__cta-buttons">
-            <a href="/arena" class="btn btn--primary">Enter the Arena</a>
-            <a href="https://github.com/arian-gogani/nobulex" class="btn btn--ghost" rel="noopener noreferrer">GitHub</a>
+            <a href="/register" class="btn btn--primary">Read the register</a>
+            <a href="/methodology" class="btn btn--ghost">The method</a>
           </div>
-          <a href="/arena" style="display:block;margin-top:48px;padding:24px 32px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;max-width:480px;margin-left:auto;margin-right:auto;text-align:center;text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(230,126,34,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:4px;color:#e67e22;margin-bottom:12px;font-weight:700">LAUNCHING TODAY</div>
-            <div style="font-size:24px;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Inter',system-ui,sans-serif;letter-spacing:-0.5px">Win <span style="color:#e67e22">$7,400</span>. Real money, real payout.</div>
-            <p style="font-size:13px;color:#666;line-height:1.6;margin-bottom:16px">5 AI agents with strict rules. Break all 5 levels. Get paid.</p>
-            <div style="display:flex;gap:20px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px">
-              <span style="color:#fff" id="heroStarCount">—</span><span style="color:#444;font-size:9px"> ENTERED</span>
-              <span style="color:#444">|</span>
-              <span style="color:#27ae60">0 <span style="color:#444;font-size:9px">WINNERS</span></span>
-              <span style="color:#444">|</span>
-              <span style="color:#e67e22">$7,400 <span style="color:#444;font-size:9px">UNCLAIMED</span></span>
-            </div>
-          </a>
-          <script>fetch('https://api.github.com/repos/arian-gogani/nobulex').then(r=>r.json()).then(d=>{const el=document.getElementById('heroStarCount');if(el&&d.stargazers_count)el.textContent=d.stargazers_count}).catch(()=>{})</script>
         </div>
       </div>
     </section>
 
-    <section class="intro-strip" aria-label="Positioning and trust">
+    <section class="intro-strip" aria-label="Positioning">
       <div class="intro-strip__inner">
         <p class="intro-strip__position">
-          <span class="intro-strip__muted">MCP connects tools · A2A connects agents</span>
-          <span class="intro-strip__em">Nobulex connects actions to rules, and proves it.</span>
+          <span class="intro-strip__muted">Package registries check what a tool is &middot; Scanners check what it contains</span>
+          <span class="intro-strip__em">Nobulex checks whether the answer it returned was true.</span>
         </p>
-        <ul class="intro-strip__trust" aria-label="Licensing and proof">
-          <li><span class="intro-strip__dot" aria-hidden="true"></span> MIT licensed</li>
-          <li><span class="intro-strip__dot" aria-hidden="true"></span> Open source</li>
-          <li><span class="intro-strip__dot" aria-hidden="true"></span> Verifiable logs</li>
-          <li><span class="intro-strip__dot" aria-hidden="true"></span> Auditable protocol</li>
+        <ul class="intro-strip__trust" aria-label="How this register is constrained">
+          <li><span class="intro-strip__dot" aria-hidden="true"></span> One subject tuple, never a project name</li>
+          <li><span class="intro-strip__dot" aria-hidden="true"></span> Five verdicts, never a score</li>
+          <li><span class="intro-strip__dot" aria-hidden="true"></span> Records expire structurally</li>
+          <li><span class="intro-strip__dot" aria-hidden="true"></span> The graded party never pays</li>
         </ul>
       </div>
     </section>
 
-    <!-- Problem -->
+    <!-- The failure -->
     <section class="section section--problem section--bg" id="problem" data-section="problem" style="--bg-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1920&q=80')">
       <div class="section__bg" aria-hidden="true"></div>
       <div class="section__content">
-        <p class="section__label section__label--center" data-reveal>THE PROBLEM</p>
-        <h2 class="problem__title" data-reveal>Companies are deploying agents. Nobody knows which ones to trust.</h2>
+        <p class="section__label section__label--center" data-reveal>THE FAILURE</p>
+        <h2 class="problem__title" data-reveal>Agent tools do not usually break. They answer confidently and wrongly.</h2>
         <div class="problem__content" data-reveal>
-          <p>AI agents are starting to access data, move money, approve workflows, handle customers, and operate business systems. But there's no way to know which agents deserve power and which ones should be restricted. Vendors grade their own homework. Logs are self-attesting. And when something goes wrong, there's no independent record of what happened or whether the agent was authorized to do it.</p>
-          <p class="problem__until">Nobulex makes autonomy earned, not granted.</p>
+          <p>Every agent that calls a tool inherits that tool's failures, and the failures that matter are not the loud ones. A tool that raises an error is workable, because you can retry it or route around it. The dangerous case is the tool that returns something well formed, plausible and materially wrong: empty where data existed, stale while claiming to be current, scoped to a different entity, truncated with no signal, served from an undisclosed fallback. Nothing raises. The schema validates. The agent proceeds.</p>
+          <p>The failure has a name here: silent semantic corruption. It passes every schema check and every vulnerability scanner, because nothing about it is malformed. It is simply not true. A person reading a stock price that is four days stale may notice. An agent will trade on it.</p>
+          <p>Uptime does not detect it. Stars do not detect it. A green test suite written by the same people who wrote the tool does not detect it, because the fixture and the bug were authored by the same hand.</p>
+          <p class="problem__until">One test governs this register: does it fail loud, or does it lie quiet?</p>
         </div>
       </div>
     </section>
 
     <div class="divider" aria-hidden="true"></div>
 
-    <!-- Six Primitives -->
-    <section class="section section--primitives" id="primitives" data-section="primitives">
+    <!-- The five verdicts -->
+    <section class="section section--primitives" id="verdicts" data-section="primitives">
       <div class="section__content">
-        <p class="section__label section__label--center" data-reveal>SIX PRIMITIVES</p>
-        <h2 class="primitives__title" data-reveal>The trust stack</h2>
-        <p class="primitives__unify" data-reveal>Together, these turn “policy” from a promise into a proof.</p>
+        <p class="section__label section__label--center" data-reveal>THE FIVE VERDICTS</p>
+        <h2 class="primitives__title" data-reveal>Five states, and no sixth</h2>
+        <p class="primitives__unify" data-reveal>Never an average, never a percentage, never a grade out of ten. A single number invites the exact behaviour the verdicts exist to prevent, which is glancing at a figure instead of reading what was actually tested.</p>
         <div class="primitives__grid">
           <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Identity</span>
-            <h3 class="primitive-card__title">DID</h3>
-            <p>Decentralized identifiers. Who is this agent? Cryptographic binding to keys and lineage.</p>
+            <span class="primitive-card__label">Correct</span>
+            <h3 class="primitive-card__title">PASS</h3>
+            <p>Correct within a tolerance that was pinned before execution, against a named ground truth source.</p>
           </article>
           <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Covenant</span>
-            <h3 class="primitive-card__title">Behavioral spec</h3>
-            <p>What will it do - and won’t do? Signed, immutable constraints. Only narrowable, never loosened.</p>
+            <span class="primitive-card__label">Failure, recoverable</span>
+            <h3 class="primitive-card__title">FAIL_SAFE</h3>
+            <p>Could not answer, and said so. The tool refused, errored, or returned an explicit null. Still a failure, and not equivalent to a pass.</p>
           </article>
           <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Action Log</span>
-            <h3 class="primitive-card__title">Hash-chained record</h3>
-            <p>Every action logged with SHA-256 chain links. Tamper with one entry, the whole chain breaks.</p>
+            <span class="primitive-card__label">Disqualifying</span>
+            <h3 class="primitive-card__title">FAIL_UNSAFE</h3>
+            <p>Returned something plausible and materially wrong, with no error signal. This is the verdict the whole register exists to detect.</p>
           </article>
           <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Enforcement</span>
-            <h3 class="primitive-card__title">Pre-execution middleware</h3>
-            <p>Rules checked before the action runs. Forbidden actions never execute.</p>
+            <span class="primitive-card__label">Undecided</span>
+            <h3 class="primitive-card__title">INDETERMINATE</h3>
+            <p>No ground truth was available to decide the question. Not a pass, and never reported as one.</p>
           </article>
           <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Verification</span>
-            <h3 class="primitive-card__title">Deterministic proof</h3>
-            <p>Same inputs, same result. Independent, third-party verifiable - no trust in the verifier needed.</p>
-          </article>
-          <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Proof</span>
-            <h3 class="primitive-card__title">Attestation + evidence</h3>
-            <p>Portable trust score that any counterparty can verify. Includes behavioral attestation records and earned reputation.</p>
+            <span class="primitive-card__label">Not covered</span>
+            <h3 class="primitive-card__title">OUT_OF_SCOPE</h3>
+            <p>Outside the conditions pinned for this run. Not a pass either, and recorded rather than quietly dropped.</p>
           </article>
         </div>
+        <p class="architecture__footnote" data-reveal>A tool that stops when it cannot be sure has left you something to route around. A tool that guesses confidently has not. <a href="/methodology">How each verdict is decided &rarr;</a></p>
       </div>
     </section>
 
-    <!-- Architecture: visual pipeline -->
-    <section class="section section--architecture section--alt" id="architecture" data-section="architecture">
-      <div class="section__content architecture__content">
-        <p class="section__label section__label--center" data-reveal>ARCHITECTURE</p>
-        <h2 class="architecture__title" data-reveal>One protected execution path</h2>
-        <p class="architecture__lede" data-reveal>Middleware sits in front of side effects. Covenants are evaluated before an action is allowed to proceed; the action log captures what happened in a tamper-evident chain.</p>
-        <div class="architecture__diagram" data-reveal>
-          <div
-            class="arch-flow"
-            role="img"
-            aria-label="Execution path: Agent, Middleware intercepts, Covenant evaluates to allow or block, then Action log append-only and chained."
-          >
-            <p class="arch-flow__eyebrow">Hot path</p>
-            <div class="arch-flow__track">
-              <div class="arch-flow__step">
-                <span class="arch-flow__name">Agent</span>
-              </div>
-              <span class="arch-flow__chev" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-              <div class="arch-flow__step arch-flow__step--accent">
-                <span class="arch-flow__name">Middleware</span>
-                <span class="arch-flow__hint">intercepts</span>
-              </div>
-              <span class="arch-flow__chev" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-              <div class="arch-flow__step">
-                <span class="arch-flow__name">Covenant</span>
-                <span class="arch-flow__hint">evaluate</span>
-              </div>
-              <span class="arch-flow__chev" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-              <div class="arch-flow__decision" aria-hidden="true">
-                <div class="arch-flow__outcomes">
-                  <span class="arch-flow__pill arch-flow__pill--allow">ALLOW</span>
-                  <span class="arch-flow__pill arch-flow__pill--block">BLOCK</span>
-                </div>
-              </div>
-              <span class="arch-flow__chev" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-              <div class="arch-flow__step arch-flow__step--log">
-                <span class="arch-flow__name">Action log</span>
-                <span class="arch-flow__hint arch-flow__hint--mono">append-only · chained</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <p class="architecture__footnote" data-reveal>Independent parties run <code class="architecture__code">verify(spec, log)</code> - same inputs, same result. <a href="https://github.com/arian-gogani/nobulex/blob/main/PROTOCOL.md" rel="noopener noreferrer">Read the protocol spec →</a></p>
+    <!-- Subject tuple -->
+    <section class="section section--integrations section--alt" id="subject" data-section="integrations">
+      <div class="section__content integrations__content">
+        <p class="section__label section__label--center" data-reveal>THE SUBJECT</p>
+        <h2 class="integrations__title" data-reveal>A record grades an object, not a company</h2>
+        <p class="integrations__intro" data-reveal>An assay office does not certify a silversmith. It tests one object and records what was tested, what standard was met, who tested it, and when. The mark travels with the object, not the maker. Nobulex grades a seven part tuple, and changing any one part makes it a different subject with no inherited history.</p>
+        <ul class="standards__grid" data-reveal>
+          <li class="standards__item"><span class="standards__name">Package</span><span class="standards__desc">The identifier as published, not the friendly project name</span></li>
+          <li class="standards__item"><span class="standards__name">Version or commit</span><span class="standards__desc">Exact, resolved by us, never taken from the tool's self-report</span></li>
+          <li class="standards__item"><span class="standards__name">Configuration</span><span class="standards__desc">Every flag and setting the run depended on</span></li>
+          <li class="standards__item"><span class="standards__name">Upstream source</span><span class="standards__desc">The named authority the answer is checked against</span></li>
+          <li class="standards__item"><span class="standards__name">Execution environment</span><span class="standards__desc">Interpreter, resolved dependency set, and the machine it ran on</span></li>
+          <li class="standards__item"><span class="standards__name">Test suite</span><span class="standards__desc">A versioned suite, so a verdict can be re-run rather than believed</span></li>
+          <li class="standards__item"><span class="standards__name">Observation time</span><span class="standards__desc">And a validity window, after which the record reads expired whatever the verdict was</span></li>
+        </ul>
+        <p class="integrations__docs" data-reveal>There is no badge image and there never will be. A graphic sitting on someone else's site is a claim about the past that keeps asserting itself in the present. Status is resolved against the register, live, or it is not a status.</p>
       </div>
     </section>
 
-    <!-- How it works: black → still → black (infra / ops - not video) -->
+    <!-- How a record is made -->
     <section class="section section--flow" id="how-it-works" data-section="flow">
       <div class="flow__ambient" aria-hidden="true">
         <div class="flow__ambient-bg"></div>
         <div class="flow__ambient-scrim"></div>
       </div>
       <div class="section__content flow__content">
-        <p class="section__label section__label--center" data-reveal>HOW IT WORKS</p>
-        <h2 class="flow__title" data-reveal>From action to verifiable proof</h2>
+        <p class="section__label section__label--center" data-reveal>HOW A RECORD IS MADE</p>
+        <h2 class="flow__title" data-reveal>Conditions pinned first, verdict last</h2>
         <div class="flow__diagram">
           <div class="flow__step" data-reveal>
             <span class="flow__num">1</span>
-            <span class="flow__label">Agent decides action</span>
+            <span class="flow__label">Pin the conditions</span>
           </div>
           <span class="flow__line flow__line--reveal" data-reveal aria-hidden="true"></span>
           <div class="flow__step" data-reveal>
             <span class="flow__num">2</span>
-            <span class="flow__label">Middleware intercepts</span>
+            <span class="flow__label">Resolve the exact build</span>
           </div>
           <span class="flow__line flow__line--reveal" data-reveal aria-hidden="true"></span>
           <div class="flow__step" data-reveal>
             <span class="flow__num">3</span>
-            <span class="flow__label">Evaluate covenant</span>
+            <span class="flow__label">Run the suite from outside</span>
           </div>
           <span class="flow__line flow__line--reveal" data-reveal aria-hidden="true"></span>
           <div class="flow__step" data-reveal>
             <span class="flow__num">4</span>
-            <span class="flow__label">Block or allow</span>
+            <span class="flow__label">Compare to a named authority</span>
           </div>
           <span class="flow__line flow__line--reveal" data-reveal aria-hidden="true"></span>
           <div class="flow__step" data-reveal>
             <span class="flow__num">5</span>
-            <span class="flow__label">Log to action log</span>
+            <span class="flow__label">Issue one of five verdicts</span>
           </div>
           <span class="flow__line flow__line--reveal" data-reveal aria-hidden="true"></span>
           <div class="flow__step flow__step--final" data-reveal>
             <span class="flow__num">6</span>
-            <span class="flow__label">Verifiable by anyone</span>
+            <span class="flow__label">Hold it while its subject answers</span>
           </div>
         </div>
+        <p class="architecture__footnote" data-reveal>The suite speaks to a subject the way an agent would, over its own protocol, and never imports its code. A test that imports the thing it is testing has already agreed to the thing's own idea of what happened. Tolerances are fixed before the run, so a result cannot be reinterpreted into a pass after the fact.</p>
       </div>
     </section>
 
-    <!-- See it fail closed demo -->
-    <section class="section section--demo section--alt" id="demo" data-section="demo">
+    <!-- What a verdict warrants -->
+    <section class="section section--compare section--alt" id="warrant" data-section="compare">
       <div class="section__content">
-        <p class="section__label section__label--center" data-reveal>SEE IT FAIL CLOSED</p>
-        <h2 class="demo__title" data-reveal>Agent tries $600 transfer → middleware blocks → log verifies</h2>
-        <div class="demo__wrap" data-reveal>
-          <div class="demo__terminal">
-            <div class="demo__terminal-header">
-              <span class="demo__terminal-dot"></span>
-              <span class="demo__terminal-dot"></span>
-              <span class="demo__terminal-dot"></span>
-              <span class="demo__terminal-title">nobulex-demo</span>
-            </div>
-            <div class="demo__terminal-body">
-              <div class="demo__line demo__line--muted demo__line--visible"><span class="demo__prompt">$</span> <span class="demo__cmd">npx tsx demo/covenant-demo.ts</span></div>
-              <div class="demo__line demo__line--muted demo__line--visible">Creating agents, covenant, middleware…</div>
-              <div class="demo__line demo__line--prompt demo__line--visible"><span class="demo__prompt">$</span> <span class="demo__cmd">mw.execute({ action: 'transfer', params: { amount: 600 } }, ...)</span></div>
-              <div class="demo__line demo__line--step" data-step="1"><span class="demo__label demo__label--agent">agent</span> <span class="demo__out">attempting transfer $600</span></div>
-              <div class="demo__line demo__line--step demo__line--blocked" data-step="2"><span class="demo__label demo__label--mw">middleware</span> <span class="demo__blocked">BLOCKED</span> <span class="demo__out"> - covenant forbids amount &gt; 500</span></div>
-              <div class="demo__line demo__line--step" data-step="3"><span class="demo__label demo__label--log">action_log</span> <span class="demo__out">appended entry · chain_hash=0x7a3f… · verifiable</span></div>
-              <div class="demo__line demo__line--step demo__line--ok" data-step="4"><span class="demo__label demo__label--verify">verify(spec, log)</span> <span class="demo__ok">compliant: true</span></div>
-            </div>
-          </div>
-          <div class="demo__actions">
-            <button type="button" class="demo__run" id="demo-run" aria-label="Run demo">Run demo</button>
-            <button type="button" onclick="runLiveDemo()" style="background:none;border:1px solid rgba(245,166,35,0.5);color:#f5a623;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600">Try live API</button>
-            <a href="demo.html" class="demo__full-link">Full demo</a>
-          </div>
-          <pre id="live-demo-out" style="display:none;margin-top:12px;font-size:12px;color:#ccc;background:rgba(0,0,0,0.3);padding:12px;border-radius:6px;white-space:pre-wrap"></pre>
-          <script>
-          async function runLiveDemo(){
-            var o=document.getElementById('live-demo-out');
-            o.style.display='block';o.textContent='Calling live API...';
-            try{var r=await fetch('/api/verify?action=demo');var d=await r.json();
-            o.textContent='ORIGINAL: scope='+d.original.scope+' -> '+d.original.verdict+
-            '\nTAMPERED: scope='+d.tampered.scope+' -> '+d.tampered.verdict+
-            '\n\n'+d.explanation;}catch(e){o.textContent='Error: '+e.message;}
-          }
-          </script>
-        </div>
-      </div>
-    </section>
-
-    <!-- Two-tier guarantee -->
-    <section class="section section--guarantee section--alt" id="guarantee" data-section="guarantee">
-      <div class="section__content">
-        <p class="section__label section__label--center" data-reveal>TWO-TIER GUARANTEE</p>
-        <h2 class="guarantee__title" data-reveal>Enforcement you can explain</h2>
-        <div class="guarantee__grid">
-          <article class="guarantee__tier guarantee__tier--1" data-reveal>
-            <span class="guarantee__tier-label">Tier 1</span>
-            <h3>Blocked before it runs</h3>
-            <p>Rules are enforced before actions leave the protected path, so disallowed behavior doesn’t ship as a normal “successful” action. Details on hardware boundaries and verification are in the <a href="https://github.com/arian-gogani/nobulex/blob/main/PROTOCOL.md" rel="noopener noreferrer">protocol spec</a>.</p>
-          </article>
-          <article class="guarantee__tier guarantee__tier--2" data-reveal>
-            <span class="guarantee__tier-label">Tier 2</span>
-            <h3>Costly to cheat</h3>
-            <p>Every action produces a tamper-evident, hash-chained record. Any modification breaks the chain. Third parties can verify offline - no trust required.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Why Nobulex vs guardrails -->
-    <section class="section section--compare section--alt" id="vs-guardrails" data-section="compare">
-      <div class="section__content">
-        <p class="section__label section__label--center" data-reveal>WHY NOBULEX</p>
-        <h2 class="compare__title" data-reveal>Not just guardrails</h2>
+        <p class="section__label section__label--center" data-reveal>WHAT A VERDICT WARRANTS</p>
+        <h2 class="compare__title" data-reveal>Stated in advance, so it is not defined later by someone disappointed</h2>
         <div class="compare__table-wrap" data-reveal>
           <table class="compare__table">
             <thead>
               <tr>
                 <th></th>
-                <th>Guardrails / policy engines</th>
-                <th>trust score (Nobulex)</th>
+                <th>A record does say</th>
+                <th>A record does not say</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Enforcement</td>
-                <td>Best-effort; can be bypassed</td>
-                <td>Signed commitments; pre-execution middleware</td>
+                <td>Scope</td>
+                <td>This exact build, in this configuration, was given these inputs at this time</td>
+                <td>That a different version, config or upstream will behave the same way</td>
               </tr>
               <tr>
-                <td>Verification</td>
-                <td>Trust the operator</td>
-                <td>Third-party verifiable; anyone can audit</td>
+                <td>Finding</td>
+                <td>Under the pinned conditions that behaviour was correct, safely refused, or materially wrong</td>
+                <td>That the tool is secure, or free of vulnerabilities</td>
               </tr>
               <tr>
-                <td>Consequences</td>
-                <td>Policy violation = incident</td>
-                <td>Tamper-evident proof; cryptographic evidence of breach</td>
+                <td>Subject</td>
+                <td>What the object did when it was observed</td>
+                <td>That the vendor is trustworthy. Objects are tested, not companies</td>
+              </tr>
+              <tr>
+                <td>Time</td>
+                <td>The observation time and the window the record is valid for</td>
+                <td>That the result still holds today. Check the window</td>
+              </tr>
+              <tr>
+                <td>Liability</td>
+                <td>That the evidence is reproducible by anyone running the same suite</td>
+                <td>That any loss is indemnified. This is an evidence provider, never a custodian</td>
               </tr>
             </tbody>
           </table>
@@ -400,190 +295,124 @@
       </div>
     </section>
 
-    <!-- Integrations + standards (depth for evaluators) -->
-    <section class="section section--integrations section--alt" id="integrations" data-section="integrations">
+
+    <!-- The wedge -->
+    <section class="section section--integrations" id="wedge" data-section="wedge">
       <div class="section__content integrations__content">
-        <p class="section__label section__label--center" data-reveal>INTEGRATIONS</p>
-        <h2 class="integrations__title" data-reveal>Surfaces agents already use</h2>
-        <p class="integrations__intro" data-reveal>Drop the SDK on your stack. No rip-and-replace. Nobulex complements tool protocols and agent frameworks.</p>
-        <ul class="integrations__badges" data-reveal>
-          <li class="integrations__badge">MCP</li>
-          <li class="integrations__badge">LangChain</li>
-          <li class="integrations__badge">A2A</li>
-          <li class="integrations__badge">TypeScript / Node</li>
-          <li class="integrations__badge">Python</li>
-          <li class="integrations__badge">Claude &amp; IDE agents</li>
-          <li class="integrations__badge">OpenAI API</li>
-          <li class="integrations__badge">Custom runtimes</li>
-        </ul>
-        <p class="section__label section__label--center integrations__standards-label" data-reveal>STANDARDS &amp; PRIMITIVES</p>
+        <p class="section__label section__label--center" data-reveal>WHERE THIS STARTS</p>
+        <h2 class="integrations__title" data-reveal>Financial data first, because it is the one place the right answer is checkable</h2>
+        <p class="integrations__intro" data-reveal>Most claims an agent tool makes cannot be graded. Ask a summariser whether its summary was faithful and there is no authority to appeal to. Ask a market data tool what a stock closed at on a given day and there is exactly one right answer, published by a named authority, in writing, before anyone went looking for it. That property is rare, and it is the reason the register starts here rather than somewhere larger.</p>
         <ul class="standards__grid" data-reveal>
-          <li class="standards__item"><span class="standards__name">SHA-256</span><span class="standards__desc">Hash-chained action log entries</span></li>
-          <li class="standards__item"><span class="standards__name">DIDs</span><span class="standards__desc">Agent identity &amp; key binding</span></li>
-          <li class="standards__item"><span class="standards__name">Signed covenants</span><span class="standards__desc">Immutable behavioral specs</span></li>
-          <li class="standards__item"><span class="standards__name">Deterministic verify</span><span class="standards__desc">Reproducible proof checks</span></li>
-          <li class="standards__item"><span class="standards__name">EU AI Act</span><span class="standards__desc">Docs for accountability context</span></li>
-          <li class="standards__item"><span class="standards__name">MIT license</span><span class="standards__desc">Self-host &amp; audit freely</span></li>
+          <li class="standards__item"><span class="standards__name">A named authority exists</span><span class="standards__desc">Every finding is compared against a source published independently of the test and identified in the record. Nothing is graded against an opinion</span></li>
+          <li class="standards__item"><span class="standards__name">The failure is silent by nature</span><span class="standards__desc">A price that is stale, adjusted, filled from a substitute symbol, or cut off at an undisclosed boundary still arrives as a number. It does not raise. It gets used</span></li>
+          <li class="standards__item"><span class="standards__name">The consequence is legible</span><span class="standards__desc">An agent acting on a wrong number does something specific and traceable, so the cost can be argued about without inventing a scenario</span></li>
+          <li class="standards__item"><span class="standards__name">The method generalises, the domain does not</span><span class="standards__desc">This is not about finance. It is about any answer with a checkable ground truth. Finance is where the method can be proven before it is trusted anywhere else</span></li>
         </ul>
-        <p class="integrations__docs" data-reveal><a href="docs/integrations.html">Integration guide →</a> · <a href="docs/index.html">All documentation</a></p>
-      </div>
-    </section>
-
-    <!-- Ecosystem: Earth-at-night strip + same ramp language as Flow -->
-    <section class="section section--ecosystem section--alt" id="ecosystem" data-section="ecosystem">
-      <div class="ecosystem__ambient" aria-hidden="true">
-        <div class="ecosystem__ambient-bg"></div>
-        <div class="ecosystem__ambient-scrim"></div>
-      </div>
-      <div class="section__content ecosystem__content">
-        <p class="section__label section__label--center" data-reveal>ECOSYSTEM</p>
-        <h2 class="ecosystem__title" data-reveal>Registries &amp; crosswalks</h2>
-        <p class="ecosystem__intro" data-reveal>Where Nobulex shows up in the open agent ecosystem, beyond framework integrations.</p>
-        <ul class="ecosystem__list">
-          <li class="ecosystem__item" data-reveal><span class="ecosystem__name">MCP</span><span class="ecosystem__desc">Model Context Protocol - tools and context your agent already speaks</span></li>
-          <li class="ecosystem__item" data-reveal><span class="ecosystem__name">A2A</span><span class="ecosystem__desc">Agent-to-agent messaging and handoffs</span></li>
-          <li class="ecosystem__item" data-reveal><span class="ecosystem__name">awesome-mcp-servers</span><span class="ecosystem__desc">Listed in the community registry (84K★ on the curated list)</span></li>
-        </ul>
+        <p class="integrations__docs" data-reveal>A register that opened on the hardest domain would be unfalsifiable on day one. Starting where the answer is checkable means every early record can be argued with, and that is the only thing that makes a later one worth anything.</p>
       </div>
     </section>
 
 
-    <!-- Regulatory Deadlines -->
-    <section class="section" id="compliance" data-section="compliance" style="padding:5rem 2rem">
-      <div class="section__content" style="max-width:960px;margin:0 auto">
-        <p class="section__label section__label--center" data-reveal>REGULATORY DEADLINES</p>
-        <h2 style="text-align:center;margin-bottom:0.5rem" data-reveal>The clock is ticking</h2>
-        <p style="text-align:center;color:#888;margin-bottom:3rem" data-reveal>Every major AI compliance framework requires tamper-evident audit trails. Regular logs won't pass.</p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem" data-reveal>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,68,68,0.2);border-radius:12px;padding:2rem">
-            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#f44;margin-bottom:0.5rem">June 30, 2026</p>
-            <p style="font-size:1.3rem;font-weight:700;margin-bottom:0.5rem">Colorado AI Act</p>
-            <p style="color:#888;font-size:0.9rem">Accountability requirements for AI systems making consequential decisions. First U.S. state-level AI law.</p>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,68,68,0.2);border-radius:12px;padding:2rem">
-            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#f44;margin-bottom:0.5rem">December 2, 2027</p>
-            <p style="font-size:1.3rem;font-weight:700;margin-bottom:0.5rem">EU AI Act Article 12</p>
-            <p style="color:#888;font-size:0.9rem">Requires tamper-evident automatic event logging for high-risk AI systems. Penalties up to €15M or 3% of global revenue.</p>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,68,68,0.2);border-radius:12px;padding:2rem">
-            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#f44;margin-bottom:0.5rem">November 2026</p>
-            <p style="font-size:1.3rem;font-weight:700;margin-bottom:0.5rem">NAIC AI Evaluation</p>
-            <p style="color:#888;font-size:0.9rem">Nationwide AI evaluation tool for insurance. Carriers must prove agent compliance across every claim.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Works With -->
-    <section class="section" style="padding:4rem 2rem">
-      <div class="section__content" style="max-width:960px;margin:0 auto">
-        <p class="section__label section__label--center" data-reveal>WORKS WITH</p>
-        <h2 style="text-align:center;margin-bottom:2rem" data-reveal>Plugs into your existing stack</h2>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;text-align:center" data-reveal>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.5rem">
-            <p style="font-weight:700;margin-bottom:0.25rem">AWS AgentCore</p>
-            <p style="color:#888;font-size:0.8rem">MCP-native - auto-discoverable in Agent Registry</p>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.5rem">
-            <p style="font-weight:700;margin-bottom:0.25rem">Microsoft AGT</p>
-            <p style="color:#888;font-size:0.8rem">Proof layer for governance toolkit</p>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.5rem">
-            <p style="font-weight:700;margin-bottom:0.25rem">Google A2A</p>
-            <p style="color:#888;font-size:0.8rem">Behavioral attestation for Agent Cards</p>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.5rem">
-            <p style="font-weight:700;margin-bottom:0.25rem">LangChain</p>
-            <p style="color:#888;font-size:0.8rem">Drop-in compliance callbacks</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Traction -->
-    <section class="section section--traction" id="traction" data-section="traction">
+    <!-- Right of reply -->
+    <section class="section section--problem section--bg" id="reply" data-section="reply" style="--bg-image: url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&q=80')">
       <div class="section__content">
-        <p class="section__label section__label--center" data-reveal>TRACTION</p>
-        <h2 class="traction__title" data-reveal>Built in the open</h2>
-        <div class="traction__stats">
-          <div class="traction__stat" data-reveal><span class="traction__stat-val">OWASP AST09</span><span class="traction__stat-lbl">Normative guidance</span></div>
-          <div class="traction__stat" data-reveal><span class="traction__stat-val">x402</span><span class="traction__stat-lbl">Third issuer cited</span></div>
-          <div class="traction__stat" data-reveal><span class="traction__stat-val">6</span><span class="traction__stat-lbl">Framework integrations</span></div>
-          <div class="traction__stat" data-reveal><span class="traction__stat-val">14/14</span><span class="traction__stat-lbl">Conformance verdicts</span></div>
-          <div class="traction__stat" data-reveal><span class="traction__stat-val">13,700/s</span><span class="traction__stat-lbl">Ed25519 receipts</span></div>
+        <p class="section__label" data-reveal>RIGHT OF REPLY</p>
+        <div class="problem__content">
+          <h2 class="problem__title" data-reveal>A finding is held before it is published, and while it is held this register says nothing about it</h2>
+          <p data-reveal>When a record finds something, the party responsible for the object receives the complete evidence and a fixed window to answer before anything is published. If they show the finding is wrong, the record is withdrawn and the withdrawal is published in its place. If they fix the object, the record still stands against the version that was tested, and a new record can be issued against the fix. If they say nothing, the window closes and the record publishes as written.</p>
+          <p data-reveal>The rule this register holds itself to is deliberately narrow. It may say that a record is held and how many are held. It may not say what a held record found, not even its verdict, and it may not name who the record is about.</p>
+          <p data-reveal>The second half of that is the part that is easy to get wrong. A register announcing that a finding is held against a named tool has published the accusation and withheld only the evidence, which is the worst of the two options. So while anything is held, no held subject is named at all.</p>
+          <p data-reveal>Before the window opens, the finished record is hashed and the hash is written down. When the record publishes, anyone can check that what was published is what was committed to, and that nothing softened while the subject was replying.</p>
+          <p class="problem__until" data-reveal>The register is not a party to a dispute it records. It publishes what it observed, and what the observed party said back.</p>
         </div>
-        <p class="traction__meta" data-reveal>MIT · Open source · No vendor lock-in</p>
       </div>
     </section>
 
-    <!-- Developer CTA + code block -->
-    <section class="section section--code section--bg" id="get-started" data-section="code" style="--bg-image: url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&q=80')">
-      <div class="section__bg section__bg--lighter" aria-hidden="true"></div>
+
+    <!-- Where this stands -->
+    <section class="section section--primitives section--alt" id="state" data-section="state">
       <div class="section__content">
-        <p class="section__label section__label--center" data-reveal>FOR DEVELOPERS</p>
-        <h2 class="code__title" data-reveal>Add accountability in minutes</h2>
-        <div class="code-block code-block--wide" data-reveal>
-          <span class="code-block__lang">JAVASCRIPT</span>
-          <button type="button" class="code-block__copy" aria-label="Copy code">Copy</button>
-          <pre><code><span class="token-key">import</span> { createDID, parseSource, EnforcementMiddleware } <span class="token-key">from</span> <span class="token-str">'@nobulex/core'</span>;
-
-<span class="token-cmt">// Proof-of-behavior enforcement - install once: @nobulex/sdk bundles primitives</span>
-<span class="token-key">const</span> agent = <span class="token-key">await</span> createDID();
-<span class="token-key">const</span> spec = parseSource(<span class="token-str">`covenant MyAgent { permit read; forbid write; }`</span>);
-<span class="token-key">const</span> mw = <span class="token-key">new</span> EnforcementMiddleware({ agentDid: agent.did, spec });</code></pre>
-          <div class="code-block__footer">
-            <button type="button" class="npm-copy" data-copy="npm install @nobulex/sdk" aria-label="Copy npm command">npm install @nobulex/sdk</button>
-            <span class="code-block__meta">MIT Licensed</span>
-          </div>
+        <p class="section__label section__label--center" data-reveal>WHERE THIS STANDS</p>
+        <h2 class="primitives__title" data-reveal>The honest state of it</h2>
+        <p class="primitives__unify" data-reveal>A register's first duty is to describe itself as accurately as it describes anything else.</p>
+        <div class="primitives__grid">
+          <article class="primitive-card" data-reveal>
+            <p class="primitive-card__label">01</p>
+            <h3 class="primitive-card__title">The register is the state, not this page</h3>
+            <p>How many records exist, how many are held, and what any of them found lives on the register, which is compiled from the records every time this site is built. Nothing about a record is retyped here. A second hand-kept copy of a register is how a name under embargo eventually gets published by accident.</p>
+          </article>
+          <article class="primitive-card" data-reveal>
+            <p class="primitive-card__label">02</p>
+            <h3 class="primitive-card__title">The method is published, the suite is not public yet</h3>
+            <p>Tolerances are pinned before a run and the methodology is written down. The suite that produces the verdicts has not been released, so no independent party has re-run one and reached the same answer. Until that happens, every verdict rests on one party's word. That is a weakness, and it is named here rather than left to be found.</p>
+          </article>
+          <article class="primitive-card" data-reveal>
+            <p class="primitive-card__label">03</p>
+            <h3 class="primitive-card__title">Buyer funded, never vendor funded</h3>
+            <p>The party being graded does not pay, is not offered a way to pay, and cannot buy a re-run on friendlier conditions. What a subject is owed is the evidence and a window to answer it. Nothing else is for sale to them, because a register the graded party funds is a brochure with a serif typeface.</p>
+          </article>
+          <article class="primitive-card" data-reveal>
+            <p class="primitive-card__label">04</p>
+            <h3 class="primitive-card__title">No standing, no recognition, no indemnity</h3>
+            <p>This is not a certification. No regulator recognises it, no insurer prices off it, and it carries no liability for anyone's loss. It is a record of what a specific object did when it was observed, under conditions anyone can read. That is the whole of the claim.</p>
+          </article>
+          <article class="primitive-card" data-reveal>
+            <p class="primitive-card__label">05</p>
+            <h3 class="primitive-card__title">One person, and no company behind it</h3>
+            <p>Nobulex is built and run by one person. Stated here rather than discovered later, because a register that overstates itself has already failed the test it applies to everything else.</p>
+          </article>
         </div>
+        <p class="architecture__footnote" data-reveal>The register is the only page here that says anything about a record, and it is the only page here that is not written by hand. <a href="/register">Read the register &rarr;</a></p>
       </div>
     </section>
+
 
     <!-- FAQ -->
-    <section class="section section--faq section--alt section--pre-waitlist" id="faq" data-section="faq">
+    <section class="section section--faq section--pre-waitlist" id="faq" data-section="faq">
       <div class="section__content faq__content">
         <p class="section__label section__label--center" data-reveal>FAQ</p>
         <h2 class="faq__title" data-reveal>Questions, answered</h2>
         <div class="faq__list" data-reveal>
           <details class="faq__item">
             <summary class="faq__summary">What is Nobulex?</summary>
-            <p class="faq__body">Nobulex is credit scores for AI agents. Every agent action produces a cryptographic bilateral receipt - one Ed25519 signature before execution, one after - hash-chained for tamper-evidence. Those receipts accumulate into a credit score: a verifiable track record that determines what each agent is allowed to do.</p>
+            <p class="faq__body">Nobulex is an independent reliability registry for agent tools. It tests exact package versions against a named ground truth source and publishes a reproducible record of whether each one failed loud or lied quiet.</p>
           </details>
           <details class="faq__item">
-            <summary class="faq__summary">What is trust score?</summary>
-            <p class="faq__body">trust score is a permissioned machine reputation asset built from verified behavior, not vendor claims. Agents earn trust score by staying within their declared covenant, completing tasks reliably, and producing cryptographically verifiable evidence. Higher trust score unlocks higher autonomy, larger transaction limits, lower insurance premiums, and enterprise approval.</p>
+            <summary class="faq__summary">What is silent semantic corruption?</summary>
+            <p class="faq__body">A response that is well formed and plausible but materially wrong: stale, mis-scoped, truncated, empty where data existed, or served from an undisclosed fallback. It passes every schema check and every scanner, because nothing about it is malformed. It is simply not true.</p>
           </details>
           <details class="faq__item">
-            <summary class="faq__summary">What is a covenant?</summary>
-            <p class="faq__body">A covenant is a signed behavioral specification: what an agent may and may not do. It can only be narrowed over time, never loosened, so permissions cannot silently expand.</p>
+            <summary class="faq__summary">What does a Nobulex record grade?</summary>
+            <p class="faq__body">A subject tuple, never a project name: the package, an exact version or commit, a stated configuration, a named upstream source, the execution environment, a versioned test suite, and an observation time. Change any one of those and it is a different subject.</p>
           </details>
           <details class="faq__item">
-            <summary class="faq__summary">Does Nobulex work with MCP and LangChain?</summary>
-            <p class="faq__body">Yes. Nobulex is designed alongside the surfaces agents already use, including MCP for tools and integrations such as LangChain. See the integrations section and docs for wiring patterns.</p>
+            <summary class="faq__summary">Is there a Nobulex score?</summary>
+            <p class="faq__body">No. A record carries one of five verdicts: PASS, FAIL_SAFE, FAIL_UNSAFE, INDETERMINATE, or OUT_OF_SCOPE. There is no average, no percentage and no grade out of ten, because a single number invites a buyer to glance at a figure instead of reading what was actually tested.</p>
           </details>
           <details class="faq__item">
-            <summary class="faq__summary">Is Nobulex open source?</summary>
-            <p class="faq__body">Nobulex is MIT licensed and developed in the open on GitHub. You can self-host, audit the protocol, and run the live demo locally.</p>
+            <summary class="faq__summary">Who pays for a verdict?</summary>
+            <p class="faq__body">The buyer, never the graded party. The moment revenue depends on the subject's satisfaction, the verdicts are worth nothing.</p>
           </details>
           <details class="faq__item">
-            <summary class="faq__summary">How does pre-execution enforcement work?</summary>
-            <p class="faq__body">Middleware intercepts actions before they execute, evaluates them against the covenant, and only allows actions that pass. Blocked attempts can still be reflected in the action log for a verifiable trace without executing forbidden behavior.</p>
+            <summary class="faq__summary">What happens before an adverse record is published?</summary>
+            <p class="faq__body">The maintainer receives the full run artifact and has seven days to answer. The answer publishes beside the record, unedited. The verdict is fixed before the window opens and the window cannot change it; only a new run under newly pinned conditions can.</p>
           </details>
         </div>
       </div>
     </section>
 
-    <!-- Pricing CTA (API is live) -->
-    <section class="section section--waitlist" id="waitlist" data-section="waitlist">
+
+    <!-- Register CTA -->
+    <section class="section section--waitlist" id="register-cta" data-section="register-cta">
       <div class="section__content waitlist__content">
-        <p class="section__label section__label--center section__label--version" data-reveal>LIVE</p>
-        <h2 class="waitlist__title" data-reveal>Verify API</h2>
-        <p class="waitlist__lede" data-reveal>Verify receipts. Check trust scores. Generate compliance reports.</p>
-        <div data-reveal style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:24px">
-          <a href="/pricing.html" class="btn btn--primary" style="text-decoration:none">See pricing</a>
-          <a href="/api-docs.html" class="btn" style="text-decoration:none;border:1px solid rgba(255,255,255,0.15);color:#fff">API docs</a>
+        <p class="section__label section__label--center section__label--version" data-reveal>THE REGISTER</p>
+        <h2 class="waitlist__title" data-reveal>Read what it actually says</h2>
+        <p class="waitlist__lede" data-reveal>Every count and every subject on the register is compiled from the records on each build. This page states none of it, on purpose.</p>
+        <div class="waitlist__form" data-reveal>
+          <a href="/register" class="btn btn--primary" style="text-decoration:none">Read the register</a>
+          <a href="/methodology" class="btn btn--ghost" style="text-decoration:none">The method</a>
         </div>
-        <p class="waitlist__note" data-reveal>Free tier: 100 verifications/day. No credit card.</p>
+        <p class="waitlist__note" data-reveal>Corrections and disputes: <a href="mailto:nobulex.dev@gmail.com">nobulex.dev@gmail.com</a>. If you maintain something recorded here and believe a finding is wrong, send the evidence. It publishes beside the record, unedited.</p>
       </div>
     </section>
   </main>
@@ -592,17 +421,16 @@
   <footer class="footer" data-section="footer">
     <div class="footer__brand">
       <h3 class="footer__logo">NOBULEX</h3>
-      <p class="footer__tagline">Credit scores for AI agents.</p>
-      <p class="footer__contact">Questions? <a href="mailto:nobulex.dev@gmail.com">nobulex.dev@gmail.com</a></p>
+      <p class="footer__tagline">The independent reliability registry for agent tools.</p>
+      <p class="footer__contact">Corrections and disputes: <a href="mailto:nobulex.dev@gmail.com">nobulex.dev@gmail.com</a></p>
+      <p class="footer__contact">Buyer funded, never vendor funded. The method is published. The mark is queried, never carried.</p>
     </div>
     <nav class="footer__nav" aria-label="Footer">
-      <a href="https://github.com/arian-gogani/nobulex" rel="noopener noreferrer">GitHub</a>
-      <a href="https://github.com/arian-gogani/nobulex/blob/main/PROTOCOL.md" rel="noopener noreferrer">Protocol</a>
-      <a href="docs/index.html">Docs</a>
-      <a href="docs/integrations.html">Integrations</a>
+      <a href="/register">The register</a>
+      <a href="/methodology">Method</a>
+      <a href="/why">Why</a>
+      <a href="/manifesto">Manifesto</a>
       <a href="#faq">FAQ</a>
-      <a href="https://www.npmjs.com/package/@nobulex/sdk" rel="noopener noreferrer">@nobulex/sdk</a>
-      <a href="https://x.com/nobulexlabs" rel="noopener noreferrer">X</a>
     </nav>
   </footer>
 
@@ -610,23 +438,19 @@
 
   <nav class="section-rail" aria-label="On this page">
     <ul class="section-rail__list">
-      <li><a class="section-rail__link" href="#problem" data-rail-section="problem"><span class="visually-hidden">Problem</span></a></li>
-      <li><a class="section-rail__link" href="#primitives" data-rail-section="primitives"><span class="visually-hidden">Primitives</span></a></li>
-      <li><a class="section-rail__link" href="#architecture" data-rail-section="architecture"><span class="visually-hidden">Architecture</span></a></li>
-      <li><a class="section-rail__link" href="#how-it-works" data-rail-section="how-it-works"><span class="visually-hidden">How it works</span></a></li>
-      <li><a class="section-rail__link" href="#demo" data-rail-section="demo"><span class="visually-hidden">Demo</span></a></li>
-      <li><a class="section-rail__link" href="#integrations" data-rail-section="integrations"><span class="visually-hidden">Integrations</span></a></li>
-      <li><a class="section-rail__link" href="#get-started" data-rail-section="get-started"><span class="visually-hidden">Developers</span></a></li>
+      <li><a class="section-rail__link" href="#problem" data-rail-section="problem"><span class="visually-hidden">The failure</span></a></li>
+      <li><a class="section-rail__link" href="#verdicts" data-rail-section="verdicts"><span class="visually-hidden">Verdicts</span></a></li>
+      <li><a class="section-rail__link" href="#subject" data-rail-section="subject"><span class="visually-hidden">Subject tuple</span></a></li>
+      <li><a class="section-rail__link" href="#how-it-works" data-rail-section="how-it-works"><span class="visually-hidden">How a record is made</span></a></li>
+      <li><a class="section-rail__link" href="#warrant" data-rail-section="warrant"><span class="visually-hidden">What it warrants</span></a></li>
+      <li><a class="section-rail__link" href="#wedge" data-rail-section="wedge"><span class="visually-hidden">Where this starts</span></a></li>
+      <li><a class="section-rail__link" href="#reply" data-rail-section="reply"><span class="visually-hidden">Right of reply</span></a></li>
+      <li><a class="section-rail__link" href="#state" data-rail-section="state"><span class="visually-hidden">Where this stands</span></a></li>
       <li><a class="section-rail__link" href="#faq" data-rail-section="faq"><span class="visually-hidden">FAQ</span></a></li>
-      <li><a class="section-rail__link" href="#waitlist" data-rail-section="waitlist"><span class="visually-hidden">Waitlist</span></a></li>
+      <li><a class="section-rail__link" href="#register-cta" data-rail-section="register-cta"><span class="visually-hidden">The register</span></a></li>
     </ul>
   </nav>
 
-  <script>
-    if (location.protocol === 'file:' || (location.port && location.port !== '3333')) {
-      window.NOBULEX_API_URL = 'http://localhost:3333/api/chat';
-    }
-  </script>
   <script src="main.js"></script>
 </body>
 </html>

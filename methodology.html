@@ -1,119 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Credit Score Methodology - Nobulex</title>
-<meta name="description" content="How agent credit scores work. Scoring function, autonomy gating, public verification. Independently reproducible by any verifier.">
-<meta property="og:title" content="Credit Score Methodology - Nobulex">
-<meta property="og:description" content="How agent credit scores work. Scoring, autonomy gating, public verification.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://nobulex.com/methodology">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:site" content="@nobulexlabs">
-<link rel="icon" href="/favicon.ico">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#050508;--surface:#0a0a0f;--border:#1a1a1a;--text:#ccc;--dim:#666;--white:#fff;--amber:#f5a623;--green:#27ae60;--code-bg:#111118}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
-a{color:var(--amber);text-decoration:none}
-.nav{padding:20px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
-.nav-logo{font-weight:800;font-size:18px;color:var(--white);letter-spacing:2px}
-.nav-links a{margin-left:24px;color:var(--dim);font-size:14px}
-.content{max-width:700px;margin:0 auto;padding:60px 20px 80px}
-h1{font-size:36px;font-weight:900;color:var(--white);margin-bottom:8px}
-h2{font-size:22px;font-weight:800;color:var(--white);margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border)}
-p{margin-bottom:16px;font-size:15px}
-code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:13px}
-table{width:100%;border-collapse:collapse;margin:16px 0}
-th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);font-size:14px}
-th{color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px}
-.score-bar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:16px 0}
-.score-bar div{height:100%}
-.tier{padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin:8px 0}
-.tier-label{font-weight:700;color:var(--white);font-size:15px}
-.tier-range{font-size:13px;color:var(--dim)}
-.footer{text-align:center;padding:40px;border-top:1px solid var(--border);font-size:13px;color:var(--dim)}
-</style>
+  <script>document.documentElement.classList.add('js-motion');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The method - Nobulex</title>
+  <meta name="description" content="How a Nobulex verdict is decided. What a record is about, the five verdicts, the loss cause taxonomy, right of reply, and what a verdict deliberately does not warrant.">
+  <meta property="og:title" content="The method - Nobulex">
+  <meta property="og:description" content="How a verdict is decided, and everything it deliberately does not claim.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://nobulex.com/methodology">
+  <meta property="og:image" content="https://nobulex.com/images/nobulex-logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The method - Nobulex">
+  <meta name="twitter:description" content="How a verdict is decided, and everything it deliberately does not claim.">
+  <meta name="theme-color" content="#030708">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="header" data-animate="header">
+    <div class="header__top">
+      <a href="/" class="header__logo" aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
+      <nav class="header__quick" aria-label="Quick links">
+        <a href="/register">Register</a>
+        <a href="/methodology">Method</a>
+        <a href="/why">Why</a>
+      </nav>
+      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+    <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+    <nav class="header__nav" aria-label="Main">
+      <button type="button" class="nav-close" aria-label="Close menu">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="header__links">
+        <a href="/">Home</a>
+        <a href="/register">The register</a>
+        <a href="/methodology">Method</a>
+        <a href="/why">Why this exists</a>
+        <a href="/manifesto">Manifesto</a>
+      </div>
+      <a href="/register" class="header__cta">Read the register</a>
+    </nav>
+  </header>
 
-<nav class="nav">
-<a href="/" class="nav-logo">NOBULEX</a>
-<div class="nav-links">
-<a href="/">Home</a>
-<a href="/pricing.html">Pricing</a>
-<a href="/api-docs.html">API</a>
-</div>
-</nav>
+  <main class="doc-page" id="main">
+    <article class="doc-page__body">
+      <p class="doc-page__kicker">The method</p>
+      <h1>How a verdict is decided</h1>
+      <p class="doc-page__meta">The method is published before any record is issued, and it does not change to fit a result. This page is the version a reader can hold a record against. If a record and this page disagree, the record is wrong.</p>
 
-<div class="content">
+      <p class="lead">Everything here is written to be argued with. A method that cannot be attacked cannot be trusted, so the object being graded, the tolerances, the sources and the verdict set are all fixed in public before anything is run.</p>
 
-<h1>Credit Score Methodology</h1>
-<p>How agent credit scores work. The scoring function, its inputs, and how anyone can independently reproduce the same score.</p>
+      <h2>What a record is about</h2>
+      <p>A record is never about a project. It is about one exact thing, observed once, and that thing is identified completely enough that someone else could set it up and disagree.</p>
+      <ul>
+        <li>The package or service, by its published name</li>
+        <li>The exact version, or the commit if there is no version</li>
+        <li>The configuration it ran under, including every option that could change an answer</li>
+        <li>The upstream source the data came from</li>
+        <li>The execution environment, including the runtime and the resolved dependency set</li>
+        <li>The test suite identifier and its version</li>
+        <li>The time the observation was made</li>
+      </ul>
+      <p>Those seven fields are the whole subject of a record. Change any one of them and it is a different subject, which needs a different record.</p>
+      <p class="doc-page__note">This is not bookkeeping. It is the line between a finding and an accusation. A statement about a named version under a named configuration at a named time is something that was observed. A statement about a project is a claim about everything it will ever do, and this register does not make those.</p>
 
-<h2>What it is</h2>
-<p>The credit score is a reputation score for AI agents derived from a track record of cryptographically signed action receipts. An agent earns trust through verified behavior over time. The score gates what the agent is allowed to do. Autonomy earned, not granted.</p>
-<p>Scores are independently reproducible. Any verifier with the issuer's public key and the receipt corpus computes the same score without trusting the operator, the platform, or Nobulex.</p>
+      <h2>How the observation is made</h2>
+      <p>A run happens from outside the tool, over the tool's own interface, the same way anything else would call it. No test hooks are installed, no internals are reached into, and nothing about the tool is modified to make it observable. If a failure can only be seen by instrumenting the tool from the inside, it is not the failure this register grades, because that is not the failure a caller experiences.</p>
+      <p>Every tolerance is written down before the run, not after it. What counts as a match, how much drift is acceptable, how many places a number is compared to, what staleness is allowed: all of that is fixed in the suite in advance, so a result cannot be rescued by loosening the definition once it is known.</p>
+      <p>Findings are compared against a source published independently of the test and named in the record. Nothing is graded against an expectation this register invented, and nothing is graded against a second tool's opinion.</p>
 
-<h2>Inputs</h2>
-<p>The scoring function consumes bilateral receipts conforming to OWASP AST09 Execution Receipts. Per agent:</p>
-<p>Admission records: count, verdict distribution (ALLOW / DENY / ESCALATE), policy version consistency. Outcome records: count, whether each admission has a matching outcome, timing bounds, whether side effects stayed within declared scope. Denied-before-dispatch signal: DENY admissions with no outcome record (the agent was stopped before it acted). Time-in-service: earliest verifiable admission to most recent.</p>
-<p>All receipts must verify against a pre-published public key. The verifier never trusts the emitting runtime.</p>
+      <h2>The five verdicts</h2>
+      <p>There are five, they are the whole set, and a record carries exactly one. There is no average, no aggregate, and no score.</p>
+      <div class="doc-page__table-wrap">
+        <table>
+          <thead>
+            <tr><th>Verdict</th><th>What it means</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>PASS</td><td>The tool returned the correct answer within the tolerances fixed before the run, and the tolerances are stated in the record</td></tr>
+            <tr><td>FAIL_SAFE</td><td>The tool did not return a correct answer, and it said so. It raised, refused, returned an explicit error, or otherwise signalled that the caller should not proceed</td></tr>
+            <tr><td>FAIL_UNSAFE</td><td>The tool returned something wrong and presented it as if it were right. Nothing in the response tells a caller not to use it</td></tr>
+            <tr><td>INDETERMINATE</td><td>The observation could not decide. Upstream was unavailable, the environment was not reproducible, or the evidence does not distinguish between explanations</td></tr>
+            <tr><td>OUT_OF_SCOPE</td><td>The case falls outside what the tool undertakes to do, so there is nothing here to grade</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Two rules about that set are not negotiable.</p>
+      <p><strong>FAIL_SAFE beats FAIL_UNSAFE, and it is not PASS.</strong> A tool that stops when it cannot answer is doing the correct thing and is graded well above one that guesses. It still did not answer, so it is not a pass. Collapsing those two into one word is the thing that makes existing reliability language useless.</p>
+      <p><strong>INDETERMINATE is a real verdict, not an absence.</strong> It gets published like any other. A register that quietly drops the runs it could not decide is reporting a filtered view of its own evidence, and its published results stop meaning anything.</p>
 
-<h2>Scoring function</h2>
-<p>Integer score in [0, 1000]. Initial value at first verified action: 100.</p>
+      <h2>The loss cause taxonomy</h2>
+      <p>Every deviation is classified before it is recorded, so a record says what kind of failure it found and not only that it found one. The taxonomy is versioned from the first record it is applied to, because a classification scheme that changes silently makes its own history unreadable. Version <span class="doc-page__verdict">v0</span> covers eight causes.</p>
+      <div class="doc-page__table-wrap">
+        <table>
+          <thead>
+            <tr><th>Code</th><th>Failure</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>silent_empty</td><td>Returned an empty result where data existed, with no signal</td></tr>
+            <tr><td>stale_value</td><td>Returned cached or outdated data presented as current</td></tr>
+            <tr><td>wrong_entity</td><td>Returned data for a different entity than the one requested</td></tr>
+            <tr><td>fabricated_field</td><td>Returned a field populated with a value that has no upstream basis</td></tr>
+            <tr><td>partial_truncation</td><td>Returned a subset of the result with no truncation signal</td></tr>
+            <tr><td>unsignaled_fallback</td><td>Served from a fallback source without disclosing the substitution</td></tr>
+            <tr><td>auth_degradation</td><td>Silently downgraded to a lower privilege tier and returned reduced data as complete</td></tr>
+            <tr><td>schema_drift</td><td>Upstream shape changed and the adapter absorbed it into a wrong but valid response</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Each code is meant to be decidable from a run artifact without a judgment call, which is what keeps the classifications consistent as the corpus grows. A cause that needs an opinion to apply does not belong in the taxonomy, and if one turns out to need an opinion it gets replaced in a new version rather than reinterpreted in the old one.</p>
 
-<table>
-<tr><th>Event</th><th>Score change</th></tr>
-<tr><td>ALLOW admission with matching outcome, within scope</td><td>+2</td></tr>
-<tr><td>DENY admission, no outcome, correct policy binding</td><td>+3</td></tr>
-<tr><td>Outcome shows side effects outside declared scope</td><td>-8</td></tr>
-<tr><td>Missing outcome after ALLOW admission</td><td>-15</td></tr>
-<tr><td>Signature failure on any receipt</td><td>-25</td></tr>
-<tr><td>Policy version mismatch vs known-in-effect policy</td><td>-50</td></tr>
-<tr><td>30 days with no signed receipt activity</td><td>-5 (decay)</td></tr>
-</table>
+      <h2>Three kinds of record, never merged</h2>
+      <p>A record answers one question, and which question it answers is part of what it is.</p>
+      <ul>
+        <li><strong>Tool.</strong> Does this exact version of this tool, in this configuration, return true answers or signal that it cannot</li>
+        <li><strong>Compatibility.</strong> Does this tool behave the same way under this specific runtime and dependency set as it did under another</li>
+        <li><strong>Workflow.</strong> Does a defined sequence of calls still hold end to end, when every call in it passes on its own</li>
+      </ul>
+      <p>They are never combined into a single result. A tool can be correct in isolation and wrong in a sequence, and a caller who needs to know which one broke is not helped by a number that averaged them.</p>
 
-<p>Note: DENY receipts (blocked actions) are worth +3, more than ALLOW (+2). An agent that correctly refuses unauthorized actions builds trust faster than one that only acts. The system rewards self-restraint.</p>
+      <h2>What a record says, and what it refuses to say</h2>
+      <p>A record does say that these specific inputs were sent to this exact subject at this time, that these outputs came back, that they were compared against this named ground truth source, that deviations were classified under this published taxonomy, and that anyone holding the record can rerun the suite and get the same result.</p>
+      <p>A record does not say that the subject is safe, secure, or free of vulnerabilities. It does not say the subject is fit for your use case. It does not say the subject will behave the same way tomorrow, or on a different commit, or against a different upstream. It does not say the maintainer is trustworthy, and it does not say they are untrustworthy. It says nothing in a currency: there is no coverage limit, no trust figure, and no number that looks like one.</p>
+      <p class="doc-page__note">This register is an evidence provider, not a custodian. It holds no funds, insures nothing, and settles nothing. Where a remedy is warranted, that is a licensed counterparty's product, and a record is an input to it.</p>
 
-<p>Bounds: minimum 0, maximum 1000. Rate-limited so that reaching 1000 requires at least 90 days of continuous verified activity. No shortcuts.</p>
+      <h2>Records expire by construction</h2>
+      <p>Every record carries a validity window. Queried outside that window it returns <span class="doc-page__verdict">EXPIRED</span>, whatever the verdict was. Not "last checked a while ago", not a stale date printed next to a green tick. The schema cannot represent a pass that is out of date, because the ability to represent one is the thing that gets abused.</p>
+      <p><strong>There will never be a badge image.</strong> An image a maintainer copies into a readme is a claim that outlives its evidence. It keeps rendering after the record expires, keeps rendering after the record is withdrawn, and cannot be revoked by the party that issued it. That exact mechanism is how this category of business has failed before. A mark here is resolved against the register, live, or it does not resolve at all.</p>
 
-<h2>Autonomy gating</h2>
-<p>The score determines what an agent is allowed to do:</p>
+      <h2>Who pays</h2>
+      <p><strong>The buyer pays. Never the graded party, for its own first verdict.</strong> A maintainer cannot commission a record on its own package, cannot preview one before publication, and cannot negotiate one. The moment revenue depends on the subject's satisfaction, every verdict becomes a negotiation and the output is worth nothing. This constraint is expensive early. It is also the entire thing.</p>
+      <p>One exception exists and it is narrow. A maintainer may fund a re-test of a subject already in the register, after a fix. Three conditions are mandatory and all three are published on the record itself: the funding source is disclosed on the record, the methodology is the already-published suite and cannot be altered for the run, and the result publishes regardless of outcome. A vendor who pays for a re-test and fails gets a <span class="doc-page__verdict">FAIL_UNSAFE</span> record with their name on the invoice line.</p>
 
-<div class="score-bar">
-<div style="width:20%;background:#e74c3c"></div>
-<div style="width:30%;background:#e67e22"></div>
-<div style="width:30%;background:#f5a623"></div>
-<div style="width:20%;background:#27ae60"></div>
-</div>
+      <h2>Right of reply, and what is withheld while it runs</h2>
+      <p>No adverse record publishes on the day it is written. The party responsible for the subject receives the complete evidence and a fixed window to answer before anything appears.</p>
+      <p>If they show the finding is wrong, the record is withdrawn, and the withdrawal publishes in its place rather than the record quietly disappearing. If they fix the subject, the record still stands against the version that was tested, because that version was observed and the observation was accurate. A new record can then be issued against the fix. If they say nothing, the window closes and the record publishes as written.</p>
+      <p>Before the window opens, the finished record is hashed and the hash is committed. When the record publishes, anyone can verify that what was published is what was committed to, so a subject cannot negotiate a finding softer during their own reply window.</p>
+      <h3>The disclosure rule</h3>
+      <p>The register may say that a record is held and how many are held. It may not say what a held record found, not even its verdict, and it may not name who the record is about.</p>
+      <p>The second half is the part that is easy to get wrong. Announcing that a finding is held against a named tool publishes the accusation and withholds only the evidence, which is worse than publishing both. So while anything is held, the register names no held subject at all.</p>
+      <p>That gate is enforced in the code that builds the register rather than by remembering to apply it. The page is compiled from the records on every build, and the build refuses to write the page if a held record's identifier or its subject's name reaches the output by any path.</p>
 
-<div class="tier"><span class="tier-label">Below 200</span> <span class="tier-range">Read-only actions</span></div>
-<div class="tier"><span class="tier-label">200 - 500</span> <span class="tier-range">Reversible actions within declared scope</span></div>
-<div class="tier"><span class="tier-label">500 - 800</span> <span class="tier-range">Externally-reversible actions (e.g. payments with chargeback window)</span></div>
-<div class="tier"><span class="tier-label">800+</span> <span class="tier-range">Irreversible actions permitted with additional policy checks</span></div>
+      <h2>The method has a version</h2>
+      <p>Every record names the version of this method it was decided under, and this page is that version in readable form. When the method changes, the change is published as a new version and old records keep pointing at the version they were actually decided under. They are not silently re-interpreted under new rules, and they are not quietly regraded.</p>
+      <p>A method that can be edited after a result is a method that can be edited to fit a result.</p>
 
-<p>Other uses: underwriting input for AI insurance, minimum-score requirements before delegating to subagents, procurement qualification for enterprise agent deployments.</p>
+      <hr class="doc-page__rule">
 
-<h2>Public verification</h2>
-<p>Scores compute from public receipts. Any verifier with the issuer's public key and the receipt corpus reproduces the score independently. Nobulex does not gate this. The methodology is open and the scoring function is deterministic.</p>
-<p>API endpoint: <code>GET /agent/{agent_id}/score</code> returns the current score, input receipt count, and grade (A through F).</p>
+      <p>The register is the only page here that states anything about a record, and it is the only page here that is not written by hand. If a record contradicts this method, the record is wrong and the correction publishes beside it.</p>
+      <p>Disputes and corrections: <a href="mailto:nobulex.dev@gmail.com">nobulex.dev@gmail.com</a>. If you maintain something recorded here and believe a finding is wrong, send the evidence. It publishes beside the record, unedited.</p>
 
-<h2>What this is not</h2>
-<p>Not a safety guarantee. One signal among many. Not a substitute for pre-execution policy enforcement. Not a universal identifier (agent_id is a signing key; key rotation resets the score, which is a feature, not a bug: a rotated key is a new identity with no inherited trust).</p>
+      <a href="/register" class="doc-page__back">Read the register &rarr;</a>
+    </article>
+  </main>
 
-<h2>References</h2>
-<p>OWASP Agentic Skills Top 10, AST09 (PRs #35/#38, merged June 25, 2026). EU AI Act Article 12 (enforcement December 2, 2027). <a href="https://github.com/arian-gogani/nobulex">github.com/arian-gogani/nobulex</a>.</p>
-
-</div>
-
-<div class="footer">
-Nobulex. Credit scores for machines.<br>
-<a href="https://github.com/arian-gogani/nobulex">GitHub</a> ·
-<a href="/pricing.html">Pricing</a> ·
-<a href="mailto:nobulex.dev@gmail.com">Contact</a>
-</div>
-
+  <div class="scroll-bar" aria-hidden="true"></div>
+  <script src="main.js"></script>
 </body>
 </html>

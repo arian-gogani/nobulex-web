@@ -1,9 +1,31 @@
 {
-  "functions": {
-    "api/chat.js": {
-      "maxDuration": 30
-    }
-  },
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/arena", "destination": "/register", "permanent": true },
+    { "source": "/arena/:path*", "destination": "/register", "permanent": true },
+    { "source": "/playground", "destination": "/register", "permanent": true },
+    { "source": "/demo", "destination": "/register", "permanent": true },
+    { "source": "/demo-video", "destination": "/register", "permanent": true },
+    { "source": "/pricing", "destination": "/methodology", "permanent": true },
+    { "source": "/spec", "destination": "/methodology", "permanent": true },
+    { "source": "/api-docs", "destination": "/methodology", "permanent": true },
+    { "source": "/docs", "destination": "/methodology", "permanent": true },
+    { "source": "/docs/:path*", "destination": "/methodology", "permanent": true },
+    { "source": "/disclosure-vacuum", "destination": "/why", "permanent": true },
+    { "source": "/blog-ai-agents-need-credit-scores", "destination": "/why", "permanent": true },
+    { "source": "/eu-ai-act", "destination": "/", "permanent": true },
+    { "source": "/yc", "destination": "/", "permanent": true },
+    { "source": "/api/:path*", "destination": "/", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+      ]
+    }
+  ]
 }

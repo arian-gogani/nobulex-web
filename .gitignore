@@ -5,3 +5,8 @@ node_modules
 .DS_Store
 .vercel
 .env*.local
+
+# Retired pages from the pre-registry site. Kept on disk for recovery,
+# never served and never committed.
+_retired/
+_audit.py
