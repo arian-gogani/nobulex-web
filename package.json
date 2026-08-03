@@ -1,8 +1,10 @@
 {
   "name": "nobulex-web",
+  "private": true,
+  "description": "Website for nobulex.com, the independent reliability registry for agent tools",
+  "license": "MIT",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
-    "open": "open -a Safari http://127.0.0.1:3333"
+    "dev": "python3 -m http.server 3333",
+    "open": "open http://127.0.0.1:3333"
   }
 }

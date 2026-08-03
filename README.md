@@ -1,37 +1,105 @@
-# Nobulex — The trust layer for the agent economy
+# nobulex.com
 
-Marketing site for [Nobulex](https://github.com/nobulexdev/nobulex), a protocol that makes honesty the only rational strategy for any autonomous system. Verifiable commitments for AI agents. Open source. MIT licensed.
+The website for **Nobulex, the independent reliability registry for agent tools.**
 
-## Run locally
+Payment rails prove money moved. Nobulex proves what happened on the other side.
 
-```bash
-npm install
-npm start
+The method, the harness, and the publication gate live in
+[**arian-gogani/nobulex-registry**](https://github.com/arian-gogani/nobulex-registry).
+This repository is only the site.
+
+---
+
+## The one rule that matters here
+
+**`register.html` is generated. Never edit it by hand.**
+
+It is written by `suite/render_register.py` in the registry repository, which
+compiles the page from the records and writes identical bytes to every publish
+target in a single build. This repository is one of those targets.
+
+A downstream copy step is a second author, and a second author of that page is
+a second chance to publish a name that is under embargo. Records held under
+right of reply are kept off that page by construction, not by anybody
+remembering to leave them out, and hand editing the file removes the only thing
+that makes that true.
+
+To change the register, change the records or `brand/register.template.html` in
+the registry repository, then run:
+
+```
+python3 suite/render_register.py --publish /path/to/nobulex-web/register.html
 ```
 
-Open [http://localhost:3333](http://localhost:3333).
+The generator refuses at build time to write a page carrying a held record's
+identifier, a held subject's name, or a verdict token in the embargo block.
 
-### AI help chat
+### Check it yourself
 
-Create `.env.local` in the project root:
+The page served at `https://nobulex.com/register` should be byte identical to
+`brand/register.html` in the registry repository and to `register.html` here.
 
 ```
-GROQ_API_KEY=gsk_xxxxx
+curl -sS https://nobulex.com/register | shasum -a 256
 ```
 
-Get a free key at [console.groq.com](https://console.groq.com). Without it, the help widget (?) shows fallback links instead of AI answers.
+`f4c5d764aaf3952322baaab403a9c59120e62071145f7f4ce6499ddfeec813e2`
 
-## Deploy
+If those disagree, something reached the page after the generator produced it.
+That value changes whenever the register legitimately changes, which today
+means when a record publishes.
 
-See [DEPLOY.md](DEPLOY.md) for Vercel deployment and pre-launch checklist.
+---
 
-## Project structure
+## Pages
 
-| Path | Description |
-|------|-------------|
-| `index.html` | Homepage |
-| `manifesto.html` | The Uncovenanted Agent Problem |
-| `eu-ai-act.html` | EU AI Act compliance guide |
-| `docs/quickstart.html` | Developer quickstart |
-| `api/chat.js` | AI chat serverless function (Vercel) |
-| `404.html` | Not found page |
+| Path | File | What it is |
+|---|---|---|
+| `/` | `index.html` | The registry, the category, and the governing test |
+| `/register` | `register.html` | **Generated.** The public register |
+| `/methodology` | `methodology.html` | How a verdict is decided, and the disclosure rule |
+| `/why` | `why.html` | The argument, written to be attacked |
+| `/manifesto` | `manifesto.html` | The rules the registry binds itself to |
+
+Everything else is a redirect. `vercel.json` carries permanent redirects from
+the pages of the previous site, which was about a different product under the
+same name. `_retired/` holds those pages on disk for recovery and is served by
+nothing, listed in `robots.txt`, and never committed.
+
+---
+
+## Running it
+
+Static HTML, CSS, and one small JavaScript file. No build step, no framework,
+no dependencies at runtime.
+
+```
+python3 -m http.server 8000
+```
+
+Deploys to Vercel on push to `main`. `vercel.json` also sets
+`X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`,
+and `X-Frame-Options: SAMEORIGIN`.
+
+---
+
+## House style
+
+No em dashes. No certification language, no trust scores, no dollar figures,
+no counts of tests or packages or lines. No present tense about anything that
+has not happened yet. The product is a claim that other people's outputs are
+not trustworthy, so overclaiming this project's own state is the fastest
+available way to make that claim unbelievable.
+
+---
+
+## Corrections
+
+If something on this site is wrong, say so: **nobulex.dev@gmail.com**.
+
+The argument is meant to be attacked, and a correction that lands changes the
+page.
+
+---
+
+MIT. See [LICENSE](LICENSE).
