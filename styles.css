@@ -338,13 +338,16 @@ body {
   }
 }
 
+/* These were sized for a wide wordmark, where 56px of height read as a thin
+   horizontal band. The mark is square, so the same 56px reads as a block
+   filling three quarters of the header. Sized for the square. */
 .header__logo {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   text-decoration: none;
   transition: opacity 0.2s var(--ease);
-  height: 56px;
+  height: 36px;
   max-width: 220px;
 }
 
@@ -355,7 +358,7 @@ body {
 .header__logo-img {
   height: 100%;
   width: auto;
-  max-height: 56px;
+  max-height: 36px;
   display: block;
   object-fit: contain;
   object-position: left center;
