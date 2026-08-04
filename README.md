@@ -43,7 +43,7 @@ The page served at `https://nobulex.com/register` should be byte identical to
 curl -sS https://nobulex.com/register | shasum -a 256
 ```
 
-`f4c5d764aaf3952322baaab403a9c59120e62071145f7f4ce6499ddfeec813e2`
+`4b8aa822c5883b1022ef1aa1459768a2c024a64674ca823eae5ce24acfcf9051`
 
 If those disagree, something reached the page after the generator produced it.
 That value changes whenever the register legitimately changes, which today
