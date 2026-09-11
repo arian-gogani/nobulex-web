@@ -95,6 +95,12 @@ available way to make that claim unbelievable.
 
 ## Corrections
 
+The homepage's structured data previously identified it as the public register,
+and its social preview claimed Nobulex proved what happened beyond payment.
+The homepage now identifies itself correctly and describes the current scoped
+financial-data suite and fictional offline example. This changes metadata,
+not the evidence available or what a verdict establishes.
+
 If something on this site is wrong, say so: **nobulex.dev@gmail.com**.
 
 The argument is meant to be attacked, and a correction that lands changes the
