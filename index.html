@@ -113,7 +113,7 @@
           <div class="hero__cta hero__cta-buttons">
             <a href="/register" class="btn btn--primary">Read the register</a>
             <a href="/methodology" class="btn btn--ghost">The method</a>
-            <a href="#try-example" class="btn btn--ghost">Try the one-minute example</a>
+            <a href="#try-example" class="btn btn--ghost">Inspect an example</a>
           </div>
         </div>
       </div>
@@ -122,32 +122,95 @@
     <section class="quickstart" id="try-example" aria-labelledby="quickstart-title">
       <div class="quickstart__inner">
         <div class="quickstart__intro">
-          <p class="section__label">TRY IT YOURSELF</p>
+          <p class="section__label">INSPECT THE EVIDENCE</p>
           <h2 id="quickstart-title">Five rows can still be the wrong five days.</h2>
-          <p>See what a row count misses. This offline example sends matching, incomplete and wrong-date windows through the suite's actual truncation classifier.</p>
-          <p class="quickstart__scope"><strong>Fictional data, not a live tool assessment.</strong> Python 3.11 or newer and Git. After cloning, no provider account, package install or network call is needed.</p>
+          <p>Open a case to compare its inputs and see the result recorded from the suite's actual truncation classifier. No installation is needed to inspect it here.</p>
+          <p class="quickstart__scope"><strong>Fictional data, not a live tool assessment.</strong> These are saved Python results. This page does not run a check, contact a provider or issue a registry record.</p>
+          <p class="quickstart__scope">All example prices are 100.0. The question here is which dates the rows cover, not whether those prices are correct.</p>
         </div>
         <div class="quickstart__run">
-          <p id="quickstart-command-label" class="quickstart__label">Run in your terminal</p>
-          <pre tabindex="0" aria-labelledby="quickstart-command-label"><code>git clone https://github.com/arian-gogani/nobulex-registry.git
+          <p class="quickstart__label">Three fictional cases. Open each to inspect it.</p>
+          <details class="evidence-case" data-case="0">
+            <summary><span>Matching sessions</span><code>PASS</code></summary>
+            <div class="evidence-case__body">
+              <p>The counts and dates agree: five rows on each side.</p>
+              <div class="evidence-case__inputs">
+                <div><h3>Reference fixture</h3><pre class="evidence-reference" tabindex="0">2020-01-06
+2020-01-07
+2020-01-08
+2020-01-09
+2020-01-10</pre></div>
+                <div><h3>Subject fixture</h3><pre class="evidence-subject" tabindex="0">2020-01-06
+2020-01-07
+2020-01-08
+2020-01-09
+2020-01-10</pre></div>
+              </div>
+              <p class="evidence-case__reason">Recorded reason: <samp>subject 5 sessions, authority 5</samp></p>
+              <p class="quickstart__scope">PASS covers this probe only. It does not establish price accuracy.</p>
+            </div>
+          </details>
+          <details class="evidence-case" data-case="1">
+            <summary><span>Two sessions missing</span><code>FAIL_UNSAFE</code></summary>
+            <div class="evidence-case__body">
+              <p>Three rows cover January 6, 7 and 8. The reference also contains January 9 and 10.</p>
+              <div class="evidence-case__inputs">
+                <div><h3>Reference fixture</h3><pre class="evidence-reference" tabindex="0">2020-01-06
+2020-01-07
+2020-01-08
+2020-01-09
+2020-01-10</pre></div>
+                <div><h3>Subject fixture</h3><pre class="evidence-subject" tabindex="0">2020-01-06
+2020-01-07
+2020-01-08</pre></div>
+              </div>
+              <p class="evidence-case__reason">Recorded reason: <samp>subject returned 3 sessions where the same upstream read directly returned 5, with no truncation signal</samp></p>
+              <p class="quickstart__scope">The classifier's upstream wording describes the modeled fixture comparison. No upstream was contacted. This is not a finding about a real tool.</p>
+            </div>
+          </details>
+          <details class="evidence-case" data-case="2" open>
+            <summary><span>Same count, different dates</span><code>INDETERMINATE</code></summary>
+            <div class="evidence-case__body">
+              <p>Both fixtures contain five rows. None of their dates overlap. A count alone misses the difference.</p>
+              <div class="evidence-case__inputs">
+                <div><h3>Reference fixture</h3><pre class="evidence-reference" tabindex="0">2020-01-06
+2020-01-07
+2020-01-08
+2020-01-09
+2020-01-10</pre></div>
+                <div><h3>Subject fixture</h3><pre class="evidence-subject" tabindex="0">1999-01-04
+1999-01-05
+1999-01-06
+1999-01-07
+1999-01-08</pre></div>
+              </div>
+              <p class="evidence-case__reason">Recorded reason: <samp>counts agree (5 and 5) but only 0 of 5 sessions are the same day: subject 1999-01-04..1999-01-08, authority 2020-01-06..2020-01-10. Equal counts over different sessions is not a truncation result, whether they differ entirely or nearly so</samp></p>
+              <p class="quickstart__scope">The wrong-window result is unresolved here, not a proven tool defect.</p>
+            </div>
+          </details>
+          <p class="quickstart__scope"><a class="quickstart__source" href="/examples/wrong-window.json" download>Download the full inputs and recorded results (JSON)</a>. Includes the exact field names, cause codes, source hashes and Python version.</p>
+        </div>
+        <details class="quickstart__reproduce">
+          <summary>Reproduce these results with Python</summary>
+          <p>Python 3.11 or newer and Git. After cloning, no provider account, package install or network call is needed. Check out the recorded version to compare the same code.</p>
+          <pre tabindex="0" aria-label="Commands to reproduce the fictional example"><code>git clone https://github.com/arian-gogani/nobulex-registry.git
 cd nobulex-registry
+git checkout fc40793507fd023d808728d53cdbc97472ed7b05
 python3 examples/wrong_window.py</code></pre>
-          <p class="quickstart__label">Expected results from these fixtures</p>
-          <dl class="quickstart__results">
-            <div><dt>Matching sessions</dt><dd><code>PASS</code></dd></div>
-            <div><dt>Two sessions missing</dt><dd><code>FAIL_UNSAFE</code></dd></div>
-            <div><dt>Same count, different dates</dt><dd><code>INDETERMINATE</code></dd></div>
-          </dl>
-          <p class="quickstart__scope">PASS covers this probe only. It does not establish price accuracy. The wrong-window result is unresolved here, not a proven tool defect.</p>
-          <a class="quickstart__source" href="https://github.com/arian-gogani/nobulex-registry/blob/main/examples/wrong_window.py">Read the example's source &rarr;</a>
+          <p class="quickstart__scope">The script checks all three expected outcomes and exits nonzero if they change. The saved run reproduced 3 of 3 on Python 3.14.7.</p>
+          <a class="quickstart__source" href="https://github.com/arian-gogani/nobulex-registry/blob/fc40793507fd023d808728d53cdbc97472ed7b05/examples/wrong_window.py">Read the exact example source &rarr;</a>
+        </details>
+        <div class="quickstart__offer">
+          <h3>What a scoped assessment would contain</h3>
+          <p>One outside tool, one recorded version and configuration, and agreed checks for the decision you need to make. After confirming coverage and access, we agree the scope and fee. You receive the requests, observations, outcomes and limits, with instructions to inspect the evidence. The fee buys the work regardless of its result.</p>
         </div>
         <div class="quickstart__inquiry">
           <div>
             <h3>Need evidence for a tool you rely on?</h3>
-            <p>Send the outside tool, version and decision you need to make. Current coverage is financial-data tools using MCP over stdio. We confirm fit before proposing paid work. The relying buyer pays; the tool vendor cannot buy its own verdict.</p>
+            <p>The current runner starts a Python tool locally using MCP over stdio. Hosted HTTP connectors need a separate coverage review. Send the public setup or schema link, one shareable example request, and the decision you need to make. The relying buyer pays; the tool vendor cannot buy its own verdict.</p>
             <p class="quickstart__scope">Leave credentials and private datasets out of the first email.</p>
           </div>
-          <a class="btn btn--ghost" href="mailto:nobulex.dev@gmail.com?subject=Scoped%20financial-data%20tool%20check&amp;body=Outside%20tool%3A%20%0AVersion%20or%20commit%3A%20%0ADecision%20I%20need%20evidence%20for%3A%20">Ask about a scoped check</a>
+          <a class="btn btn--ghost" href="mailto:nobulex.dev@gmail.com?subject=Scoped%20financial-data%20tool%20check&amp;body=Outside%20tool%3A%20%0AVersion%20or%20commit%3A%20%0APublic%20setup%20or%20tool-schema%20link%3A%20%0AExample%20request%20%28fictional%20or%20shareable%20inputs%29%3A%20%0ADecision%20I%20need%20evidence%20for%3A%20">Ask about a scoped check</a>
         </div>
       </div>
     </section>

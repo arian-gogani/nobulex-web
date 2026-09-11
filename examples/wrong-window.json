@@ -1,0 +1,178 @@
+{
+  "schema": "nobulex-fictional-demo-v1",
+  "evidence_type": "fictional_precomputed_classifier_demonstration",
+  "issued_registry_record": false,
+  "live_provider_assessment": false,
+  "source": {
+    "repository": "https://github.com/arian-gogani/nobulex-registry",
+    "commit": "fc40793507fd023d808728d53cdbc97472ed7b05",
+    "file_sha256": {
+      "suite/harness.py": "cd4d7501df4dbdb0a672cfd5cb3c4acb3b7b220819380592ba318f5e0a96e5db",
+      "examples/wrong_window.py": "7f045d347dfa63bdf1906b87aa2ff58a70a330591cbc4af91ae8ecd1c4317052"
+    }
+  },
+  "runtime": {
+    "python_version": "3.14.7",
+    "python_implementation": "CPython"
+  },
+  "reproduction": {
+    "working_directory": "root of the registry repository at source.commit",
+    "command": "python3 examples/wrong_window.py",
+    "capture_method": "Called that script's main() with the real classifier wrapped to capture arguments and return values.",
+    "exit_code": 0
+  },
+  "cases": [
+    {
+      "subject": [
+        {
+          "Date": "2020-01-06",
+          "Close": 100.0
+        },
+        {
+          "Date": "2020-01-07",
+          "Close": 100.0
+        },
+        {
+          "Date": "2020-01-08",
+          "Close": 100.0
+        },
+        {
+          "Date": "2020-01-09",
+          "Close": 100.0
+        },
+        {
+          "Date": "2020-01-10",
+          "Close": 100.0
+        }
+      ],
+      "reference": [
+        {
+          "date": "2020-01-06",
+          "close": 100.0
+        },
+        {
+          "date": "2020-01-07",
+          "close": 100.0
+        },
+        {
+          "date": "2020-01-08",
+          "close": 100.0
+        },
+        {
+          "date": "2020-01-09",
+          "close": 100.0
+        },
+        {
+          "date": "2020-01-10",
+          "close": 100.0
+        }
+      ],
+      "outcome": "PASS",
+      "cause": null,
+      "raw_reason": "subject 5 sessions, authority 5",
+      "count_equal": true
+    },
+    {
+      "subject": [
+        {
+          "Date": "2020-01-06",
+          "Close": 100.0
+        },
+        {
+          "Date": "2020-01-07",
+          "Close": 100.0
+        },
+        {
+          "Date": "2020-01-08",
+          "Close": 100.0
+        }
+      ],
+      "reference": [
+        {
+          "date": "2020-01-06",
+          "close": 100.0
+        },
+        {
+          "date": "2020-01-07",
+          "close": 100.0
+        },
+        {
+          "date": "2020-01-08",
+          "close": 100.0
+        },
+        {
+          "date": "2020-01-09",
+          "close": 100.0
+        },
+        {
+          "date": "2020-01-10",
+          "close": 100.0
+        }
+      ],
+      "outcome": "FAIL_UNSAFE",
+      "cause": "partial_truncation",
+      "raw_reason": "subject returned 3 sessions where the same upstream read directly returned 5, with no truncation signal",
+      "count_equal": false
+    },
+    {
+      "subject": [
+        {
+          "Date": "1999-01-04",
+          "Close": 100.0
+        },
+        {
+          "Date": "1999-01-05",
+          "Close": 100.0
+        },
+        {
+          "Date": "1999-01-06",
+          "Close": 100.0
+        },
+        {
+          "Date": "1999-01-07",
+          "Close": 100.0
+        },
+        {
+          "Date": "1999-01-08",
+          "Close": 100.0
+        }
+      ],
+      "reference": [
+        {
+          "date": "2020-01-06",
+          "close": 100.0
+        },
+        {
+          "date": "2020-01-07",
+          "close": 100.0
+        },
+        {
+          "date": "2020-01-08",
+          "close": 100.0
+        },
+        {
+          "date": "2020-01-09",
+          "close": 100.0
+        },
+        {
+          "date": "2020-01-10",
+          "close": 100.0
+        }
+      ],
+      "outcome": "INDETERMINATE",
+      "cause": null,
+      "raw_reason": "counts agree (5 and 5) but only 0 of 5 sessions are the same day: subject 1999-01-04..1999-01-08, authority 2020-01-06..2020-01-10. Equal counts over different sessions is not a truncation result, whether they differ entirely or nearly so",
+      "count_equal": true
+    }
+  ],
+  "stdout": "Fictional fixtures. No network, live tool, or registry attestation.\n\nMatching window\n  Count-only comparison: True\n  Nobulex truncation probe: PASS\n  Evidence: subject 5 sessions, authority 5\n\nTwo sessions silently missing\n  Count-only comparison: False\n  Nobulex truncation probe: FAIL_UNSAFE\n  Evidence: subject returned 3 sessions where the same upstream read directly returned 5, with no truncation signal\n\nSame count, entirely different dates\n  Count-only comparison: True\n  Nobulex truncation probe: INDETERMINATE\n  Evidence: counts agree (5 and 5) but only 0 of 5 sessions are the same day: subject 1999-01-04..1999-01-08, authority 2020-01-06..2020-01-10. Equal counts over different sessions is not a truncation result, whether they differ entirely or nearly so\n\n3/3 expected outcomes reproduced.\nPASS covers this probe only. It does not establish price correctness.\nA different window is unresolved here, not a proven tool defect.\n",
+  "stderr": "",
+  "limits": [
+    "All inputs are fictional; no MCP request, network call or provider assessment was made.",
+    "The raw reason about a same-upstream direct read describes the modeled fixture comparison; no upstream was contacted.",
+    "PASS covers this truncation probe only and does not establish price accuracy or whole-tool correctness.",
+    "The different-date window is unresolved by this probe, not a proven tool defect.",
+    "Source hashes identify code bytes; they do not authenticate an issuer or prove a real observation occurred.",
+    "This is a precomputed demo, not a customer assessment, issued record or independent customer rerun."
+  ]
+}
