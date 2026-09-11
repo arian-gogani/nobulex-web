@@ -112,8 +112,41 @@
           <div class="hero__cta hero__cta-buttons">
             <a href="/register" class="btn btn--primary">Read the register</a>
             <a href="/methodology" class="btn btn--ghost">The method</a>
-            <a href="https://github.com/arian-gogani/nobulex-registry#try-one-failure-in-a-minute" class="btn btn--ghost">Try the one-minute example</a>
+            <a href="#try-example" class="btn btn--ghost">Try the one-minute example</a>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quickstart" id="try-example" aria-labelledby="quickstart-title">
+      <div class="quickstart__inner">
+        <div class="quickstart__intro">
+          <p class="section__label">TRY IT YOURSELF</p>
+          <h2 id="quickstart-title">Five rows can still be the wrong five days.</h2>
+          <p>See what a row count misses. This offline example sends matching, incomplete and wrong-date windows through the suite's actual truncation classifier.</p>
+          <p class="quickstart__scope"><strong>Fictional data, not a live tool assessment.</strong> Python 3.11 or newer and Git. After cloning, no provider account, package install or network call is needed.</p>
+        </div>
+        <div class="quickstart__run">
+          <p id="quickstart-command-label" class="quickstart__label">Run in your terminal</p>
+          <pre tabindex="0" aria-labelledby="quickstart-command-label"><code>git clone https://github.com/arian-gogani/nobulex-registry.git
+cd nobulex-registry
+python3 examples/wrong_window.py</code></pre>
+          <p class="quickstart__label">Expected results from these fixtures</p>
+          <dl class="quickstart__results">
+            <div><dt>Matching sessions</dt><dd><code>PASS</code></dd></div>
+            <div><dt>Two sessions missing</dt><dd><code>FAIL_UNSAFE</code></dd></div>
+            <div><dt>Same count, different dates</dt><dd><code>INDETERMINATE</code></dd></div>
+          </dl>
+          <p class="quickstart__scope">PASS covers this probe only. It does not establish price accuracy. The wrong-window result is unresolved here, not a proven tool defect.</p>
+          <a class="quickstart__source" href="https://github.com/arian-gogani/nobulex-registry/blob/main/examples/wrong_window.py">Read the example's source &rarr;</a>
+        </div>
+        <div class="quickstart__inquiry">
+          <div>
+            <h3>Need evidence for a tool you rely on?</h3>
+            <p>Send the outside tool, version and decision you need to make. Current coverage is financial-data tools using MCP over stdio. We confirm fit before proposing paid work. The relying buyer pays; the tool vendor cannot buy its own verdict.</p>
+            <p class="quickstart__scope">Leave credentials and private datasets out of the first email.</p>
+          </div>
+          <a class="btn btn--ghost" href="mailto:nobulex.dev@gmail.com?subject=Scoped%20financial-data%20tool%20check&amp;body=Outside%20tool%3A%20%0AVersion%20or%20commit%3A%20%0ADecision%20I%20need%20evidence%20for%3A%20">Ask about a scoped check</a>
         </div>
       </div>
     </section>
@@ -127,7 +160,7 @@
         <ul class="intro-strip__trust" aria-label="How this register is constrained">
           <li><span class="intro-strip__dot" aria-hidden="true"></span> One subject tuple, never a project name</li>
           <li><span class="intro-strip__dot" aria-hidden="true"></span> Five verdicts, never a score</li>
-          <li><span class="intro-strip__dot" aria-hidden="true"></span> Records expire structurally</li>
+          <li><span class="intro-strip__dot" aria-hidden="true"></span> Check each record's validity window</li>
           <li><span class="intro-strip__dot" aria-hidden="true"></span> The graded party never pays</li>
         </ul>
       </div>
@@ -200,9 +233,10 @@
           <li class="standards__item"><span class="standards__name">Upstream source</span><span class="standards__desc">The named authority the answer is checked against</span></li>
           <li class="standards__item"><span class="standards__name">Execution environment</span><span class="standards__desc">Interpreter, resolved dependency set, and the machine it ran on</span></li>
           <li class="standards__item"><span class="standards__name">Test suite</span><span class="standards__desc">A versioned suite, so a verdict can be re-run rather than believed</span></li>
-          <li class="standards__item"><span class="standards__name">Observation time</span><span class="standards__desc">And a validity window, after which the record reads expired whatever the verdict was</span></li>
+          <li class="standards__item"><span class="standards__name">Observation time</span><span class="standards__desc">And validity metadata. Check the deadline; a historical verdict does not establish current behavior</span></li>
         </ul>
-        <p class="integrations__docs" data-reveal>There is no badge image and there never will be. A graphic sitting on someone else's site is a claim about the past that keeps asserting itself in the present. Status is resolved against the register, live, or it is not a status.</p>
+        <p class="integrations__docs" data-reveal>There is no portable badge image. Read the stored verdict, observation time and validity deadline together on the register. The page does not automatically change a verdict to EXPIRED when its deadline passes.</p>
+        <p class="integrations__docs" data-reveal><strong>Correction:</strong> this page previously promised automatic expiry. The current implementation displays validity metadata; automatic expiry at lookup is intended behavior, not implemented enforcement. A historical PASS must not be treated as evidence of current behavior.</p>
       </div>
     </section>
 
