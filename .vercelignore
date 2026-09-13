@@ -1,0 +1,14 @@
+# Files tracked here because they belong in the repository, and served by
+# default because Vercel deploys the whole tree. These are not site content
+# and a visitor reaching them learns something about the operator rather
+# than about the project.
+#
+# DMARC_SETUP.md is the sharpest of them: it is an internal DNS runbook and
+# it advertises p=none, which tells anyone reading that mail claiming to be
+# from this domain is not being rejected yet. The record itself is public in
+# DNS; the operational note about it does not have to be.
+DMARC_SETUP.md
+README.md
+scripts/
+favicon-backup.png
+images/favicon.svg.old
