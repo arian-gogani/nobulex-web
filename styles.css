@@ -5240,3 +5240,73 @@ button:focus-visible {
   font-family: var(--font-mono); font-size: 0.8rem; color: var(--brand);
   letter-spacing: 0.03em; white-space: nowrap;
 }
+
+/* ── Decision verdicts ─────────────────────────────────────────────
+   The demo section is the argument, so the three outcomes have to be
+   legible at a glance. Colour is paired with the word itself, never
+   carrying the meaning alone. */
+:root {
+  --verdict-permit: #5eead4;
+  --verdict-permit-dim: rgba(94, 234, 212, 0.12);
+  --verdict-block: #fb7185;
+  --verdict-block-dim: rgba(251, 113, 133, 0.12);
+  --verdict-escalate: #fbbf24;
+  --verdict-escalate-dim: rgba(251, 191, 36, 0.12);
+}
+
+.evidence-case summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.evidence-case summary > span { font-weight: 600; }
+.evidence-case summary code {
+  display: inline-block;
+  margin-left: 0;
+  padding: .2rem .6rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .09em;
+  border: 1px solid var(--border-hover);
+  white-space: nowrap;
+}
+
+.evidence-case { border-left-width: 2px; transition: border-color .3s var(--ease); }
+.evidence-case[data-verdict="permit"]   { border-left-color: var(--verdict-permit); }
+.evidence-case[data-verdict="block"]    { border-left-color: var(--verdict-block); }
+.evidence-case[data-verdict="escalate"] { border-left-color: var(--verdict-escalate); }
+
+.evidence-case[data-verdict="permit"] summary code {
+  color: var(--verdict-permit);
+  background: var(--verdict-permit-dim);
+  border-color: var(--verdict-permit-dim);
+}
+.evidence-case[data-verdict="block"] summary code {
+  color: var(--verdict-block);
+  background: var(--verdict-block-dim);
+  border-color: var(--verdict-block-dim);
+}
+.evidence-case[data-verdict="escalate"] summary code {
+  color: var(--verdict-escalate);
+  background: var(--verdict-escalate-dim);
+  border-color: var(--verdict-escalate-dim);
+}
+
+.evidence-case__reason samp {
+  color: var(--text);
+  background: var(--accent-muted);
+  padding: .1rem .35rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: .8em;
+}
+
+/* Evidence / decision card labels in the states grid */
+.primitive-card__label { letter-spacing: .1em; text-transform: uppercase; font-size: .66rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .evidence-case { transition: none; }
+}
