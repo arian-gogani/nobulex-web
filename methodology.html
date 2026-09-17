@@ -5,15 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The method - Nobulex</title>
-  <meta name="description" content="How a Nobulex verdict is decided. What a record is about, the five verdicts, the loss cause taxonomy, right of reply, and what a verdict deliberately does not warrant.">
+  <meta name="description" content="How a Nobulex decision is made. The two questions, the evidence checks, the bounded policy language, what a signed receipt proves and does not prove, and how enforcement is turned on.">
   <meta property="og:title" content="The method - Nobulex">
-  <meta property="og:description" content="How a verdict is decided, and everything it deliberately does not claim.">
+  <meta property="og:description" content="How a decision is made, and everything it deliberately does not claim.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://nobulex.com/methodology">
   <meta property="og:image" content="https://nobulex.com/images/nobulex-logo.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The method - Nobulex">
-  <meta name="twitter:description" content="How a verdict is decided, and everything it deliberately does not claim.">
+  <meta name="twitter:description" content="How a decision is made, and everything it deliberately does not claim.">
   <meta name="theme-color" content="#030708">
   <link rel="icon" type="image/png" href="/icon.png">
   <link rel="apple-touch-icon" href="/icon.png">
@@ -28,9 +28,9 @@
     <div class="header__top">
       <a href="/" class="header__logo" aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
       <nav class="header__quick" aria-label="Quick links">
-        <a href="/register">Register</a>
+        <a href="/#decision">The decision</a>
         <a href="/methodology">Method</a>
-        <a href="/why">Why</a>
+        <a href="/#observe">Observe mode</a>
       </nav>
       <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
         <span class="nav-toggle__bar"></span>
@@ -45,130 +45,104 @@
       </button>
       <div class="header__links">
         <a href="/">Home</a>
-        <a href="/register">The register</a>
+        <a href="/#decision">The decision</a>
         <a href="/methodology">Method</a>
-        <a href="/why">Why this exists</a>
+        <a href="/#observe">Observe mode</a>
         <a href="/manifesto">Manifesto</a>
       </div>
-      <a href="/register" class="header__cta">Read the register</a>
+      <a href="/#contact" class="header__cta">Start a shadow pilot</a>
     </nav>
   </header>
 
   <main class="doc-page" id="main">
     <article class="doc-page__body">
       <p class="doc-page__kicker">The method</p>
-      <h1>How a verdict is decided</h1>
-      <p class="doc-page__meta">The method is published before any record is issued, and it does not change to fit a result. This page is the version a reader can hold a record against. If a record and this page disagree, the record is wrong.</p>
+      <h1>How a decision is made</h1>
+      <p class="doc-page__meta">Published before it is used, and it does not change to fit a result. This page is the version you can hold a decision against. If a decision and this page disagree, the decision is wrong.</p>
 
-      <p class="lead">Everything here is written to be argued with. A method that cannot be attacked cannot be trusted, so the object being graded, the tolerances, the sources and the verdict set are all fixed in public before anything is run.</p>
+      <p class="lead">Everything here is written to be argued with. A method that cannot be attacked cannot be trusted, so the evidence checks, the tolerances, the policy semantics and the decision set are all fixed in public before anything runs against real money.</p>
 
-      <h2>What a record is about</h2>
-      <p>A record is never about a project. It is about one exact thing, observed once, and that thing is identified completely enough that someone else could set it up and disagree.</p>
-      <ul>
-        <li>The package or service, by its published name</li>
-        <li>The exact version, or the commit if there is no version</li>
-        <li>The configuration it ran under, including every option that could change an answer</li>
-        <li>The upstream source the data came from</li>
-        <li>The execution environment, including the runtime and the resolved dependency set</li>
-        <li>The test suite identifier and its version</li>
-        <li>The time the observation was made</li>
-      </ul>
-      <p>Those seven fields are the whole subject of a record. Change any one of them and it is a different subject, which needs a different record.</p>
-      <p class="doc-page__note">This is not bookkeeping. It is the line between a finding and an accusation. A statement about a named version under a named configuration at a named time is something that was observed. A statement about a project is a claim about everything it will ever do, and this register does not make those.</p>
+      <h2>The two questions, answered separately</h2>
+      <p>A proposed action reaches the gateway before it reaches the broker or tool. Nobulex asks two questions that are deliberately kept apart, because collapsing them is what makes a control brittle.</p>
+      <p><strong>Are the facts trustworthy?</strong> The decision-critical evidence is checked against independent references under a declared method. That produces an evidence status: <span class="doc-page__verdict">PASS</span>, <span class="doc-page__verdict">FAIL</span> or <span class="doc-page__verdict">INDETERMINATE</span>.</p>
+      <p><strong>Is the action permitted?</strong> A deterministic policy is evaluated over the action and the evidence. That produces an execution decision: <span class="doc-page__verdict">PERMIT</span>, <span class="doc-page__verdict">BLOCK</span> or <span class="doc-page__verdict">ESCALATE</span>.</p>
+      <p class="doc-page__note">Evidence status is a statement about the world. Execution decision is a statement about your policy. A system that reports only one of them cannot tell you whether it stopped because the facts were bad or because your rule was strict, and those need different responses.</p>
 
-      <h2>How the observation is made</h2>
-      <p>A run happens from outside the tool, over the tool's own interface, the same way anything else would call it. No test hooks are installed, no internals are reached into, and nothing about the tool is modified to make it observable. If a failure can only be seen by instrumenting the tool from the inside, it is not the failure this register grades, because that is not the failure a caller experiences.</p>
-      <p>Every tolerance is written down before the run, not after it. What counts as a match, how much drift is acceptable, how many places a number is compared to, what staleness is allowed: all of that is fixed in the suite in advance, so a result cannot be rescued by loosening the definition once it is known.</p>
-      <p>Findings are compared against a source published independently of the test and named in the record. Nothing is graded against an expectation this register invented, and nothing is graded against a second tool's opinion.</p>
+      <h2>Why INDETERMINATE is a real state</h2>
+      <p>Truth is not always binary. A halt, crossed feeds, an ambiguous symbol, a corporate action one source has applied and another has not: in each case an honest system does not know. Reporting that as <span class="doc-page__verdict">FAIL</span> creates false alarms and trains operators to bypass the control. Reporting it as <span class="doc-page__verdict">PASS</span> is the failure this product exists to prevent.</p>
+      <p>So it is neither. <span class="doc-page__verdict">INDETERMINATE</span> is returned, and policy decides what that means for this specific action. On a money-moving order it escalates or blocks. On a low-risk read it can permit and log. That choice is the buyer's and it is written in the policy, not assumed by us.</p>
 
-      <h2>The five verdicts</h2>
-      <p>There are five, they are the whole set, and a record carries exactly one. There is no average, no aggregate, and no score.</p>
+      <h2>What the evidence checks are</h2>
       <div class="doc-page__table-wrap">
         <table>
-          <thead>
-            <tr><th>Verdict</th><th>What it means</th></tr>
-          </thead>
+          <thead><tr><th>Check</th><th>What it establishes</th></tr></thead>
           <tbody>
-            <tr><td>PASS</td><td>The tool returned the correct answer within the tolerances fixed before the run, and the tolerances are stated in the record</td></tr>
-            <tr><td>FAIL_SAFE</td><td>The tool did not return a correct answer, and it said so. It raised, refused, returned an explicit error, or otherwise signalled that the caller should not proceed</td></tr>
-            <tr><td>FAIL_UNSAFE</td><td>The tool returned something wrong and presented it as if it were right. Nothing in the response tells a caller not to use it</td></tr>
-            <tr><td>INDETERMINATE</td><td>The observation could not decide. Upstream was unavailable, the environment was not reproducible, or the evidence does not distinguish between explanations</td></tr>
-            <tr><td>OUT_OF_SCOPE</td><td>The case falls outside what the tool undertakes to do, so there is nothing here to grade</td></tr>
+            <tr><td>Identity binding</td><td>The instrument returned is the instrument requested, resolved across symbology rather than trusting a ticker string</td></tr>
+            <tr><td>Freshness</td><td>Observation age measured against the market calendar and session state, not a fixed wall clock</td></tr>
+            <tr><td>Completeness</td><td>The observations the requested window should contain are present, so silent truncation is visible</td></tr>
+            <tr><td>Corporate-action basis</td><td>Splits and dividends, and whether the adjusted or unadjusted basis in use is the one assumed</td></tr>
+            <tr><td>Source agreement</td><td>Independently entitled references compared within a tolerance fixed before the run</td></tr>
           </tbody>
         </table>
       </div>
-      <p>Two rules about that set are not negotiable.</p>
-      <p><strong>FAIL_SAFE beats FAIL_UNSAFE, and it is not PASS.</strong> A tool that stops when it cannot answer is doing the correct thing and is graded well above one that guesses. It still did not answer, so it is not a pass. Collapsing those two into one word is the thing that makes existing reliability language useless.</p>
-      <p><strong>INDETERMINATE is a real verdict, not an absence.</strong> It gets published like any other. A register that quietly drops the runs it could not decide is reporting a filtered view of its own evidence, and its published results stop meaning anything.</p>
+      <p class="doc-page__note">Tolerances are pinned in the policy before execution, so a result cannot be reinterpreted into a pass after the fact. Source agreement requires the buyer to hold entitlements to more than one reference. Where only one source is available, that is stated on the decision rather than silently downgraded.</p>
 
-      <h2>The loss cause taxonomy</h2>
-      <p>Every deviation is classified before it is recorded, so a record says what kind of failure it found and not only that it found one. The taxonomy is versioned from the first record it is applied to, because a classification scheme that changes silently makes its own history unreadable. Version <span class="doc-page__verdict">v0</span> covers eight causes.</p>
-      <div class="doc-page__table-wrap">
-        <table>
-          <thead>
-            <tr><th>Code</th><th>Failure</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>silent_empty</td><td>Returned an empty result where data existed, with no signal</td></tr>
-            <tr><td>stale_value</td><td>Returned cached or outdated data presented as current</td></tr>
-            <tr><td>wrong_entity</td><td>Returned data for a different entity than the one requested</td></tr>
-            <tr><td>fabricated_field</td><td>Returned a field populated with a value that has no upstream basis</td></tr>
-            <tr><td>partial_truncation</td><td>Returned a subset of the result with no truncation signal</td></tr>
-            <tr><td>unsignaled_fallback</td><td>Served from a fallback source without disclosing the substitution</td></tr>
-            <tr><td>auth_degradation</td><td>Silently downgraded to a lower privilege tier and returned reduced data as complete</td></tr>
-            <tr><td>schema_drift</td><td>Upstream shape changed and the adapter absorbed it into a wrong but valid response</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p>Each code is meant to be decidable from a run artifact without a judgment call, which is what keeps the classifications consistent as the corpus grows. A cause that needs an opinion to apply does not belong in the taxonomy, and if one turns out to need an opinion it gets replaced in a new version rather than reinterpreted in the old one.</p>
+      <h2>The policy is deliberately small</h2>
+      <p>The policy language is total and bounded by design: no loops, no network access, no unbounded computation, no side effects. Over an authenticated and complete context, evaluation is deterministic and terminating by construction.</p>
+      <p>That constraint is the point. The original claim behind this work was that verifying behaviour against a stated commitment is always decidable. That was too broad. It is decidable only if the language is bounded and the context is authenticated, and whether an external financial fact is knowable can still be <span class="doc-page__verdict">INDETERMINATE</span>. The narrower claim is the defensible one.</p>
+      <p>A model may help you author a policy. It is never the final arbiter of a hard limit on money.</p>
 
-      <h2>Three kinds of record, never merged</h2>
-      <p>A record answers one question, and which question it answers is part of what it is.</p>
-      <ul>
-        <li><strong>Tool.</strong> Does this exact version of this tool, in this configuration, return true answers or signal that it cannot</li>
-        <li><strong>Compatibility.</strong> Does this tool behave the same way under this specific runtime and dependency set as it did under another</li>
-        <li><strong>Workflow.</strong> Does a defined sequence of calls still hold end to end, when every call in it passes on its own</li>
-      </ul>
-      <p>They are never combined into a single result. A tool can be correct in isolation and wrong in a sequence, and a caller who needs to know which one broke is not helped by a number that averaged them.</p>
+      <h2>What a receipt proves, and what it cannot</h2>
+      <p>Every decision produces a receipt: the action hash, the policy version and its content hash, the evidence references with their observation times and payload hashes, the evidence status, the decision, and the execution result where one occurred. Each receipt carries the previous receipt's hash.</p>
+      <p>A signature establishes that a named signer attested to that exact object. It establishes integrity and provenance. <strong>It does not establish that the world was correctly represented by those sources.</strong> Cryptography cannot turn a false oracle into a true one, and any product claiming otherwise is selling the same well-formed lie it promises to catch.</p>
+      <p class="doc-page__note">A hash chain held entirely by one operator does not prevent that operator rewriting it wholesale. Detecting that requires periodically committing a checkpoint to storage the customer controls, or to an independent transparency service. Until that is wired up, a chain here is tamper-evident to anyone holding a later checkpoint and no stronger than that. Stated plainly rather than implied.</p>
 
-      <h2>What a record says, and what it refuses to say</h2>
-      <p>A record does say that these specific inputs were sent to this exact subject at this time, that these outputs came back, that they were compared against this named ground truth source, that deviations were classified under this published taxonomy, and that anyone holding the record can rerun the suite and get the same result.</p>
-      <p>A record does not say that the subject is safe, secure, or free of vulnerabilities. It does not say the subject is fit for your use case. It does not say the subject will behave the same way tomorrow, or on a different commit, or against a different upstream. It does not say the maintainer is trustworthy, and it does not say they are untrustworthy. It says nothing in a currency: there is no coverage limit, no trust figure, and no number that looks like one.</p>
-      <p class="doc-page__note">This register is an evidence provider, not a custodian. It holds no funds, insures nothing, and settles nothing. Where a remedy is warranted, that is a licensed counterparty's product, and a record is an input to it.</p>
+      <h2>Receipts hold references, not payloads</h2>
+      <p>A receipt stores hashes, identifiers and decision metadata. It does not, by default, retain raw market or customer data. That keeps licensing, privacy and retention exposure low while preserving the ability to prove which evidence set a decision rested on. Nobulex runs against feeds the buyer already licenses and does not redistribute market data.</p>
 
-      <h2>Validity windows and expiry</h2>
-      <p>The current register displays the stored verdict and its validity deadline. It does not automatically change the verdict to <span class="doc-page__verdict">EXPIRED</span> when that deadline passes. Readers must check the deadline; a historical pass does not establish current behavior. The seven-day window assigned by the runner or clearing step is an implementation setting, not a validated guarantee that a result stays current for seven days. Automatic expiry at lookup is intended behavior, not implemented enforcement.</p>
-      <p><strong>There will never be a badge image.</strong> An image a maintainer copies into a readme is a claim that outlives its evidence. It keeps rendering after the record expires, keeps rendering after the record is withdrawn, and cannot be revoked by the party that issued it. That exact mechanism is how this category of business has failed before. A mark here is resolved against the register, live, or it does not resolve at all.</p>
+      <h2>Observe before enforce</h2>
+      <p>Observe Mode computes the complete decision and never blocks. It exists because asking an organisation to let a new gateway stop production orders on day one is not a reasonable request, and a safety product that causes an outage has failed at its own job.</p>
+      <p>The sequence is: mirror one path, replay a fixed corpus of well-formed-but-wrong conditions against it, measure catch rate and false-block rate and added latency, then enable enforcement on one bounded action type with explicit break-glass. Every break-glass override is itself signed. Per action type, the buyer decides whether gateway unavailability fails open or closed.</p>
+
+      <h2>Coverage is measured, never assumed</h2>
+      <p>Perfect receipts over partial traffic mean nothing. If an automated system can reach the broker without passing the gateway, the gateway is decoration. Coverage is reported as its own number, and the deployment pattern puts the downstream credentials behind the gateway so that bypassing it is a configuration change rather than a default.</p>
 
       <h2>Who pays</h2>
-      <p><strong>The buyer pays. Never the graded party, for its own first verdict.</strong> A maintainer cannot commission a record on its own package, cannot preview one before publication, and cannot negotiate one. The moment revenue depends on the subject's satisfaction, every verdict becomes a negotiation and the output is worth nothing. This constraint is expensive early. It is also the entire thing.</p>
-      <p>One exception exists and it is narrow. A maintainer may fund a re-test of a subject already in the register, after a fix. Three conditions are mandatory and all three are published on the record itself: the funding source is disclosed on the record, the methodology is the already-published suite and cannot be altered for the run, and the result publishes regardless of outcome. A vendor who pays for a re-test and fails gets a <span class="doc-page__verdict">FAIL_UNSAFE</span> record with their name on the invoice line.</p>
+      <p>The buyer, always. Never the data vendor, and never the tool being checked. The moment revenue depends on a checked party's satisfaction, the decisions are worth nothing. This is the same rule the earlier register carried and it is the one part of that design that needed no revision.</p>
 
-      <h2>Right of reply, and what is withheld while it runs</h2>
-      <p>No adverse record publishes on the day it is written. The party responsible for the subject receives the complete evidence and a fixed window to answer before anything appears.</p>
-      <p>If they show the finding is wrong, the record is withdrawn, and the withdrawal publishes in its place rather than the record quietly disappearing. If they fix the subject, the record still stands against the version that was tested, because that version was observed and the observation was accurate. A new record can then be issued against the fix. If they say nothing, the window closes and the record publishes as written.</p>
-      <p>Before the window opens, the finished record is hashed and the hash is committed. When the record publishes, anyone can verify that what was published is what was committed to, so a subject cannot negotiate a finding softer during their own reply window.</p>
-      <h3>The disclosure rule</h3>
-      <p>The register may say that a record is held and how many are held. It may not say what a held record found, not even its verdict, and it may not name who the record is about.</p>
-      <p>The second half is the part that is easy to get wrong. Announcing that a finding is held against a named tool publishes the accusation and withholds only the evidence, which is worse than publishing both. So while anything is held, the register names no held subject at all.</p>
-      <p>That gate is enforced in the code that builds the register rather than by remembering to apply it. The page is compiled from the records on every build, and the build refuses to write the page if a held record's identifier or its subject's name reaches the output by any path.</p>
+      <h2>What this refuses to claim</h2>
+      <div class="doc-page__table-wrap">
+        <table>
+          <thead><tr><th>It does say</th><th>It does not say</th></tr></thead>
+          <tbody>
+            <tr><td>These sources, observed at this time, agreed within this tolerance</td><td>That the sources were correct about the world</td></tr>
+            <tr><td>This policy version evaluated this way over this context</td><td>That the policy was the right policy. You author that</td></tr>
+            <tr><td>This action was permitted, blocked or escalated, and why</td><td>That permitting it was profitable, or that blocking it avoided a loss</td></tr>
+            <tr><td>What passed through the gateway, including every override</td><td>Anything about traffic that bypassed it</td></tr>
+            <tr><td>Evidence a supervisor can inspect and reproduce</td><td>That using this satisfies any regulatory obligation. Supervisory rules continue to apply to the firm</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="doc-page__note">Nobulex is not a broker, an investment adviser, a fiduciary or a guarantor of any data source. It is an evidence and control layer. Where a remedy is warranted, that is a licensed counterparty's product, and a decision record is an input to it.</p>
 
-      <h2>The method has a version</h2>
-      <p>Every record names the version of this method it was decided under, and this page is that version in readable form. When the method changes, the change is published as a new version and old records keep pointing at the version they were actually decided under. They are not silently re-interpreted under new rules, and they are not quietly regraded.</p>
-      <p>A method that can be edited after a result is a method that can be edited to fit a result.</p>
+      <h2>No score</h2>
+      <p>There is no universal rating for an agent or a tool. A number between zero and a hundred invites the exact behaviour these checks exist to prevent, which is glancing at a figure instead of reading what was actually verified. Ten thousand correct read operations do not entitle a system to move ten million dollars, and reliability with equity quotes says nothing about wire transfers.</p>
+      <p>Where enough signed decisions accumulate, they can be reported as a profile scoped to one capability and one window, derived only from receipts. That is auditable. A score is not.</p>
 
       <h2>Where the method actually is</h2>
-      <p>This page is the method in readable form. The method in runnable form is at <a href="https://github.com/arian-gogani/nobulex-registry">github.com/arian-gogani/nobulex-registry</a>, MIT licensed: the harness, the probes, the loss cause taxonomy, the record generator, the renderer, and the publication gate described above. Read it, run it, and attack it. A verdict produced by a suite nobody can inspect is not evidence. It is an opinion with a procedure attached to it.</p>
-      <p>Every claim on this page is a promise about behavior, and a promise you cannot check is worth what its author is worth. One of them you can settle right now, from a terminal, without trusting anything said here. The register page is generated by that code and never edited by hand, which means the file <code>brand/register.html</code> in the repository and the bytes served at <code>nobulex.com/register</code> are not two versions of a page. They are one file.</p>
-      <pre><code>curl -sS https://nobulex.com/register | shasum -a 256</code></pre>
-      <p>That prints <code>4b8aa822c5883b1022ef1aa1459768a2c024a64674ca823eae5ce24acfcf9051</code>, and so does <code>shasum -a 256 brand/register.html</code> in a clone. If the two ever disagree, a person edited the register after the code produced it, and every other claim on this page should be read in that light. Send the mismatch and it publishes.</p>
+      <p>This page is the method in readable form. The checks in runnable form are at <a href="https://github.com/arian-gogani/nobulex-registry">github.com/arian-gogani/nobulex-registry</a>, MIT licensed: the harness, the probes, the cause taxonomy and the self-test. Read it, run it, and attack it. A decision produced by a suite nobody can inspect is not evidence, it is an opinion with a procedure attached.</p>
+      <p>You can settle one claim right now, from a terminal, without trusting anything on this page. The offline example feeds fictional data through the actual classifier and checks three expected outcomes:</p>
+      <pre><code>git clone https://github.com/arian-gogani/nobulex-registry.git
+cd nobulex-registry
+python3 examples/wrong_window.py</code></pre>
+      <p>It exits nonzero if any of the three change. Python 3.11 or newer, no credentials, no network call after cloning.</p>
 
       <hr class="doc-page__rule">
 
-      <p>The register is the only page here that states anything about a record, and it is the only page here that is not written by hand. If a record contradicts this method, the record is wrong and the correction publishes beside it.</p>
-      <p>Disputes and corrections: <a href="mailto:nobulex.dev@gmail.com">nobulex.dev@gmail.com</a>. If you maintain something recorded here and believe a finding is wrong, send the evidence. It publishes beside the record, unedited.</p>
+      <p><strong>Current status, without decoration.</strong> The evidence checks and the verdict discipline are built and open source. The inline gateway and Observe Mode are the current work. Nobody is blocking live orders through Nobulex today, and this page will say so until that changes.</p>
+      <p>Disputes and corrections: <a href="mailto:nobulex.dev@gmail.com">nobulex.dev@gmail.com</a>. If something here overstates what the software does, send it and it gets fixed in public.</p>
 
-      <a href="/register" class="doc-page__back">Read the register &rarr;</a>
+      <a href="/#decision" class="doc-page__back">See a decision &rarr;</a>
     </article>
   </main>
 
