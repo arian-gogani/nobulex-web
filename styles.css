@@ -5314,29 +5314,34 @@ button:focus-visible {
 /* ==================================================================
    SECTION RHYTHM
    ------------------------------------------------------------------
-   Measured before writing any of this: nine of the thirteen sections
-   had background rgba(0,0,0,0), only three carried a top border, and
-   every padding sat between 80px and 112px. The result was roughly
-   8,000px of page with no tonal change, no boundaries and no variation
-   in spacing, which reads as one continuous texture however good the
-   individual sections are. The hero is strong and then nothing after it
-   tells the eye that it has moved.
+   Measured before writing: nine of thirteen sections had background
+   rgba(0,0,0,0), only three had a top border, and every padding sat
+   between 80px and 112px. Roughly 8,000px with no tonal change, no
+   boundaries and no variation in spacing.
 
-   Three devices, all restrained, because the palette is the good part
-   and the fix is structure rather than decoration.
+   First attempt used a 2% white surface and an 8.5% hairline, described
+   in its own comment as "deliberately near the threshold of
+   perception". Over black that computes to rgb(5,5,5) and rgb(22,22,22):
+   contrast ratios of 1.03 and 1.14 against the page. It was not near the
+   threshold, it was under it, and the reviewer's verdict was "it looks
+   the same". Restraint that produces no visible result is not restraint.
+
+   Values below were computed rather than eyeballed. A surface needs
+   about 0.10 alpha on black to clear a 1.2 contrast ratio; a large panel
+   reads at its boundary so it can sit lower, but not at 0.02.
    ================================================================== */
 
 :root {
-  --rule-soft: rgba(255, 255, 255, 0.085);
-  --surface-raise: rgba(255, 255, 255, 0.018);
+  --rule-soft: rgba(255, 255, 255, 0.22);
+  --surface-raise: rgba(255, 255, 255, 0.055);
+  --section-glow: rgba(190, 240, 235, 0.055);
 }
 
-/* 1. A boundary that is a hairline, not a table border.
-      A full-bleed hard rule at this contrast reads as a box edge. Fading
-      it out at both ends keeps the structural information and loses the
-      boxiness, and it costs one pseudo-element with no layout impact. */
-.section { position: relative; }
+.section { position: relative; isolation: isolate; }
 
+/* A boundary that is a hairline, not a table border. Full-bleed hard
+   rules at this contrast read as box edges, so it fades at both ends:
+   the structure survives, the boxiness does not. */
 .section::before {
   content: "";
   position: absolute;
@@ -5344,26 +5349,41 @@ button:focus-visible {
   left: 0;
   right: 0;
   height: 1px;
+  z-index: 1;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--rule-soft) 16%,
-    var(--rule-soft) 84%,
+    var(--rule-soft) 22%,
+    var(--rule-soft) 78%,
     transparent 100%
   );
   pointer-events: none;
 }
 
-/* The first section after the hero already sits under a real border, and
-   the closing section supplies its own. Doubling either looks like a seam. */
+/* The glow the hero already uses, reused at each seam so a section entry
+   feels like arriving somewhere rather than continuing. Wide, shallow and
+   tinted toward the hero's cyan so it belongs to the same page. */
+.section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(920px, 82%);
+  height: 180px;
+  z-index: 0;
+  background: radial-gradient(
+    60% 100% at 50% 0%,
+    var(--section-glow) 0%,
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
 #decision::before,
 #contact::before { display: none; }
 
-/* 2. Tonal alternation, so consecutive sections are not the same plane.
-      Two percent white is deliberately near the threshold of perception:
-      enough that the eye registers a change of surface when scrolling,
-      not enough to read as a coloured panel. The sections that already
-      carry their own gradient are left alone rather than stacked on. */
+/* Tonal alternation, so consecutive sections are not the same plane. */
 #problem,
 #how-it-works,
 #scope,
@@ -5371,10 +5391,8 @@ button:focus-visible {
   background-color: var(--surface-raise);
 }
 
-/* 3. Spacing rhythm. The argument sections get room to land; the
-      supporting sections tighten. Same total height, different cadence,
-      which is the whole point: uniform spacing carries no emphasis, so
-      nothing on the page can be more important than anything else. */
+/* Spacing rhythm. Uniform spacing carries no emphasis, so nothing on the
+   page can be more important than anything else. */
 #problem,
 #scope {
   padding-top: 136px;
@@ -5388,16 +5406,14 @@ button:focus-visible {
 }
 
 @media (max-width: 720px) {
-  /* Generosity that reads as composure on a desktop reads as dead space on
-     a phone, where the viewport cannot hold the section and the gap. */
   #problem,
-  #scope {
-    padding-top: 76px;
-    padding-bottom: 76px;
-  }
+  #scope { padding-top: 76px; padding-bottom: 76px; }
   #how-it-works,
-  #observe {
-    padding-top: 52px;
-    padding-bottom: 52px;
-  }
+  #observe { padding-top: 52px; padding-bottom: 52px; }
+  .section::after { height: 120px; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Nothing animates here; declared so the glow is never mistaken for a
+     motion effect that should be suppressed. */
 }
