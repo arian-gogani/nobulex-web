@@ -7,32 +7,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nobulex - The decision-integrity firewall for autonomous finance</title>
-  <meta name="description" content="AI agents can receive a 200 OK, valid JSON and a materially wrong price, then place a real trade. Nobulex verifies the financial facts behind an action, enforces deterministic policy, blocks what fails, and issues a receipt.">
+  <meta name="description" content="Nobulex is an open-source decision-integrity gateway prototype for automated finance. It evaluates evidence and policy and issues decision receipts. It is not deployed in production.">
   <link rel="canonical" href="https://nobulex.com/">
   <meta property="og:title" content="Nobulex - A well-formed lie passes every check">
-  <meta property="og:description" content="Nobulex stops AI agents from making financial decisions on bad data. Verify the facts, enforce the policy, block the action, sign the receipt.">
+  <meta property="og:description" content="An open-source prototype for evaluating financial evidence and policy before automated action. Nobulex is not deployed in production.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://nobulex.com/images/nobulex-logo.png">
   <meta property="og:url" content="https://nobulex.com/">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Nobulex - A well-formed lie passes every check">
-  <meta name="twitter:description" content="Nobulex stops AI agents from making financial decisions on bad data. Verify the facts, enforce the policy, block the action, sign the receipt.">
+  <meta name="twitter:description" content="An open-source decision-integrity gateway prototype for automated finance. Nobulex is not deployed in production.">
   <meta name="twitter:image" content="https://nobulex.com/images/nobulex-logo.png">
   <meta name="theme-color" content="#030708">
   <link rel="dns-prefetch" href="https://images.unsplash.com">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@graph":[
-    {"@type":"Organization","@id":"https://nobulex.com/#organization","name":"Nobulex","url":"https://nobulex.com","logo":{"@type":"ImageObject","url":"https://nobulex.com/images/nobulex-logo.png"},"description":"A decision-integrity gateway for automated financial actions. Verifies the financial evidence behind a proposed action, enforces deterministic policy, permits or blocks execution, and issues a receipt. Receipts are Ed25519-signed when a signing key is configured; with no key a receipt is emitted marked UNSIGNED rather than looking signed."},
+    {"@type":"Organization","@id":"https://nobulex.com/#organization","name":"Nobulex","url":"https://nobulex.com","logo":{"@type":"ImageObject","url":"https://nobulex.com/images/nobulex-logo.png"},"description":"An open-source decision-integrity gateway prototype for automated financial actions. It evaluates financial evidence and deterministic policy, returns PERMIT, BLOCK or ESCALATE, and issues a receipt. It is not deployed in production. Receipts are Ed25519-signed when a signing key is configured; with no key a receipt is emitted marked UNSIGNED rather than looking signed."},
     {"@type":"WebSite","@id":"https://nobulex.com/#website","url":"https://nobulex.com","name":"Nobulex","publisher":{"@id":"https://nobulex.com/#organization"}},
     {"@type":"WebPage","@id":"https://nobulex.com/#page","url":"https://nobulex.com/","name":"Nobulex - The decision-integrity firewall for autonomous finance","isPartOf":{"@id":"https://nobulex.com/#website"},"about":{"@id":"https://nobulex.com/#organization"}}
   ]}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-    {"@type":"Question","name":"What is Nobulex?","acceptedAnswer":{"@type":"Answer","text":"Nobulex is a gateway that sits between an automated system and execution. Before a financial action runs, it independently verifies the financial facts the action depends on, evaluates a deterministic policy, and returns PERMIT, BLOCK or ESCALATE. Every decision produces a receipt. Signing is off by default: with a key configured the receipt is Ed25519-signed, and without one it is marked UNSIGNED."}},
+    {"@type":"Question","name":"What is Nobulex?","acceptedAnswer":{"@type":"Answer","text":"Nobulex is an open-source gateway prototype designed to sit between an automated system and execution. It evaluates financial evidence, applies deterministic policy, and returns PERMIT, BLOCK or ESCALATE with a receipt. It is not deployed in production. Signing is off by default: with a key configured the receipt is Ed25519-signed, and without one it is marked UNSIGNED."}},
     {"@type":"Question","name":"How is this different from an agent guardrail?","acceptedAnswer":{"@type":"Answer","text":"A guardrail decides whether an agent is allowed to call a tool. Cloud agent gateways already do that well, including limits on parameters such as dollar amounts. Nobulex asks a different question they do not answer: are the financial facts this action depends on true enough to risk money."}},
     {"@type":"Question","name":"How is this different from data observability?","acceptedAnswer":{"@type":"Answer","text":"Observability platforms watch a data estate and alert on freshness, completeness and schema anomalies. Nobulex binds evidence to one specific proposed action at the moment money is about to move, and can stop that action. They are complementary; Nobulex sends its decisions to your existing monitoring."}},
-    {"@type":"Question","name":"Does a signed receipt prove the data was true?","acceptedAnswer":{"@type":"Answer","text":"No. A signature establishes integrity and provenance: that a named signer attested to a specific decision object containing the action, the policy version, the evidence identifiers and the verdict. The financial evidence establishes the factual basis. Cryptography cannot turn a false source into a true one."}},
+    {"@type":"Question","name":"Does a signed receipt prove the data was true?","acceptedAnswer":{"@type":"Answer","text":"No. A signature establishes that one key signed a specific decision object containing the action, policy version, evidence identifiers and verdict. The current prototype does not bind that key to a durable public identity. The financial evidence establishes the factual basis, and cryptography cannot turn a false source into a true one."}},
     {"@type":"Question","name":"What is INDETERMINATE?","acceptedAnswer":{"@type":"Answer","text":"A first-class third state for when truth cannot be established. Halts, crossed feeds, late corporate actions and vendor disagreement can all make an honest answer impossible. Nobulex reports that rather than guessing, and policy decides whether to escalate, block or allow and log."}},
     {"@type":"Question","name":"Do I have to let it block production traffic on day one?","acceptedAnswer":{"@type":"Answer","text":"No. Observe Mode computes the full verdict and never blocks. You see what would have been stopped against real traffic, calibrate the false-block rate, and enable enforcement on one bounded action type only when the numbers justify it."}}
   ]}
@@ -98,7 +98,7 @@
             <span class="hero__line" data-split="words">Right format.</span>
             <span class="hero__line hero__line--accent" data-split="words">Wrong price.</span>
           </h1>
-          <p class="hero__hook">A well-formed lie passes every check. Nobulex stops agents from trading on it.</p>
+          <p class="hero__hook">A well-formed lie passes every check. Nobulex is built to stop agents from trading on it.</p>
           <p class="hero__kicker">Verify the facts. Enforce the policy. Block the action. Issue the receipt.</p>
           <div class="hero__cta hero__cta-buttons">
             <a href="#decision" class="btn btn--primary">See a blocked trade</a>
@@ -349,7 +349,7 @@ basis          unresolved</pre></div>
             <tbody>
               <tr>
                 <td>Attestation</td>
-                <td>A named signer attested to this exact decision object: action hash, policy version, evidence references, verdict and time</td>
+                <td>The holder of the identified key signed this exact decision object: action hash, policy version, evidence references, verdict and time</td>
                 <td>That the external world was correctly represented by those sources</td>
               </tr>
               <tr>
@@ -447,9 +447,9 @@ basis          unresolved</pre></div>
             <p>Separate evidence and decision states, with INDETERMINATE as a first-class result rather than an exception path.</p>
           </article>
           <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">In progress</span>
+            <span class="primitive-card__label">Built locally</span>
             <h3 class="primitive-card__title">The gateway</h3>
-            <p>The inline decision API and Observe Mode. This is the current work, and it is not yet running in anyone's production path.</p>
+            <p>The HTTP decision API and Observe Mode wrapper are implemented and tested locally. They are not deployed or running in anyone's production path.</p>
           </article>
           <article class="primitive-card" data-reveal>
             <span class="primitive-card__label">Not yet</span>
@@ -494,7 +494,7 @@ basis          unresolved</pre></div>
           </details>
           <details class="faq__item">
             <summary class="faq__summary">Does a signed receipt prove the data was true?</summary>
-            <p class="faq__body">No, and this matters enough to print in the documentation. A signature establishes integrity and provenance: a named signer attested to a specific decision object. The financial evidence establishes the factual basis. Cryptography cannot turn a false source into a true one.</p>
+            <p class="faq__body">No, and this matters enough to print in the documentation. A signature establishes that one key signed a specific decision object. The current prototype does not bind that key to a durable public identity. The financial evidence establishes the factual basis. Cryptography cannot turn a false source into a true one.</p>
           </details>
           <details class="faq__item">
             <summary class="faq__summary">What happens if Nobulex goes down?</summary>

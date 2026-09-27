@@ -1,8 +1,12 @@
 # nobulex.com
 
-The website for **Nobulex, the independent reliability registry for agent tools.**
+The website for **Nobulex, an open-source decision-integrity gateway prototype
+for automated finance.**
 
-Payment rails prove money moved. Nobulex proves what happened on the other side.
+The prototype evaluates financial evidence and deterministic policy, returns
+`PERMIT`, `BLOCK`, or `ESCALATE`, and issues a receipt. It is not deployed in
+production. The historical public register remains available as a prior
+direction, but it is not the product described by the homepage.
 
 The method, the harness, and the publication gate live in
 [**arian-gogani/nobulex-registry**](https://github.com/arian-gogani/nobulex-registry).
@@ -55,11 +59,11 @@ means when a record publishes.
 
 | Path | File | What it is |
 |---|---|---|
-| `/` | `index.html` | The registry, the category, and the governing test |
-| `/register` | `register.html` | **Generated.** The public register |
-| `/methodology` | `methodology.html` | How a verdict is decided, and the disclosure rule |
-| `/why` | `why.html` | The argument, written to be attacked |
-| `/manifesto` | `manifesto.html` | The rules the registry binds itself to |
+| `/` | `index.html` | The decision-integrity gateway prototype and its current state |
+| `/register` | `register.html` | **Generated.** The historical public register |
+| `/methodology` | `methodology.html` | How evidence, policy and receipts are evaluated |
+| `/why` | `why.html` | The prior registry argument, retained for the record |
+| `/manifesto` | `manifesto.html` | The publication and correction principles |
 
 Everything else is a redirect. `vercel.json` carries permanent redirects from
 the pages of the previous site, which was about a different product under the
