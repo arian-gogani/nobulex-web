@@ -5310,3 +5310,94 @@ button:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .evidence-case { transition: none; }
 }
+
+/* ==================================================================
+   SECTION RHYTHM
+   ------------------------------------------------------------------
+   Measured before writing any of this: nine of the thirteen sections
+   had background rgba(0,0,0,0), only three carried a top border, and
+   every padding sat between 80px and 112px. The result was roughly
+   8,000px of page with no tonal change, no boundaries and no variation
+   in spacing, which reads as one continuous texture however good the
+   individual sections are. The hero is strong and then nothing after it
+   tells the eye that it has moved.
+
+   Three devices, all restrained, because the palette is the good part
+   and the fix is structure rather than decoration.
+   ================================================================== */
+
+:root {
+  --rule-soft: rgba(255, 255, 255, 0.085);
+  --surface-raise: rgba(255, 255, 255, 0.018);
+}
+
+/* 1. A boundary that is a hairline, not a table border.
+      A full-bleed hard rule at this contrast reads as a box edge. Fading
+      it out at both ends keeps the structural information and loses the
+      boxiness, and it costs one pseudo-element with no layout impact. */
+.section { position: relative; }
+
+.section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--rule-soft) 16%,
+    var(--rule-soft) 84%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* The first section after the hero already sits under a real border, and
+   the closing section supplies its own. Doubling either looks like a seam. */
+#decision::before,
+#contact::before { display: none; }
+
+/* 2. Tonal alternation, so consecutive sections are not the same plane.
+      Two percent white is deliberately near the threshold of perception:
+      enough that the eye registers a change of surface when scrolling,
+      not enough to read as a coloured panel. The sections that already
+      carry their own gradient are left alone rather than stacked on. */
+#problem,
+#how-it-works,
+#scope,
+#faq {
+  background-color: var(--surface-raise);
+}
+
+/* 3. Spacing rhythm. The argument sections get room to land; the
+      supporting sections tighten. Same total height, different cadence,
+      which is the whole point: uniform spacing carries no emphasis, so
+      nothing on the page can be more important than anything else. */
+#problem,
+#scope {
+  padding-top: 136px;
+  padding-bottom: 136px;
+}
+
+#how-it-works,
+#observe {
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
+@media (max-width: 720px) {
+  /* Generosity that reads as composure on a desktop reads as dead space on
+     a phone, where the viewport cannot hold the section and the gap. */
+  #problem,
+  #scope {
+    padding-top: 76px;
+    padding-bottom: 76px;
+  }
+  #how-it-works,
+  #observe {
+    padding-top: 52px;
+    padding-bottom: 52px;
+  }
+}

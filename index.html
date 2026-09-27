@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nobulex - The decision-integrity firewall for autonomous finance</title>
-  <meta name="description" content="AI agents can receive a 200 OK, valid JSON and a materially wrong price, then place a real trade. Nobulex verifies the financial facts behind an action, enforces deterministic policy, blocks what fails, and signs a receipt.">
+  <meta name="description" content="AI agents can receive a 200 OK, valid JSON and a materially wrong price, then place a real trade. Nobulex verifies the financial facts behind an action, enforces deterministic policy, blocks what fails, and issues a receipt.">
   <link rel="canonical" href="https://nobulex.com/">
   <meta property="og:title" content="Nobulex - A well-formed lie passes every check">
   <meta property="og:description" content="Nobulex stops AI agents from making financial decisions on bad data. Verify the facts, enforce the policy, block the action, sign the receipt.">
@@ -22,14 +22,14 @@
   <link rel="dns-prefetch" href="https://images.unsplash.com">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@graph":[
-    {"@type":"Organization","@id":"https://nobulex.com/#organization","name":"Nobulex","url":"https://nobulex.com","logo":{"@type":"ImageObject","url":"https://nobulex.com/images/nobulex-logo.png"},"description":"A decision-integrity gateway for automated financial actions. Verifies the financial evidence behind a proposed action, enforces deterministic policy, permits or blocks execution, and issues a signed receipt."},
+    {"@type":"Organization","@id":"https://nobulex.com/#organization","name":"Nobulex","url":"https://nobulex.com","logo":{"@type":"ImageObject","url":"https://nobulex.com/images/nobulex-logo.png"},"description":"A decision-integrity gateway for automated financial actions. Verifies the financial evidence behind a proposed action, enforces deterministic policy, permits or blocks execution, and issues a receipt. Receipts are Ed25519-signed when a signing key is configured; with no key a receipt is emitted marked UNSIGNED rather than looking signed."},
     {"@type":"WebSite","@id":"https://nobulex.com/#website","url":"https://nobulex.com","name":"Nobulex","publisher":{"@id":"https://nobulex.com/#organization"}},
     {"@type":"WebPage","@id":"https://nobulex.com/#page","url":"https://nobulex.com/","name":"Nobulex - The decision-integrity firewall for autonomous finance","isPartOf":{"@id":"https://nobulex.com/#website"},"about":{"@id":"https://nobulex.com/#organization"}}
   ]}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-    {"@type":"Question","name":"What is Nobulex?","acceptedAnswer":{"@type":"Answer","text":"Nobulex is a gateway that sits between an automated system and execution. Before a financial action runs, it independently verifies the financial facts the action depends on, evaluates a deterministic policy, and returns PERMIT, BLOCK or ESCALATE. Every decision produces a signed receipt."}},
+    {"@type":"Question","name":"What is Nobulex?","acceptedAnswer":{"@type":"Answer","text":"Nobulex is a gateway that sits between an automated system and execution. Before a financial action runs, it independently verifies the financial facts the action depends on, evaluates a deterministic policy, and returns PERMIT, BLOCK or ESCALATE. Every decision produces a receipt. Signing is off by default: with a key configured the receipt is Ed25519-signed, and without one it is marked UNSIGNED."}},
     {"@type":"Question","name":"How is this different from an agent guardrail?","acceptedAnswer":{"@type":"Answer","text":"A guardrail decides whether an agent is allowed to call a tool. Cloud agent gateways already do that well, including limits on parameters such as dollar amounts. Nobulex asks a different question they do not answer: are the financial facts this action depends on true enough to risk money."}},
     {"@type":"Question","name":"How is this different from data observability?","acceptedAnswer":{"@type":"Answer","text":"Observability platforms watch a data estate and alert on freshness, completeness and schema anomalies. Nobulex binds evidence to one specific proposed action at the moment money is about to move, and can stop that action. They are complementary; Nobulex sends its decisions to your existing monitoring."}},
     {"@type":"Question","name":"Does a signed receipt prove the data was true?","acceptedAnswer":{"@type":"Answer","text":"No. A signature establishes integrity and provenance: that a named signer attested to a specific decision object containing the action, the policy version, the evidence identifiers and the verdict. The financial evidence establishes the factual basis. Cryptography cannot turn a false source into a true one."}},
@@ -99,7 +99,7 @@
             <span class="hero__line hero__line--accent" data-split="words">Wrong price.</span>
           </h1>
           <p class="hero__hook">A well-formed lie passes every check. Nobulex stops agents from trading on it.</p>
-          <p class="hero__kicker">Verify the facts. Enforce the policy. Block the action. Sign the receipt.</p>
+          <p class="hero__kicker">Verify the facts. Enforce the policy. Block the action. Issue the receipt.</p>
           <div class="hero__cta hero__cta-buttons">
             <a href="#decision" class="btn btn--primary">See a blocked trade</a>
             <a href="#how-it-works" class="btn btn--ghost">How it works</a>
@@ -326,7 +326,7 @@ basis          unresolved</pre></div>
           <span class="flow__line flow__line--reveal" data-reveal aria-hidden="true"></span>
           <div class="flow__step flow__step--final" data-reveal>
             <span class="flow__num">6</span>
-            <span class="flow__label">Sign the receipt</span>
+            <span class="flow__label">Issue the receipt</span>
           </div>
         </div>
         <p class="architecture__footnote" data-reveal>Evidence checks cover identity binding, freshness against the market calendar, completeness over the expected window, corporate-action basis, and agreement between independently entitled sources. The evidence timestamp is bound to the action and revalidated at the execution boundary, so a check cannot silently age out between approval and submission.</p>
@@ -478,7 +478,7 @@ basis          unresolved</pre></div>
         <div class="faq__list" data-reveal>
           <details class="faq__item">
             <summary class="faq__summary">What is Nobulex?</summary>
-            <p class="faq__body">A gateway between an automated system and execution. Before a financial action runs, it independently verifies the financial facts that action depends on, evaluates a deterministic policy, and returns PERMIT, BLOCK or ESCALATE. Every decision produces a signed receipt showing what was checked and why.</p>
+            <p class="faq__body">A gateway between an automated system and execution. Before a financial action runs, it independently verifies the financial facts that action depends on, evaluates a deterministic policy, and returns PERMIT, BLOCK or ESCALATE. Every decision produces a receipt showing what was checked and why. Signing is off by default: configure a key and the receipt is Ed25519-signed, run without one and it is marked UNSIGNED rather than presented as signed.</p>
           </details>
           <details class="faq__item">
             <summary class="faq__summary">How is this different from an agent guardrail?</summary>

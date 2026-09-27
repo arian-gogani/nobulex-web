@@ -149,14 +149,51 @@
       { threshold: 0.12, rootMargin: '0px' }
     );
     reveal.forEach((el) => io.observe(el));
-    requestAnimationFrame(() => {
+
+    function sweep() {
+      const vh = window.innerHeight;
       reveal.forEach((el) => {
         if (el.classList.contains('visible')) return;
         const r = el.getBoundingClientRect();
-        const vh = window.innerHeight;
         if (r.top < vh && r.bottom > 0) markVisible(el);
       });
-    });
+    }
+    requestAnimationFrame(sweep);
+
+    // The reveal depended ENTIRELY on IntersectionObserver firing, and the
+    // sweep above ran exactly once at load. An element the observer never
+    // reported stayed at opacity 0 forever. Since the copy IS the product
+    // here, that is a blank screen, not a missing flourish.
+    //
+    // Reproduced on the live site: scrolling in 300px steps left
+    // .integrations__title above the viewport with no .visible class and
+    // computed opacity 0, permanently. IO coalesces at frame boundaries, so a
+    // fast scroll, a browser-restored scroll position, an anchor jump or a
+    // throttled tab can each skip an element, and nothing ever looked again.
+    //
+    // Two independent backstops, because the failure mode is invisible text
+    // and the entire cost of over-revealing is a lost fade:
+    //   1. keep sweeping on scroll and resize, so a missed element is caught
+    //      the next time the viewport moves at all;
+    //   2. after 2.5s reveal everything unconditionally. If the observer is
+    //      not working by then it will not start, and prose the reader cannot
+    //      see is strictly worse than prose that appeared without animating.
+    let queued = false;
+    function queueSweep() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; sweep(); });
+    }
+    window.addEventListener('scroll', queueSweep, { passive: true });
+    window.addEventListener('resize', queueSweep, { passive: true });
+
+    window.setTimeout(() => {
+      reveal.forEach((el) => {
+        if (!el.classList.contains('visible')) markVisible(el);
+      });
+      window.removeEventListener('scroll', queueSweep);
+      window.removeEventListener('resize', queueSweep);
+    }, 2500);
   }
 
   /* --- Header depth on scroll --- */
