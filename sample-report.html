@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.classList.add('js-motion');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,follow">
+  <title>Synthetic pilot report - Nobulex</title>
+  <meta name="description" content="A synthetic example of the report delivered after a Nobulex Observe Mode pilot. This is not a customer or live-trading result.">
+  <meta name="theme-color" content="#030708">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260928">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="header" data-animate="header">
+    <div class="header__top">
+      <a href="/" class="header__logo" aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
+      <nav class="header__quick" aria-label="Quick links">
+        <a href="/pilot">Pilot</a>
+        <a href="/methodology">Method</a>
+      </nav>
+      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+    <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+    <nav class="header__nav" aria-label="Main">
+      <button type="button" class="nav-close" aria-label="Close menu"><span aria-hidden="true">&times;</span></button>
+      <div class="header__links">
+        <a href="/">Home</a>
+        <a href="/pilot">Pilot</a>
+        <a href="/methodology">Method</a>
+      </div>
+      <a href="mailto:nobulex.dev@gmail.com?subject=Seven-day%20Observe%20Mode%20pilot" class="header__cta">Request the pilot</a>
+    </nav>
+  </header>
+
+  <main class="doc-page" id="main">
+    <article class="doc-page__body">
+      <p class="doc-page__kicker">Example deliverable</p>
+      <h1>What a pilot report looks like.</h1>
+      <p class="doc-page__meta">Synthetic example. This is not a customer result, live-trading result, or finding against a named product.</p>
+
+      <p class="lead">A report separates what was observed, how it was judged, what changed, and what remains unknown. It never turns a seeded fault into a customer defect.</p>
+
+      <h2>Executive result</h2>
+      <div class="doc-page__table-wrap">
+        <table>
+          <tbody>
+            <tr><th>Path</th><td>Synthetic U.S. equity paper-order input</td></tr>
+            <tr><th>Window</th><td>20 expected sessions</td></tr>
+            <tr><th>Primary source</th><td>Synthetic source A</td></tr>
+            <tr><th>Reference source</th><td>Synthetic source B</td></tr>
+            <tr><th>Independence</th><td>Assumed for demonstration only</td></tr>
+            <tr><th>Evaluated observations</th><td>5</td></tr>
+            <tr><th>Decisions</th><td>2 permit, 2 block, 1 escalate</td></tr>
+            <tr><th>Production actions changed</th><td>0</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Decision summary</h2>
+      <div class="doc-page__table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Evidence</th><th>Decision</th><th>Reason</th></tr></thead>
+          <tbody>
+            <tr><td>SYN-001</td><td>PASS</td><td>PERMIT</td><td>Twenty sessions, monotonic dates, internally consistent OHLC, and closing-price deviation below 10 basis points.</td></tr>
+            <tr><td>SYN-002</td><td>FAIL</td><td>BLOCK</td><td>The primary series returned 12 of 20 expected sessions.</td></tr>
+            <tr><td>SYN-003</td><td>FAIL</td><td>BLOCK</td><td>The closing price on session 14 differed from the reference by 2.00%, above the fixed 0.10% threshold.</td></tr>
+            <tr><td>SYN-004</td><td>INDETERMINATE</td><td>ESCALATE</td><td>Both sources were readable, but their upstream lineage was unknown.</td></tr>
+            <tr><td>SYN-005</td><td>PASS</td><td>PERMIT</td><td>One extra response field did not change the evaluated values.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Example discrepancy</h2>
+      <pre><code>decision_id       SYN-003
+instrument        SYNTHETIC-XYZ
+session           2026-09-14
+primary_close     102.00
+reference_close   100.00
+deviation         2.00%
+threshold         0.10%
+evidence_status   FAIL
+observe_decision  would BLOCK</code></pre>
+      <p>The customer technical owner classifies the result as a confirmed issue, expected difference, false positive, or unresolved. A confirmed discrepancy becomes a deterministic regression fixture with the same instrument, date, values, and threshold.</p>
+
+      <h2>What this report would not claim</h2>
+      <ul>
+        <li>It would not say the primary source lied.</li>
+        <li>It would not call two sources independent without lineage evidence.</li>
+        <li>It would not treat a receipt signature as proof that the market fact was true.</li>
+        <li>It would not call a seeded fault a customer defect.</li>
+        <li>It would not extrapolate five observations into a reliability score.</li>
+      </ul>
+
+      <h2>The final recommendation</h2>
+      <ol>
+        <li><strong>Redundant on the measured path:</strong> no confirmed discrepancy and no new control information.</li>
+        <li><strong>Continue Observe Mode:</strong> useful signal exists, but false positives, lineage, or operational limits need more evidence.</li>
+        <li><strong>Test bounded enforcement:</strong> confirmed discrepancies exist, false-positive behavior is acceptable, and the customer chooses one low-risk path for a separate test.</li>
+      </ol>
+
+      <hr class="doc-page__rule">
+      <p><a href="/pilot" class="btn btn--primary" style="display:inline-flex;text-decoration:none">See the pilot scope</a></p>
+      <a href="/methodology" class="doc-page__back">Read the method &rarr;</a>
+    </article>
+  </main>
+
+  <div class="scroll-bar" aria-hidden="true"></div>
+  <script src="main.js"></script>
+</body>
+</html>
