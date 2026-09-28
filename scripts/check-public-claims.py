@@ -31,12 +31,21 @@ def main() -> int:
         if "not deployed" not in value:
             errors.append(f"{field} does not disclose that Nobulex is not deployed")
 
-    for name, page in (("homepage", homepage), ("methodology", methodology)):
+    # Every published page, not the two that happened to carry the claim when
+    # this was written. Planting "a named signer attested" in index.html was
+    # caught and planting the identical sentence in why.html was not, while the
+    # script still printed "PASS: public metadata states prototype status and
+    # signer limits". A checker that names two files and reports on all of them
+    # is the evidence-overstates-coverage defect, which is the thing this
+    # repository exists to refuse.
+    pages = sorted(pth for pth in ROOT.glob("*.html"))
+    assert pages, "no published pages found to check"
+    for pth in pages:
+        page = pth.read_text(encoding="utf-8")
         if "a named signer attested" in page.lower():
-            errors.append(f"{name} still implies a verified signer identity")
-
-    if "Nobulex stops agents from trading on it" in homepage:
-        errors.append("hero claims deployed prevention rather than product intent")
+            errors.append(f"{pth.name} still implies a verified signer identity")
+        if "stops agents from trading on it" in page:
+            errors.append(f"{pth.name} claims deployed prevention rather than intent")
 
     gateway_status = (
         "The HTTP decision API and Observe Mode wrapper are implemented and "
@@ -56,7 +65,11 @@ def main() -> int:
             print(f"FAIL: {error}", file=sys.stderr)
         return 1
 
-    print("PASS: public metadata states prototype status and signer limits")
+    # The sentence names what was actually read. It used to assert a property
+    # of "public metadata" while having read two of six pages.
+    print("PASS: %d page(s) carry no deployed-prevention or verified-signer "
+          "claim, and index.html metadata states prototype status: %s"
+          % (len(pages), ", ".join(pth.name for pth in pages)))
     return 0
 
 
