@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.classList.add('js-motion');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seven-day Observe Mode pilot - Nobulex</title>
+  <meta name="description" content="A fixed-scope, seven-day Nobulex pilot on one automated-finance data path. No execution access, no brokerage credentials, and no production blocking.">
+  <meta property="og:title" content="Seven-day Observe Mode pilot - Nobulex">
+  <meta property="og:description" content="One financial data path, seven days, and a measured decision-integrity report. Fixed price: $2,500.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nobulex.com/pilot">
+  <meta property="og:image" content="https://nobulex.com/images/nobulex-logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Seven-day Observe Mode pilot - Nobulex">
+  <meta name="twitter:description" content="One financial data path, seven days, and a measured decision-integrity report. Fixed price: $2,500.">
+  <meta name="theme-color" content="#030708">
+  <link rel="canonical" href="https://nobulex.com/pilot">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260928">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="header" data-animate="header">
+    <div class="header__top">
+      <a href="/" class="header__logo" aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
+      <nav class="header__quick" aria-label="Quick links">
+        <a href="/#decision">The decision</a>
+        <a href="/methodology">Method</a>
+        <a href="/pilot" aria-current="page">Pilot</a>
+      </nav>
+      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+    <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+    <nav class="header__nav" aria-label="Main">
+      <button type="button" class="nav-close" aria-label="Close menu"><span aria-hidden="true">&times;</span></button>
+      <div class="header__links">
+        <a href="/">Home</a>
+        <a href="/#decision">The decision</a>
+        <a href="/methodology">Method</a>
+        <a href="/pilot" aria-current="page">Pilot</a>
+        <a href="/manifesto">Manifesto</a>
+      </div>
+      <a href="mailto:nobulex.dev@gmail.com?subject=Seven-day%20Observe%20Mode%20pilot" class="header__cta">Request the pilot</a>
+    </nav>
+  </header>
+
+  <main class="doc-page" id="main">
+    <article class="doc-page__body">
+      <p class="doc-page__kicker">Fixed-scope design-partner offer</p>
+      <h1>One financial path. Seven days. No execution changes.</h1>
+      <p class="doc-page__meta">$2,500 fixed. Credited toward a production deployment if the pilot produces a confirmed useful result.</p>
+
+      <p class="lead">Nobulex replays or observes one automated-finance data path and shows which decisions it would permit, block, or escalate. It does not place, cancel, modify, or block an order during the pilot.</p>
+
+      <p><a href="mailto:nobulex.dev@gmail.com?subject=Seven-day%20Observe%20Mode%20pilot" class="btn btn--primary" style="display:inline-flex;text-decoration:none">Request the pilot</a></p>
+
+      <h2>The question this answers</h2>
+      <p>Can your workflow receive plausible market data, execute its own rules correctly, and still act on evidence that is stale, incomplete, shifted, structurally impossible, or materially different from a separate reference?</p>
+      <p>If every check agrees, the report says the control was redundant on the measured path. If a discrepancy appears, it names the exact dates, fields, thresholds, source relationship, and decision it changed.</p>
+
+      <h2>What you provide</h2>
+      <ul>
+        <li>One historical or paper-trading path.</li>
+        <li>The JSON or CSV bars the workflow actually used.</li>
+        <li>A reference series for the same instrument and dates, or permission to use a named public reference.</li>
+        <li>The source names, adjustment conventions, and threshold your team considers material.</li>
+        <li>One technical owner who can classify discrepancies as confirmed, expected, false positive, or unresolved.</li>
+      </ul>
+      <p class="doc-page__note">Do not send API keys, brokerage credentials, account numbers, customer identities, strategy code, signing secrets, or unrelated positions. Synthetic identifiers are enough.</p>
+
+      <h2>What Nobulex checks</h2>
+      <div class="doc-page__table-wrap">
+        <table>
+          <thead><tr><th>Check</th><th>Measured failure</th></tr></thead>
+          <tbody>
+            <tr><td>Identity</td><td>The returned instrument is not the requested instrument.</td></tr>
+            <tr><td>Window and completeness</td><td>The returned series is materially shorter than the reference, or its dates overlap too little to compare safely.</td></tr>
+            <tr><td>Freshness</td><td>The newest observation is stale or implausibly in the future.</td></tr>
+            <tr><td>Ordering</td><td>Dates are duplicated or non-monotonic.</td></tr>
+            <tr><td>OHLC structure</td><td>Open, high, low, and close cannot all be true together.</td></tr>
+            <tr><td>Reference fidelity</td><td>Closing prices differ beyond a threshold fixed before the run.</td></tr>
+            <tr><td>Policy</td><td>The proposed action exceeds a deterministic limit.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>What you receive</h2>
+      <ol>
+        <li>A decision packet for every governed observation.</li>
+        <li>A review queue for every would-block and would-escalate result.</li>
+        <li>A fault-replay report covering seeded stale, truncated, shifted, future-dated, and materially altered data.</li>
+        <li>A false-positive review completed with your technical owner.</li>
+        <li>Measured coverage and added latency.</li>
+        <li>A final recommendation: redundant, continue observing, or test bounded enforcement.</li>
+      </ol>
+
+      <h2>Success criteria</h2>
+      <ul>
+        <li>Production behavior changes: zero.</li>
+        <li>Coverage of the selected path: reported explicitly.</li>
+        <li>Every non-permit result has a human-readable reason and retained evidence.</li>
+        <li>Customer and Nobulex agree on the count of confirmed issues, expected differences, false positives, and unresolved cases.</li>
+        <li>Every confirmed discrepancy becomes a reusable regression fixture.</li>
+      </ul>
+
+      <h2>Commercial terms</h2>
+      <div class="doc-page__table-wrap">
+        <table>
+          <tbody>
+            <tr><th>Price</th><td>$2,500 fixed for one path and one seven-day analysis.</td></tr>
+            <tr><th>Credit</th><td>The full fee is credited toward a production deployment if the pilot produces a confirmed useful result.</td></tr>
+            <tr><th>Access</th><td>No brokerage credentials, customer funds, or production write access.</td></tr>
+            <tr><th>Data</th><td>Bring your own licensed data. Nobulex stores hashes and decision metadata in the report, not a reusable market-data feed.</td></tr>
+            <tr><th>Publication</th><td>Private by default. No company name, result, or case study is published without written approval.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Good fit</h2>
+      <p>Automated-investing products, broker or market-data APIs, trading infrastructure, portfolio automation, and financial agents with a historical or paper path that can be reviewed without touching customer funds.</p>
+
+      <h2>Not a fit yet</h2>
+      <p>A team seeking investment advice, performance guarantees, a replacement market-data license, automatic regulatory compliance, or an unreviewed switch that blocks live trading on day one.</p>
+
+      <h2>The claim boundary</h2>
+      <p>A comparison is independent only when the subject and reference do not share the same upstream truth source. Two vendor names do not prove independence. If lineage is unknown, the report says unknown. If both sides share an upstream, the result is a transport comparison and is labeled that way.</p>
+      <p class="doc-page__note">Nobulex currently has no production customer deployment. This offer is designed to produce the first measured customer result, including a negative result if the method adds no information.</p>
+
+      <hr class="doc-page__rule">
+
+      <h2>Request the pilot</h2>
+      <p>Email the workflow type, whether the path is historical or paper trading, the two source names, and the technical owner who would review discrepancies. Do not attach credentials or customer data.</p>
+      <p><a href="mailto:nobulex.dev@gmail.com?subject=Seven-day%20Observe%20Mode%20pilot" class="btn btn--primary" style="display:inline-flex;text-decoration:none">Email Nobulex</a></p>
+      <a href="/methodology" class="doc-page__back">Read the method &rarr;</a>
+    </article>
+  </main>
+
+  <div class="scroll-bar" aria-hidden="true"></div>
+  <script src="main.js"></script>
+</body>
+</html>

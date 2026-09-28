@@ -5183,6 +5183,11 @@ button:focus-visible {
 .doc-page p.lead { font-size: 1.45rem; line-height: 1.55; color: var(--text); }
 .doc-page strong { color: var(--text); font-weight: 400; }
 .doc-page a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.doc-page a.btn--primary,
+.doc-page a.btn--primary:visited {
+  color: var(--bg);
+  text-decoration: none;
+}
 .doc-page ul, .doc-page ol { margin: 0 0 1.6rem 1.15rem; padding: 0; }
 .doc-page li { font-size: 1.12rem; line-height: 1.65; color: var(--text-secondary); margin-bottom: 0.7rem; }
 .doc-page code {
