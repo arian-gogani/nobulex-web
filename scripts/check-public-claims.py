@@ -20,6 +20,7 @@ def meta(html: str, key: str) -> str:
 def main() -> int:
     homepage = (ROOT / "index.html").read_text(encoding="utf-8")
     methodology = (ROOT / "methodology.html").read_text(encoding="utf-8")
+    pilot = (ROOT / "pilot.html").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     package = (ROOT / "package.json").read_text(encoding="utf-8")
     errors = []
@@ -59,6 +60,24 @@ def main() -> int:
 
     if "decision-integrity" not in package.lower():
         errors.append("package metadata still describes the retired category")
+
+    pilot_description = meta(pilot, "description").lower()
+    if "market-data series" not in pilot_description:
+        errors.append("pilot metadata does not limit the offer to a market-data series")
+
+    pilot_exclusion = (
+        "It does not validate the strategy, recommendation, route, order, "
+        "or account action."
+    )
+    if pilot_exclusion not in pilot:
+        errors.append("pilot page does not exclude unsupported decision validation")
+
+    if "manually preserved as a regression fixture" not in pilot:
+        errors.append("pilot page implies automatic regression-fixture generation")
+
+    for phrase in ("automated-finance data path", "One financial path"):
+        if phrase in pilot:
+            errors.append(f"pilot page uses overbroad scope phrase: {phrase}")
 
     if errors:
         for error in errors:

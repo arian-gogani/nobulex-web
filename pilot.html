@@ -5,15 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Seven-day Observe Mode pilot - Nobulex</title>
-  <meta name="description" content="A fixed-scope, seven-day Nobulex pilot on one automated-finance data path. No execution access, no brokerage credentials, and no production blocking.">
+  <meta name="description" content="A fixed-scope, seven-day Nobulex pilot on one supplied market-data series and a named reference. No execution access, credentials, or production blocking.">
   <meta property="og:title" content="Seven-day Observe Mode pilot - Nobulex">
-  <meta property="og:description" content="One financial data path, seven days, and a measured decision-integrity report. Fixed price: $2,500.">
+  <meta property="og:description" content="One supplied market-data series, one named reference, seven days, and a measured report. Fixed price: $2,500.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://nobulex.com/pilot">
   <meta property="og:image" content="https://nobulex.com/images/nobulex-logo.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Seven-day Observe Mode pilot - Nobulex">
-  <meta name="twitter:description" content="One financial data path, seven days, and a measured decision-integrity report. Fixed price: $2,500.">
+  <meta name="twitter:description" content="One supplied market-data series, one named reference, seven days, and a measured report. Fixed price: $2,500.">
   <meta name="theme-color" content="#030708">
   <link rel="canonical" href="https://nobulex.com/pilot">
   <link rel="icon" type="image/png" href="/icon.png">
@@ -56,10 +56,12 @@
   <main class="doc-page" id="main">
     <article class="doc-page__body">
       <p class="doc-page__kicker">Fixed-scope design-partner offer</p>
-      <h1>One financial path. Seven days. No execution changes.</h1>
+      <h1>One market-data series. Seven days. No execution changes.</h1>
       <p class="doc-page__meta">$2,500 fixed. Credited toward a production deployment if the pilot produces a confirmed useful result.</p>
 
-      <p class="lead">Nobulex replays or observes one automated-finance data path and shows which decisions it would permit, block, or escalate. It does not place, cancel, modify, or block an order during the pilot.</p>
+      <p class="lead">Nobulex compares one supplied market-data series with a named reference and reports which observations would permit, block, or escalate under the declared thresholds. It does not place, cancel, modify, or block an order during the pilot.</p>
+
+      <p class="doc-page__note">It does not validate the strategy, recommendation, route, order, or account action. If the reference is not independent or required evidence is missing, the evidence result is INDETERMINATE.</p>
 
       <p><a href="mailto:nobulex.dev@gmail.com?subject=Seven-day%20Observe%20Mode%20pilot" class="btn btn--primary" style="display:inline-flex;text-decoration:none">Request the pilot</a></p>
 
@@ -110,7 +112,7 @@
         <li>Coverage of the selected path: reported explicitly.</li>
         <li>Every non-permit result has a human-readable reason and retained evidence.</li>
         <li>Customer and Nobulex agree on the count of confirmed issues, expected differences, false positives, and unresolved cases.</li>
-        <li>Every confirmed discrepancy becomes a reusable regression fixture.</li>
+        <li>Every customer-confirmed discrepancy can be manually preserved as a regression fixture.</li>
       </ul>
 
       <h2>Commercial terms</h2>
@@ -127,10 +129,10 @@
       </div>
 
       <h2>Good fit</h2>
-      <p>Automated-investing products, broker or market-data APIs, trading infrastructure, portfolio automation, and financial agents with a historical or paper path that can be reviewed without touching customer funds.</p>
+      <p>Teams with an instrument-and-date-indexed market-data series, a named comparison source, and a historical or paper workflow that can be reviewed without touching customer funds.</p>
 
       <h2>Not a fit yet</h2>
-      <p>A team seeking investment advice, performance guarantees, a replacement market-data license, automatic regulatory compliance, or an unreviewed switch that blocks live trading on day one.</p>
+      <p>A team seeking investment advice, performance guarantees, strategy validation, recommendation or order validation, routing verification, checkout verification, a replacement market-data license, automatic regulatory compliance, or an unreviewed switch that blocks live trading on day one.</p>
 
       <h2>The claim boundary</h2>
       <p>A comparison is independent only when the subject and reference do not share the same upstream truth source. Two vendor names do not prove independence. If lineage is unknown, the report says unknown. If both sides share an upstream, the result is a transport comparison and is labeled that way.</p>
