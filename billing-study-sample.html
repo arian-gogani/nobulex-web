@@ -74,6 +74,11 @@
       <p><strong>Mismatch in the original released-version test:</strong> the dry run and final invoice both returned $50 for a period where the synthetic catalog timeline called for $150. Their agreement was not independent evidence that the amount was correct.</p>
       <p><strong>Regression check:</strong> the new focused comparator test failed against the released code it replaced. The separate enabled invoice regression on released Kill Bill 0.24.19 with H2 observed $50 before the patch and $150 after it. The <a href="https://github.com/killbill/killbill/pull/2320">PR's verification notes</a> describe the commands and scope. This sample is a presentation of that existing result, not a new customer study.</p>
 
+      <h2>Run the bounded reference comparison</h2>
+      <p>The checked-in <a href="https://github.com/arian-gogani/nobulex-web/blob/main/scripts/flat_recurring_replay.py">Python comparator</a> reads a <a href="https://github.com/arian-gogani/nobulex-web/blob/main/examples/billing-flat-recurring-v1.json">synthetic JSON case</a>. It selects the latest catalog price eligible under the declared rule and compares the amount and period with the recorded invoice line. It does not run Kill Bill, fetch a catalog, authenticate the input, or model all of Kill Bill's billing rules. A mismatch exits 1; a match exits 0; unsupported or incomplete input says REFUSED and exits 2.</p>
+      <pre><code>python3 scripts/flat_recurring_replay.py examples/billing-flat-recurring-v1.json</code></pre>
+      <p>For the published fixture it returns MISMATCH, expected 150.00, observed 50.00, difference 100.00. The source and fixture are small enough to inspect before trusting the result.</p>
+
       <h2>What remains unresolved</h2>
       <ul>
         <li>The current master build was not run locally because its snapshot parent dependency required authenticated access. Released-tag H2 results do not establish current-master CI results.</li>

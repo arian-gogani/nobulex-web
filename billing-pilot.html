@@ -64,6 +64,8 @@
       <p><a href="mailto:nobulex.dev@gmail.com?subject=Kill%20Bill%20billing%20replay%20study" class="btn btn--primary" style="display:inline-flex;text-decoration:none">Ask about the study</a></p>
       <p><a href="/billing-study-sample">See a synthetic sample of the result &rarr;</a></p>
 
+      <p><strong>Two-minute buyer-fit question:</strong> For a price change affecting existing subscriptions, what independent artifact tells your release team the amount and period the next invoice should contain? If your tests already cover it, that answer is useful too. <a href="mailto:nobulex.dev@gmail.com?subject=Billing%20replay%20buyer-fit%20question">Reply by email</a>; no call or private data is needed.</p>
+
       <h2>Why this question</h2>
       <p>In <a href="https://github.com/killbill/killbill/issues/2291">Kill Bill issue #2291</a>, the reporter describes a production-client case where a catalog price change did not reach the invoice, and says the dry run repeated the wrong amount. We reproduced two related paths locally on released Kill Bill 0.24.19 and opened separate fixes: <a href="https://github.com/killbill/killbill/pull/2320">PR #2320</a> and <a href="https://github.com/killbill/killbill/pull/2321">PR #2321</a>. Those results are from test invoices, not a Nobulex customer or a production deployment. <a href="/research-killbill-catalog-replay">Read the evidence and limits.</a></p>
 

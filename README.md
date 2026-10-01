@@ -10,7 +10,8 @@ direction, but it is not the product described by the homepage.
 
 The method, the harness, and the publication gate live in
 [**arian-gogani/nobulex-registry**](https://github.com/arian-gogani/nobulex-registry).
-This repository is only the site.
+This repository is the site plus one bounded synthetic billing comparison example,
+not a production billing service.
 
 ---
 
@@ -65,6 +66,8 @@ means when a record publishes.
 | `/why` | `why.html` | The prior registry argument, retained for the record |
 | `/manifesto` | `manifesto.html` | The publication and correction principles |
 | `/research-killbill-catalog-replay` | `research-killbill-catalog-replay.html` | A source-backed billing research note, not a customer result |
+| `/billing-pilot` | `billing-pilot.html` | Proposed fixed-scope study, not a sold engagement |
+| `/billing-study-sample` | `billing-study-sample.html` | Synthetic example of the proposed result |
 
 Everything else is a redirect. `vercel.json` carries permanent redirects from
 the pages of the previous site, which was about a different product under the
@@ -82,6 +85,20 @@ no dependencies at runtime.
 python3 -m http.server 8000
 ```
 
+The synthetic billing comparison uses only Python's standard library:
+
+```
+python3 scripts/flat_recurring_replay.py examples/billing-flat-recurring-v1.json
+python3 -m unittest scripts.test_flat_recurring_replay
+```
+
+The published fixture intentionally exits 1 with `MISMATCH`: the caller-supplied
+catalog timeline gives $150, while its observed invoice line is $50. `MATCH`
+exits 0 and incomplete or unsupported input prints `REFUSED` and exits 2. This
+small example neither runs Kill Bill nor authenticates the catalog; it only
+evaluates its declared flat-recurring rule for a synthetic case. It is not a
+general invoice engine or evidence of customer adoption.
+
 Deploys to Vercel on push to `main`. `vercel.json` also sets
 `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`,
 and `X-Frame-Options: SAMEORIGIN`.
@@ -90,7 +107,7 @@ and `X-Frame-Options: SAMEORIGIN`.
 
 ## House style
 
-No em dashes. No certification language, no trust scores, no dollar figures,
+No em dashes. No certification language, no trust scores, no unverified dollar figures,
 no counts of tests or packages or lines. No present tense about anything that
 has not happened yet. The product is a claim that other people's outputs are
 not trustworthy, so overclaiming this project's own state is the fastest

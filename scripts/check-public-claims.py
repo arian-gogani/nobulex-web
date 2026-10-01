@@ -34,6 +34,8 @@ def main() -> int:
     billing_offer = (ROOT / "billing-pilot.html").read_text(encoding="utf-8")
     if 'href="/billing-study-sample"' not in billing_offer:
         errors.append("billing offer does not show the synthetic sample deliverable")
+    if "For a price change affecting existing subscriptions, what independent artifact" not in billing_offer:
+        errors.append("billing offer does not ask the short buyer-fit question")
     sample_path = ROOT / "billing-study-sample.html"
     if not sample_path.exists():
         errors.append("synthetic billing study sample page is missing")
@@ -46,6 +48,8 @@ def main() -> int:
             "August 1 to September 1, 2026",
             "current master build was not run",
             'href="https://github.com/killbill/killbill/pull/2320"',
+            'href="https://github.com/arian-gogani/nobulex-web/blob/main/scripts/flat_recurring_replay.py"',
+            'href="https://github.com/arian-gogani/nobulex-web/blob/main/examples/billing-flat-recurring-v1.json"',
         ):
             if required not in sample:
                 errors.append(f"billing sample omits verified scope or value: {required}")

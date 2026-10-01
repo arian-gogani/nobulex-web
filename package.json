@@ -6,6 +6,6 @@
   "scripts": {
     "dev": "python3 -m http.server 3333",
     "open": "open http://127.0.0.1:3333",
-    "test": "python3 scripts/check-public-claims.py"
+    "test": "python3 scripts/check-public-claims.py && python3 -m unittest scripts.test_flat_recurring_replay"
   }
 }
