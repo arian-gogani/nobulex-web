@@ -31,6 +31,25 @@ def main() -> int:
     if 'href="/billing-pilot"' not in hero or "Proposed $2,500 study" not in hero:
         errors.append("homepage first screen does not link and scope the proposed billing offer")
 
+    billing_offer = (ROOT / "billing-pilot.html").read_text(encoding="utf-8")
+    if 'href="/billing-study-sample"' not in billing_offer:
+        errors.append("billing offer does not show the synthetic sample deliverable")
+    sample_path = ROOT / "billing-study-sample.html"
+    if not sample_path.exists():
+        errors.append("synthetic billing study sample page is missing")
+    else:
+        sample = sample_path.read_text(encoding="utf-8")
+        for required in (
+            "Synthetic sample, not customer work",
+            "Expected $150",
+            "Observed $50",
+            "August 1 to September 1, 2026",
+            "current master build was not run",
+            'href="https://github.com/killbill/killbill/pull/2320"',
+        ):
+            if required not in sample:
+                errors.append(f"billing sample omits verified scope or value: {required}")
+
     for field in ("description", "og:description", "twitter:description"):
         value = meta(homepage, field).lower()
         if "prototype" not in value:

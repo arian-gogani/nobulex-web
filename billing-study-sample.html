@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.classList.add('js-motion');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sample billing replay result | Nobulex</title>
+  <meta name="description" content="A synthetic sample of the proposed Nobulex billing replay study, based on a released-version Kill Bill invoice regression. Not a customer result or deployed billing control.">
+  <meta property="og:title" content="Sample billing replay result | Nobulex">
+  <meta property="og:description" content="See how a synthetic $150 expected invoice differs from a $50 dry run and final invoice in a released-version test. Not customer work.">
+  <meta property="og:url" content="https://nobulex.com/billing-study-sample">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sample billing replay result | Nobulex">
+  <meta name="twitter:description" content="A synthetic released-version Kill Bill test, with the expected amount, observed amount, evidence and limits. Not a customer result.">
+  <link rel="canonical" href="https://nobulex.com/billing-study-sample">
+  <meta name="theme-color" content="#030708">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260928">
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="header" data-animate="header">
+    <div class="header__top">
+      <a href="/" class="header__logo" aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
+      <nav class="header__quick" aria-label="Quick links">
+        <a href="/billing-pilot">Billing study</a>
+        <a href="/research-killbill-catalog-replay">The evidence</a>
+      </nav>
+      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+    <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+    <nav class="header__nav" aria-label="Main">
+      <button type="button" class="nav-close" aria-label="Close menu"><span aria-hidden="true">&times;</span></button>
+      <div class="header__links">
+        <a href="/">Home</a>
+        <a href="/billing-pilot">Billing study</a>
+        <a href="/research-killbill-catalog-replay">The evidence</a>
+      </div>
+      <a href="mailto:nobulex.dev@gmail.com?subject=Kill%20Bill%20billing%20replay%20study" class="header__cta">Ask about the study</a>
+    </nav>
+  </header>
+
+  <main class="doc-page" id="main">
+    <article class="doc-page__body">
+      <p class="doc-page__kicker">Example deliverable</p>
+      <h1>A dry run agreed with the invoice. Both missed the latest price.</h1>
+      <p class="doc-page__meta">Synthetic sample, not customer work. Local test on released Kill Bill 0.24.19 with embedded H2.</p>
+      <p class="lead">The important comparison is between the invoice and an expected amount derived separately from the catalog timeline. Comparing the dry run with the final invoice alone would not catch this case.</p>
+
+      <h2>One named scenario</h2>
+      <p>For the <a href="https://github.com/killbill/killbill/issues/2291">public issue #2291</a> reproduction, a monthly subscription starts with a $100 price on July 1. Two subsequent catalog versions set $50 on July 15 and $150 on July 18, both intended to apply to existing subscriptions at the next aligned billing boundary. The target period is August 1 to September 1, 2026. This is a test fixture, not a customer's approved catalog.</p>
+      <div class="doc-page__table-wrap"><table>
+        <thead><tr><th>Check</th><th>Amount</th><th>Basis</th></tr></thead>
+        <tbody>
+          <tr><td>Expected invoice</td><td>Expected $150</td><td>Latest catalog version in the synthetic fixture, effective before the August billing boundary.</td></tr>
+          <tr><td>Dry run and final invoice on original released code</td><td>Observed $50</td><td>The later $150 billing event disappeared when two changes aligned to the same boundary.</td></tr>
+          <tr><td>Invoice after the proposed comparator patch</td><td>$150 in the August and September periods</td><td>Released-tag H2 regression reported in <a href="https://github.com/killbill/killbill/pull/2320">Kill Bill PR #2320</a>.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2>What the sample result says</h2>
+      <p><strong>Mismatch in the original released-version test:</strong> the dry run and final invoice both returned $50 for a period where the synthetic catalog timeline called for $150. Their agreement was not independent evidence that the amount was correct.</p>
+      <p><strong>Regression check:</strong> the new focused comparator test failed against the released code it replaced. The separate enabled invoice regression on released Kill Bill 0.24.19 with H2 observed $50 before the patch and $150 after it. The <a href="https://github.com/killbill/killbill/pull/2320">PR's verification notes</a> describe the commands and scope. This sample is a presentation of that existing result, not a new customer study.</p>
+
+      <h2>What remains unresolved</h2>
+      <ul>
+        <li>The current master build was not run locally because its snapshot parent dependency required authenticated access. Released-tag H2 results do not establish current-master CI results.</li>
+        <li>This example excludes usage charges, discounts, taxes, credits, currency conversion and customer-specific rules.</li>
+        <li>The <a href="https://github.com/killbill/killbill/pull/2321">same-day subscription-start case</a> is a separate mechanism with its own regression. This page does not use one case as proof of the other.</li>
+        <li>No operator has said they lack this check or would pay Nobulex to run it. This page makes no claim about any named customer's invoices.</li>
+      </ul>
+
+      <h2>What the proposed study would add</h2>
+      <p>For a buyer-supplied synthetic scenario, the study would document the approved price and effective-date rule, calculate the expected amount and period independently of the dry-run total, compare the two, and keep a runnable regression fixture if the inputs permit one. If the buyer's existing release tests already do this, the result should say so.</p>
+      <p><a href="/billing-pilot" class="btn btn--primary" style="display:inline-flex;text-decoration:none">See the proposed study</a></p>
+      <hr class="doc-page__rule">
+      <a href="/research-killbill-catalog-replay" class="doc-page__back">Read the research and limits &rarr;</a>
+    </article>
+  </main>
+
+  <div class="scroll-bar" aria-hidden="true"></div>
+  <script src="main.js"></script>
+</body>
+</html>
