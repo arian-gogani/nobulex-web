@@ -3605,6 +3605,14 @@ button:focus-visible {
   color: #d2fff6;
 }
 
+.billing-research .billing-research__reply {
+  display: block;
+  width: fit-content;
+  margin-top: 0.65rem;
+  color: #f7f7f2;
+  font-weight: 500;
+}
+
 .billing-research__scope {
   color: rgba(238, 247, 244, 0.65);
   font-size: 0.85rem;
