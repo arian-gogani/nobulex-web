@@ -701,6 +701,14 @@ main {
   padding: 0;
 }
 
+.hero--billing .hero__inner {
+  max-width: min(58rem, 100%);
+}
+
+.hero--billing .hero__content {
+  max-width: 52rem;
+}
+
 /* Hero stagger: premium entrance (reduced-motion overrides below) */
 @media (prefers-reduced-motion: no-preference) {
   .hero__content > * {

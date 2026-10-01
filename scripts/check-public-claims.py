@@ -25,6 +25,12 @@ def main() -> int:
     package = (ROOT / "package.json").read_text(encoding="utf-8")
     errors = []
 
+    hero = homepage.split('<section class="hero"', 1)[-1].split('</section>', 1)[0]
+    if "Billed $50." not in hero or "Expected $150." not in hero:
+        errors.append("homepage first screen does not lead with the reproduced billing failure")
+    if 'href="/billing-pilot"' not in hero or "Proposed $2,500 study" not in hero:
+        errors.append("homepage first screen does not link and scope the proposed billing offer")
+
     for field in ("description", "og:description", "twitter:description"):
         value = meta(homepage, field).lower()
         if "prototype" not in value:
