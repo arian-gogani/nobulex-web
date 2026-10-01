@@ -47,6 +47,10 @@ def main() -> int:
             errors.append(f"{pth.name} still implies a verified signer identity")
         if "stops agents from trading on it" in page:
             errors.append(f"{pth.name} claims deployed prevention rather than intent")
+        if pth.name != "404.html":
+            loader = '<script defer src="/_vercel/insights/script.js"></script>'
+            if loader not in page:
+                errors.append(f"{pth.name} does not load the verified analytics script")
 
     gateway_status = (
         "The HTTP decision API and Observe Mode wrapper are implemented and "
@@ -87,8 +91,10 @@ def main() -> int:
     # The sentence names what was actually read. It used to assert a property
     # of "public metadata" while having read two of six pages.
     print("PASS: %d page(s) carry no deployed-prevention or verified-signer "
-          "claim, and index.html metadata states prototype status: %s"
-          % (len(pages), ", ".join(pth.name for pth in pages)))
+          "claim, %d non-404 page(s) load the verified analytics script, "
+          "and index.html metadata states prototype status: %s"
+          % (len(pages), len(pages) - 1,
+             ", ".join(pth.name for pth in pages)))
     return 0
 
 
