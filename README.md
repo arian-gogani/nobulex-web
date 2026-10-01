@@ -64,6 +64,7 @@ means when a record publishes.
 | `/methodology` | `methodology.html` | How evidence, policy and receipts are evaluated |
 | `/why` | `why.html` | The prior registry argument, retained for the record |
 | `/manifesto` | `manifesto.html` | The publication and correction principles |
+| `/research-killbill-catalog-replay` | `research-killbill-catalog-replay.html` | A source-backed billing research note, not a customer result |
 
 Everything else is a redirect. `vercel.json` carries permanent redirects from
 the pages of the previous site, which was about a different product under the

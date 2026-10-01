@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.classList.add('js-motion');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>When a billing dry run agrees with the wrong invoice | Nobulex research</title>
+  <meta name="description" content="A source-backed Kill Bill catalog case: a missing price change affected both dry-run and final invoices. Two fixes are proposed upstream. Independent expected-invoice replay remains a research question, not a deployed Nobulex product.">
+  <meta property="og:title" content="When a billing dry run agrees with the wrong invoice">
+  <meta property="og:description" content="A catalog-change regression in Kill Bill shows why replaying the same billing engine is not an independent amount check. Research note, not a customer result.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://nobulex.com/research-killbill-catalog-replay">
+  <meta property="og:image" content="https://nobulex.com/images/nobulex-logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="When a billing dry run agrees with the wrong invoice">
+  <meta name="twitter:description" content="A source-backed billing regression and the independent check it suggests. No customer pilot is claimed.">
+  <meta name="theme-color" content="#030708">
+  <link rel="canonical" href="https://nobulex.com/research-killbill-catalog-replay">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="header" data-animate="header">
+    <div class="header__top">
+      <a href="/" class="header__logo" aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
+      <nav class="header__quick" aria-label="Quick links">
+        <a href="/pilot">Pilot</a>
+        <a href="/methodology">Method</a>
+      </nav>
+      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+    <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+    <nav class="header__nav" aria-label="Main">
+      <button type="button" class="nav-close" aria-label="Close menu"><span aria-hidden="true">&times;</span></button>
+      <div class="header__links">
+        <a href="/">Home</a>
+        <a href="/pilot">Pilot</a>
+        <a href="/methodology">Method</a>
+      </div>
+      <a href="mailto:nobulex.dev@gmail.com?subject=Billing%20replay%20research" class="header__cta">Discuss the research</a>
+    </nav>
+  </header>
+
+  <main class="doc-page" id="main">
+    <article class="doc-page__body">
+      <p class="doc-page__kicker">Research note · October 2026</p>
+      <h1>When a billing dry run agrees with the wrong invoice</h1>
+      <p class="doc-page__meta">An adjacent billing case, not a Nobulex customer deployment or a result from its market-data pilot.</p>
+
+      <p class="lead">A preview and a final invoice can agree because they share the same missing input. Agreement within one engine is not an independent check of the amount that should have been billed.</p>
+
+      <h2>The reported failure</h2>
+      <p>In <a href="https://github.com/killbill/killbill/issues/2291">Kill Bill issue #2291</a>, the reporter describes catalog changes intended for existing subscriptions being lost when multiple changes align to one billing boundary. A later price disappears from the event set. The reporter says the invoice dry run repeated the incorrect final amount, and that one case came from a production client. Those are the reporter's observations, not a Nobulex production finding.</p>
+      <p>The same issue describes a second, distinct boundary: a catalog change effective later on a subscription's start day can be aligned back to an earlier instant on that day. The candidate then falls before the change and is discarded. The two mechanisms require separate fixes.</p>
+
+      <h2>What we tested</h2>
+      <p>We reproduced both cases in a local H2 test environment using the released Kill Bill 0.24.19 source. The added invoice regression failed against the original code and passed with each corresponding patch. The proposed fixes are <a href="https://github.com/killbill/killbill/pull/2320">PR #2320 for colliding catalog changes</a> and <a href="https://github.com/killbill/killbill/pull/2321">PR #2321 for the same-day change</a>. Both are open as this note is published.</p>
+      <p class="doc-page__note">These are test invoices, not customer payments. We could not run the current master build locally because its snapshot parent dependency was unavailable. The released-version results do not establish that current master CI passes.</p>
+
+      <h2>The control this suggests</h2>
+      <p>The reported dry run and real invoice used the same billing logic. When that logic omitted an event, both results could agree and still miss the approved catalog price. A separate release check would start from the approved catalog versions, subscription effective instants, and target billing period, calculate the expected invoice for a small set of named scenarios, and compare those expectations with the engine's output.</p>
+      <p>This is a <strong>research hypothesis</strong>, not a deployed Nobulex feature. We have not shown that an outside team lacks such a check, would permit it in a release workflow, or would pay for it. Existing billing tests and Kill Bill's Aviate operations layer may already cover much of the need. The useful next question is where their checks end.</p>
+
+      <h2>What would change our mind</h2>
+      <ul>
+        <li>A billing owner shows an existing independent expected-invoice test that catches both reported paths before release.</li>
+        <li>The mismatches are too rare or too cheap to justify another control.</li>
+        <li>Independent replay cannot be made reliable across real catalog, tax, credit, and timing rules without becoming a second billing engine.</li>
+      </ul>
+
+      <p>If you own a billing release process, we would value an async answer: <strong>what do you compare the dry run against when both the dry run and final invoice might share the same missing input?</strong> No customer data or credentials are needed to answer. <a href="mailto:nobulex.dev@gmail.com?subject=Billing%20replay%20research">Write to Nobulex</a>.</p>
+
+      <hr class="doc-page__rule">
+      <a href="/" class="doc-page__back">Back to Nobulex &rarr;</a>
+    </article>
+  </main>
+
+  <div class="scroll-bar" aria-hidden="true"></div>
+  <script src="main.js"></script>
+</body>
+</html>
