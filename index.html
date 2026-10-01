@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nobulex - The decision-integrity firewall for autonomous finance</title>
-  <meta name="description" content="Nobulex is an open-source decision-integrity gateway prototype for automated finance. It evaluates evidence and policy and issues decision receipts. It is not deployed in production.">
+  <meta name="description" content="Nobulex prototypes decision-integrity checks for automated finance and researches billing calculations that can agree on a wrong invoice. It is not deployed in production and has no customer result.">
   <link rel="canonical" href="https://nobulex.com/">
   <meta property="og:title" content="Nobulex - A well-formed lie passes every check">
   <meta property="og:description" content="An open-source prototype for evaluating financial evidence and policy before automated action. Nobulex is not deployed in production.">
@@ -51,7 +51,7 @@
     <div class="header__top">
       <a href="/" class="header__logo" data-magnetic aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
       <nav class="header__quick" aria-label="Quick links">
-        <a href="#decision">The decision</a>
+        <a href="/research-killbill-catalog-replay">Current research</a>
         <a href="/methodology">Method</a>
         <a href="#observe">Observe mode</a>
       </nav>
@@ -101,11 +101,20 @@
           <p class="hero__hook">A well-formed lie passes every check. Nobulex is built to stop agents from trading on it.</p>
           <p class="hero__kicker">Verify the facts. Enforce the policy. Block the action. Issue the receipt.</p>
           <div class="hero__cta hero__cta-buttons">
-            <a href="#decision" class="btn btn--primary">See a blocked trade</a>
+            <a href="/research-killbill-catalog-replay" class="btn btn--primary">Read the billing case</a>
+            <a href="#decision" class="btn btn--ghost">See a blocked trade</a>
             <a href="#how-it-works" class="btn btn--ghost">How it works</a>
-            <a href="#observe" class="btn btn--ghost">Observe mode</a>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="billing-research" aria-label="Current billing research">
+      <div class="billing-research__inner">
+        <p class="billing-research__label">CURRENT BUYER QUESTION</p>
+        <p class="billing-research__text">When a billing preview and final invoice agree on the wrong amount, what independently checks the approved price before issuance?</p>
+        <a href="/research-killbill-catalog-replay">Read the reproduced Kill Bill case <span aria-hidden="true">&rarr;</span></a>
+        <p class="billing-research__scope">This is research, not a deployed billing product or a customer result.</p>
       </div>
     </section>
 

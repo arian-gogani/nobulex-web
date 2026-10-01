@@ -3565,6 +3565,52 @@ button:focus-visible {
 }
 
 /* --- Hero: floating hook + Proof of Behavior --- */
+.billing-research {
+  background: #071312;
+  border-top: 1px solid rgba(94, 234, 212, 0.18);
+  border-bottom: 1px solid rgba(94, 234, 212, 0.18);
+}
+
+.billing-research__inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3rem) 1.5rem;
+}
+
+.billing-research__label {
+  color: var(--brand);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  margin: 0 0 0.6rem;
+}
+
+.billing-research__text {
+  color: #f7f7f2;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 1.8rem);
+  line-height: 1.35;
+  max-width: 38em;
+  margin: 0 0 0.8rem;
+}
+
+.billing-research a {
+  color: var(--brand);
+  font-weight: 700;
+  text-underline-offset: 0.22em;
+}
+
+.billing-research a:hover,
+.billing-research a:focus-visible {
+  color: #d2fff6;
+}
+
+.billing-research__scope {
+  color: rgba(238, 247, 244, 0.65);
+  font-size: 0.85rem;
+  margin: 0.8rem 0 0;
+}
+
 .hero__hook {
   font-family: var(--font-sans);
   font-size: clamp(1.0625rem, 2.05vw, 1.25rem);
