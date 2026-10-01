@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.classList.add('js-motion');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Billing change replay study | Nobulex</title>
+  <meta name="description" content="A proposed $2,500, seven-day study for one Kill Bill catalog price change. Independently specify the expected invoice amount, compare it with a dry run, and retain a regression test. No customer deployment is claimed.">
+  <meta property="og:title" content="Billing change replay study | Nobulex">
+  <meta property="og:description" content="One Kill Bill price-change scenario, an independently specified expected invoice, and a release regression. Proposed fixed fee: $2,500. No customer deployment is claimed.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nobulex.com/billing-pilot">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Billing change replay study | Nobulex">
+  <meta name="twitter:description" content="A proposed seven-day study for one Kill Bill price-change scenario. No customer deployment is claimed.">
+  <meta name="theme-color" content="#030708">
+  <link rel="canonical" href="https://nobulex.com/billing-pilot">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260928">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="header" data-animate="header">
+    <div class="header__top">
+      <a href="/" class="header__logo" aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
+      <nav class="header__quick" aria-label="Quick links">
+        <a href="/">Home</a>
+        <a href="/research-killbill-catalog-replay">The evidence</a>
+        <a href="/billing-pilot" aria-current="page">Billing study</a>
+      </nav>
+      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+    <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+    <nav class="header__nav" aria-label="Main">
+      <button type="button" class="nav-close" aria-label="Close menu"><span aria-hidden="true">&times;</span></button>
+      <div class="header__links">
+        <a href="/">Home</a>
+        <a href="/research-killbill-catalog-replay">The evidence</a>
+        <a href="/billing-pilot" aria-current="page">Billing study</a>
+        <a href="/pilot">Market-data pilot</a>
+      </div>
+      <a href="mailto:nobulex.dev@gmail.com?subject=Kill%20Bill%20billing%20replay%20study" class="header__cta">Ask about the study</a>
+    </nav>
+  </header>
+
+  <main class="doc-page" id="main">
+    <article class="doc-page__body">
+      <p class="doc-page__kicker">Proposed fixed-scope study</p>
+      <h1>What should this invoice have charged?</h1>
+      <p class="doc-page__meta">One Kill Bill catalog price-change scenario. Seven days after agreed inputs. Proposed fixed fee: $2,500.</p>
+
+      <p class="lead">A billing dry run can agree with the final invoice and still repeat the same missing price change. For one narrowly defined recurring-subscription scenario, we specify the expected invoice from approved catalog versions and dates, compare it with the dry run, and leave behind a release test.</p>
+      <p class="doc-page__note">This is an offer to conduct a study, not a deployed Nobulex billing product. No customer has purchased or run this study yet. The price is our proposed fee, not revenue received.</p>
+      <p><a href="mailto:nobulex.dev@gmail.com?subject=Kill%20Bill%20billing%20replay%20study" class="btn btn--primary" style="display:inline-flex;text-decoration:none">Ask about the study</a></p>
+
+      <h2>Why this question</h2>
+      <p>In <a href="https://github.com/killbill/killbill/issues/2291">Kill Bill issue #2291</a>, the reporter describes a production-client case where a catalog price change did not reach the invoice, and says the dry run repeated the wrong amount. We reproduced two related paths locally on released Kill Bill 0.24.19 and opened separate fixes: <a href="https://github.com/killbill/killbill/pull/2320">PR #2320</a> and <a href="https://github.com/killbill/killbill/pull/2321">PR #2321</a>. Those results are from test invoices, not a Nobulex customer or a production deployment. <a href="/research-killbill-catalog-replay">Read the evidence and limits.</a></p>
+
+      <h2>What you provide</h2>
+      <ul>
+        <li>One synthetic or sanitized recurring-subscription scenario, with approved catalog price versions and their effective dates.</li>
+        <li>The intended billing period, billing-cycle day, and the approved rule for when each price takes effect.</li>
+        <li>A Kill Bill dry-run response or a test environment where your team can run one. No production write access is needed.</li>
+        <li>One billing owner who can confirm which price and period should control.</li>
+      </ul>
+      <p class="doc-page__note">Do not send payment credentials, customer identities, full production invoices, API keys, or unrelated billing data. We can start with invented account identifiers and amounts.</p>
+
+      <h2>What you receive</h2>
+      <ol>
+        <li>A written expected-invoice calculation derived from the approved catalog and dates, independently of the dry-run amount.</li>
+        <li>A line-by-line comparison: expected amount and period, dry-run amount and period, and any discrepancy or unresolved assumption.</li>
+        <li>A runnable regression fixture for the agreed scenario, or an explicit explanation if the available inputs are insufficient to make one.</li>
+        <li>A short result: confirmed mismatch, matching calculation, or indeterminate. A matching result is reported as such, not dressed up as a catch.</li>
+      </ol>
+
+      <h2>Boundaries</h2>
+      <p>This first study covers one flat recurring price-change path in Kill Bill. Usage rating, taxes, discounts, credits, currency conversion, and legal interpretation are outside scope. We will not issue, alter, or block a real invoice. This is a release check for a named scenario, not a second general-purpose billing engine or a guarantee that every invoice is correct.</p>
+      <p>If the existing release tests already independently establish the expected amount, the study may find no additional control gap. That result is useful and will be stated plainly.</p>
+
+      <h2>Commercial terms</h2>
+      <div class="doc-page__table-wrap"><table><tbody>
+        <tr><th>Fee</th><td>$2,500 proposed fixed fee for one agreed scenario and seven-day analysis.</td></tr>
+        <tr><th>Start</th><td>Scope and required inputs are agreed before payment or work begins.</td></tr>
+        <tr><th>Access</th><td>Read-only artifacts or a customer-run dry run. No production write access or payment credentials.</td></tr>
+        <tr><th>Publication</th><td>Private by default. No customer name, data, or result is published without written approval.</td></tr>
+      </tbody></table></div>
+
+      <h2>Ask about the study</h2>
+      <p>Send the billing system version, the kind of catalog change you want checked, and whether a synthetic example can represent it. No confidential data is needed for the first email.</p>
+      <p><a href="mailto:nobulex.dev@gmail.com?subject=Kill%20Bill%20billing%20replay%20study" class="btn btn--primary" style="display:inline-flex;text-decoration:none">Email Nobulex</a></p>
+      <hr class="doc-page__rule">
+      <a href="/research-killbill-catalog-replay" class="doc-page__back">Read the research &rarr;</a>
+    </article>
+  </main>
+
+  <div class="scroll-bar" aria-hidden="true"></div>
+  <script src="main.js"></script>
+</body>
+</html>
