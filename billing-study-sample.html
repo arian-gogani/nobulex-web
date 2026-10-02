@@ -7,7 +7,7 @@
   <title>Sample billing replay result | Nobulex</title>
   <meta name="description" content="A synthetic sample of the proposed Nobulex billing replay study, based on a released-version Kill Bill invoice regression. Not a customer result or deployed billing control.">
   <meta property="og:title" content="Sample billing replay result | Nobulex">
-  <meta property="og:description" content="See how a synthetic $150 expected invoice differs from a $50 dry run and final invoice in a released-version test. Not customer work.">
+  <meta property="og:description" content="A public Kill Bill issue reports a wrong $50 dry run and invoice; our released-tag H2 test reproduced the invoice mismatch against a $150 catalog price. Not customer work.">
   <meta property="og:url" content="https://nobulex.com/billing-study-sample">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Sample billing replay result | Nobulex">
@@ -65,13 +65,14 @@
         <thead><tr><th>Check</th><th>Amount</th><th>Basis</th></tr></thead>
         <tbody>
           <tr><td>Expected invoice</td><td>Expected $150</td><td>Latest catalog version in the synthetic fixture, effective before the August billing boundary.</td></tr>
-          <tr><td>Dry run and final invoice on original released code</td><td>Observed $50</td><td>The later $150 billing event disappeared when two changes aligned to the same boundary.</td></tr>
+          <tr><td>Invoice on original released code</td><td>Observed $50</td><td>Our released-tag H2 test observed the invoice amount. The issue reporter separately reported the same wrong amount in the dry run.</td></tr>
           <tr><td>Invoice after the proposed comparator patch</td><td>$150 in the August and September periods</td><td>Released-tag H2 regression reported in <a href="https://github.com/killbill/killbill/pull/2320">Kill Bill PR #2320</a>.</td></tr>
         </tbody>
       </table></div>
 
       <h2>What the sample result says</h2>
-      <p><strong>Mismatch in the original released-version test:</strong> the dry run and final invoice both returned $50 for a period where the synthetic catalog timeline called for $150. Their agreement was not independent evidence that the amount was correct.</p>
+      <p><strong>Mismatch:</strong> Our released-tag H2 test observed a $50 invoice for a period where the synthetic catalog timeline called for $150. The issue reporter says the dry run also returned $50, matching the wrong final invoice. We did not run the dry-run endpoint in our local H2 test. Their reported agreement was not independent evidence that the amount was correct.</p>
+      <p><strong>Correction, October 1:</strong> An earlier version of this page described the dry-run and invoice observations together as our local released-tag test. Our test checked the generated invoice; the dry-run observation came from the upstream issue reporter.</p>
       <p><strong>Regression check:</strong> the new focused comparator test failed against the released code it replaced. The separate enabled invoice regression on released Kill Bill 0.24.19 with H2 observed $50 before the patch and $150 after it. The <a href="https://github.com/killbill/killbill/pull/2320">PR's verification notes</a> describe the commands and scope. This sample is a presentation of that existing result, not a new customer study.</p>
 
       <h2>Run the bounded reference comparison</h2>

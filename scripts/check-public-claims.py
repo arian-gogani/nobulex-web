@@ -30,6 +30,8 @@ def main() -> int:
         errors.append("homepage first screen does not lead with the reproduced billing failure")
     if 'href="/billing-pilot"' not in hero or "Proposed $2,500 study" not in hero:
         errors.append("homepage first screen does not link and scope the proposed billing offer")
+    if "The issue reporter says the dry run" not in hero or "Our released-tag H2 test" not in hero:
+        errors.append("homepage conflates the reported dry run with our invoice-only reproduction")
 
     billing_offer = (ROOT / "billing-pilot.html").read_text(encoding="utf-8")
     if 'href="/billing-study-sample"' not in billing_offer:
@@ -53,6 +55,14 @@ def main() -> int:
         ):
             if required not in sample:
                 errors.append(f"billing sample omits verified scope or value: {required}")
+        # The upstream issue reporter checked the dry-run endpoint. Our local
+        # released-tag H2 reproduction checked generated invoice amounts.
+        if "The issue reporter says the dry run" not in sample:
+            errors.append("billing sample does not attribute the dry-run observation to the issue reporter")
+        if "Our released-tag H2 test" not in sample:
+            errors.append("billing sample does not separate our invoice reproduction")
+        if "dry run and final invoice in a released-version test" in sample:
+            errors.append("billing sample metadata presents the reported dry run as our test")
 
     for field in ("description", "og:description", "twitter:description"):
         value = meta(homepage, field).lower()
