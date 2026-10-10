@@ -10,7 +10,7 @@ direction, but it is not the product described by the homepage.
 
 The method, the harness, and the publication gate live in
 [**arian-gogani/nobulex-registry**](https://github.com/arian-gogani/nobulex-registry).
-This repository is the site plus one bounded synthetic billing comparison example,
+This repository is the site plus bounded billing comparison examples,
 not a production billing service.
 
 ---
@@ -98,6 +98,31 @@ exits 0 and incomplete or unsupported input prints `REFUSED` and exits 2. This
 small example neither runs Kill Bill nor authenticates the catalog; it only
 evaluates its declared flat-recurring rule for a synthetic case. It is not a
 general invoice engine or evidence of customer adoption.
+
+For a JSON invoice shaped like Kill Bill's documented dry-run response, a
+second local command imports the single `RECURRING` item before applying the
+same caller-declared catalog rule:
+
+```
+python3 -m scripts.compare_killbill_dry_run examples/billing-flat-recurring-v1.json examples/killbill-dry-run-flat-recurring-v1.json 00000000-0000-4000-8000-000000000001
+```
+
+This published export is **synthetic**, not captured from a Kill Bill server.
+Its field layout follows [Kill Bill's documented dry-run invoice example](https://docs.killbill.io/0.20/userguide_subscription).
+The importer ignores the case fixture's `observed` object and takes the amount
+and service dates from the invoice JSON. It refuses multiple items, credits,
+adjustments, a different subscription, and unsupported rate or quantity terms.
+Kill Bill exposes service **dates**, not UTC instants, in invoice items, so the
+import compares period dates only. If the item supplies a catalog effective
+timestamp, it also compares that version with the declared expected version.
+The script reads local files, does not contact Kill Bill, does not verify either
+input's authenticity, and has **not been tested against a live Kill Bill 0.24
+dry-run response**. Its `MISMATCH`, `MATCH`, and `REFUSED` exit codes are 1, 0,
+and 2 respectively. Separate files do not prove independent provenance: the
+catalog timeline must come from an approved source outside the invoice engine
+for the comparison to answer the intended question. The importer does not
+validate plan identity, account ownership, or every field in Kill Bill's
+response. Keep any real invoice or customer data local.
 
 Deploys to Vercel on push to `main`. `vercel.json` also sets
 `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`,

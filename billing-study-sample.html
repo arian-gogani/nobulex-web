@@ -80,6 +80,11 @@
       <pre><code>python3 scripts/flat_recurring_replay.py examples/billing-flat-recurring-v1.json</code></pre>
       <p>For the published fixture it returns MISMATCH, expected 150.00, observed 50.00, difference 100.00. The source and fixture are small enough to inspect before trusting the result.</p>
 
+      <h2>Import a Kill Bill-shaped dry run locally</h2>
+      <p>A second <a href="https://github.com/arian-gogani/nobulex-web/blob/main/scripts/compare_killbill_dry_run.py">bounded importer</a> reads a <a href="https://github.com/arian-gogani/nobulex-web/blob/main/examples/killbill-dry-run-flat-recurring-v1.json">synthetic invoice JSON file</a> shaped after <a href="https://docs.killbill.io/0.20/userguide_subscription">Kill Bill's documented dry-run response</a>. It replaces the fixture's observed amount and period with the invoice item's fields, then runs the same catalog comparison. The UUID below is synthetic.</p>
+      <pre><code>python3 -m scripts.compare_killbill_dry_run examples/billing-flat-recurring-v1.json examples/killbill-dry-run-flat-recurring-v1.json 00000000-0000-4000-8000-000000000001</code></pre>
+      <p>The published files return MISMATCH and exit 1. The importer refuses extra invoice items, credits, adjustments, nonflat rates, and mismatched subscription IDs. It checks service-period dates, not time-zone boundaries, and does not validate every invoice field or prove that the catalog fixture came from an independent approved source. It never contacts Kill Bill or uploads invoice data. We have tested this importer with synthetic JSON matching the documented field layout, <strong>not with a live Kill Bill 0.24 dry-run response or customer data</strong>.</p>
+
       <h2>What remains unresolved</h2>
       <ul>
         <li>The current master build was not run locally because its snapshot parent dependency required authenticated access. Released-tag H2 results do not establish current-master CI results.</li>

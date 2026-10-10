@@ -1,0 +1,19 @@
+{
+  "amount": 50.00,
+  "currency": "USD",
+  "creditAdj": 0,
+  "refundAdj": 0,
+  "credits": null,
+  "isParentInvoice": false,
+  "items": [
+    {
+      "itemType": "RECURRING",
+      "subscriptionId": "00000000-0000-4000-8000-000000000001",
+      "startDate": "2026-08-01",
+      "endDate": "2026-09-01",
+      "amount": 50.00,
+      "currency": "USD",
+      "childItems": null
+    }
+  ]
+}

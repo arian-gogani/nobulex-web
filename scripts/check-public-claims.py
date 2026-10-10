@@ -52,6 +52,8 @@ def main() -> int:
             'href="https://github.com/killbill/killbill/pull/2320"',
             'href="https://github.com/arian-gogani/nobulex-web/blob/main/scripts/flat_recurring_replay.py"',
             'href="https://github.com/arian-gogani/nobulex-web/blob/main/examples/billing-flat-recurring-v1.json"',
+            'href="https://github.com/arian-gogani/nobulex-web/blob/main/scripts/compare_killbill_dry_run.py"',
+            "not with a live Kill Bill 0.24 dry-run response or customer data",
         ):
             if required not in sample:
                 errors.append(f"billing sample omits verified scope or value: {required}")
