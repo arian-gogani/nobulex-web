@@ -227,4 +227,31 @@
     });
   }
 
+  /* --- Contact intent ---
+     Every page carried pageview analytics and nothing recorded the one action
+     a reader can actually take here, which is the mailto link. Without it no
+     traffic number distinguishes nobody arriving, from readers arriving and
+     not wanting to talk, from readers wanting to talk and not composing a cold
+     email. Those three have different fixes and the same pageview count.
+
+     The subject line is already written per page and per offer, so it is the
+     label: it says which page and which offer produced the intent. The address
+     is not sent, because it is an address.
+
+     Delegated on document so links added later are covered, capture phase so
+     it runs before navigation, and wrapped entirely in a try: an analytics
+     call must never be the reason a contact link fails to open. */
+  document.addEventListener('click', (ev) => {
+    try {
+      const a = ev.target.closest && ev.target.closest('a[href^="mailto:"]');
+      if (!a || typeof window.va !== 'function') return;
+      const query = (a.getAttribute('href') || '').split('?')[1] || '';
+      window.va('event', {
+        name: 'contact_intent',
+        subject: new URLSearchParams(query).get('subject') || '(none)',
+        page: window.location.pathname
+      });
+    } catch (err) { /* never block the mail client */ }
+  }, true);
+
 })();
