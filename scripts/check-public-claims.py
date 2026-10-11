@@ -107,8 +107,12 @@ def main() -> int:
         errors.append("package metadata still describes the retired category")
 
     pilot_description = meta(pilot, "description").lower()
-    if "market-data series" not in pilot_description:
-        errors.append("pilot metadata does not limit the offer to a market-data series")
+    if "archived market-data series pilot" not in pilot_description:
+        errors.append("legacy pilot metadata does not label the market-data offer as archived")
+    if "This is a prior offer." not in pilot:
+        errors.append("legacy pilot page does not identify itself as a prior offer")
+    if "Request the pilot" in pilot or "subject=Seven-day" in pilot:
+        errors.append("legacy pilot page still solicits the retired offer")
 
     pilot_exclusion = (
         "It does not validate the strategy, recommendation, route, order, "
