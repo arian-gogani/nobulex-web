@@ -7,7 +7,7 @@
     { "source": "/playground", "destination": "/register", "permanent": true },
     { "source": "/demo", "destination": "/register", "permanent": true },
     { "source": "/demo-video", "destination": "/register", "permanent": true },
-    { "source": "/pricing", "destination": "/methodology", "permanent": true },
+    { "source": "/pricing", "destination": "/billing-pilot", "permanent": false },
     { "source": "/spec", "destination": "/methodology", "permanent": true },
     { "source": "/api-docs", "destination": "/methodology", "permanent": true },
     { "source": "/docs", "destination": "/methodology", "permanent": true },
