@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.classList.add('js-motion');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revenue assurance for usage-based billing | Nobulex</title>
+  <meta name="description" content="Software fails loudly or lies quietly. Nobulex finds the money billing code loses while reporting success: a fixed-fee audit available now, a self-contradiction scanner and mutation checks in CI on the roadmap. A prototype practice, not deployed in anyone's production.">
+  <meta property="og:title" content="Revenue assurance for usage-based billing | Nobulex">
+  <meta property="og:description" content="A fixed-fee billing integrity audit available now. A read-only self-contradiction scanner and mutation checks in CI as the roadmap. Every claim reproduced before reported.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nobulex.com/revenue-assurance">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Revenue assurance for usage-based billing | Nobulex">
+  <meta name="twitter:description" content="Nobulex finds the money billing code loses while reporting success, and never claims more than it proved.">
+  <meta name="theme-color" content="#030708">
+  <link rel="canonical" href="https://nobulex.com/revenue-assurance">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260928">
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="header" data-animate="header">
+    <div class="header__top">
+      <a href="/" class="header__logo" aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
+      <nav class="header__quick" aria-label="Quick links">
+        <a href="/">Home</a>
+        <a href="/billing-pilot">Billing study</a>
+        <a href="/revenue-assurance" aria-current="page">Approach</a>
+      </nav>
+      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+    <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+    <nav class="header__nav" aria-label="Main">
+      <button type="button" class="nav-close" aria-label="Close menu"><span aria-hidden="true">&times;</span></button>
+      <div class="header__links">
+        <a href="/">Home</a>
+        <a href="/billing-pilot">Billing study</a>
+        <a href="/revenue-assurance" aria-current="page">Approach</a>
+      </div>
+      <a href="mailto:nobulex.dev@gmail.com?subject=Revenue%20assurance" class="header__cta">Write to Nobulex</a>
+    </nav>
+  </header>
+
+  <main class="doc-page" id="main">
+    <article class="doc-page__body">
+      <p class="doc-page__kicker">The approach</p>
+      <h1>Software fails loudly or lies quietly.</h1>
+      <p class="doc-page__meta">Everything in your stack watches for the first. Nobulex exists for the second: revenue assurance for usage-based billing.</p>
+
+      <p class="lead">A billing pipeline can pass every schema check, return success on every call, reconcile cleanly, and still produce the wrong amount. The failure is called revenue leakage, and industry estimates put it at one to five percent of revenue, highest where pricing is usage-based and terms change mid-cycle. It is invisible by construction: a crash pages someone, a plausible and wrong number gets paid.</p>
+
+      <p>We have one worked example in public. A catalog price change that did not reach the invoice, where the preview and the final bill agreed with each other and both were wrong. <a href="/research-killbill-catalog-replay">The reproduction, with its limits stated</a>.</p>
+
+      <h2>Available now: the billing integrity audit</h2>
+      <p>A fixed-fee, fixed-scope engagement. We take one revenue path on a pinned revision of your billing code, find where it reports success and should not, and deliver each finding with the input that reproduces it, a regression test that fails on the current code and passes on the fix, and a written list of what we did not examine.</p>
+      <p>The first offered scope is <a href="/billing-pilot">one catalog price-change scenario at a proposed fixed fee</a>. A result of no mismatch is reported as exactly that, not dressed up as a catch.</p>
+
+      <h2>In design: the self-contradiction scanner</h2>
+      <p>Independently recomputing your correct invoice would require your business arithmetic, encoded by hand, per customer. We think the honest product avoids that entirely: it reads your historical billing events and finds where your system contradicts itself.</p>
+      <ul>
+        <li>Two code paths that read the same field but disagree about what it means.</li>
+        <li>A value your ingest accepts that your aggregation silently excludes.</li>
+        <li>Two defaults for one missing value, so an item is billed under one assumption and reported under another.</li>
+      </ul>
+      <p>A contradiction is checkable without knowing what any invoice should have said. The scanner's output is contradiction counts and the transaction identifiers behind them, never an invented dollar figure. You price the damage from your own ledger; we assert only the defect we can reproduce.</p>
+
+      <h2>Planned: mutation checks in your CI</h2>
+      <p>The continuous version runs where your engineers already live. On each change, it replays historical payloads with small deterministic mutations and holds the result to properties that need no knowledge of your business rules:</p>
+      <ul>
+        <li>The same facts arriving in a different order must produce the same final state.</li>
+        <li>The same event delivered twice must never bill twice.</li>
+        <li>Two spellings of the same value must aggregate as the same value.</li>
+        <li>Anything accepted at ingest must be visible to the computation that bills it, or be rejected loudly.</li>
+      </ul>
+      <p>Every defect the audits find becomes a planted case in this corpus, and the corpus publishes its catch rate against planted defects before it says anything about a clean run. A test suite that has never demonstrated detection proves nothing by silence.</p>
+
+      <h2>Every run signs a receipt that states its own limits</h2>
+      <p>Scanner and CI runs emit a signed record: what corpus version ran, how many variants executed, the catch rate on planted defects, what was found, and what was not covered. That is evidence you can hand to an auditor or an acquirer: proof that a control ran, with its boundaries printed on it.</p>
+      <p class="doc-page__note">What we will never sell is a stamp. Ten million clean variants prove that ten million variants ran and found nothing. They do not prove the absence of defects, because absence of observed behavior in one run is not proof that the behavior is absent. A signature shows who signed a record; it cannot turn a wrong number into a right one. Any vendor offering certified correctness is selling the exact failure this field exists to catch.</p>
+
+      <h2>Where this stands</h2>
+      <p>The audit is available now and nobody has bought one yet; this page will say so until that changes. The scanner and the CI checks are design-stage and run nowhere. Each layer gets built only after the one before it has paid for it and shaped it. The method behind all three is public: our reproductions, fixes, and reviews are merged in public billing and security repositories, and every public claim we make ships with the input that reproduces it.</p>
+
+      <h2>Talk to us</h2>
+      <p>If you own billing arithmetic and want one path checked before the next release, start with the <a href="/billing-pilot">study</a>. If you just want to compare notes on how you verify invoice amounts today, that conversation is welcome and free.</p>
+      <p><a href="mailto:nobulex.dev@gmail.com?subject=Revenue%20assurance" class="btn btn--primary" style="display:inline-flex;text-decoration:none">Email Nobulex</a></p>
+      <hr class="doc-page__rule">
+      <a href="/billing-pilot" class="doc-page__back">See the study &rarr;</a>
+    </article>
+  </main>
+
+  <div class="scroll-bar" aria-hidden="true"></div>
+  <script src="main.js"></script>
+</body>
+</html>
