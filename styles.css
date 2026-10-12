@@ -5607,13 +5607,24 @@ button:focus-visible {
   color: var(--gold);
 }
 
+.page-home .hero__claim {
+  max-width: 8.2em;
+  margin: 0 0 1.2rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.8rem, 5vw, 4.35rem);
+  line-height: 0.96;
+  letter-spacing: -0.042em;
+  color: var(--text);
+}
+
 .page-home .hero__title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(3rem, 5.1vw, 4.65rem);
-  line-height: 0.98;
-  letter-spacing: -0.04em;
-  margin: 0 0 1.35rem;
+  font-size: clamp(1.85rem, 3vw, 2.65rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  margin: 0 0 1.2rem;
   color: var(--text);
 }
 
@@ -6140,8 +6151,13 @@ button:focus-visible {
     --slip-tilt: 0deg;
   }
 
+  .page-home .hero__claim {
+    max-width: none;
+    font-size: clamp(2.35rem, 11vw, 3.15rem);
+  }
+
   .page-home .hero__title {
-    font-size: clamp(2.15rem, 10vw, 3.15rem);
+    font-size: clamp(1.65rem, 7.2vw, 2.1rem);
   }
 
   .page-home .hero__hook,
