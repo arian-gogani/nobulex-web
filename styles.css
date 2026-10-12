@@ -5508,10 +5508,23 @@ button:focus-visible {
   color: var(--text);
 }
 
+.page-home .header {
+  padding: 0.85rem max(1.5rem, calc((100vw - 1120px) / 2));
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0));
+  border-bottom-color: transparent;
+  box-shadow: none;
+}
+
+.page-home .header--scrolled {
+  background: rgba(0, 0, 0, 0.82);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
 .page-home .header__quick a {
   font-size: 0.78rem;
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.01em;
   color: var(--ink-dim);
 }
 
@@ -5533,6 +5546,30 @@ button:focus-visible {
   min-height: 100dvh;
   padding: 5.5rem 1.5rem 3.5rem;
   background: transparent;
+}
+
+.page-home .hero__bg {
+  background:
+    radial-gradient(ellipse 46% 40% at 76% 44%, rgba(94, 234, 212, 0.16), transparent 68%),
+    radial-gradient(ellipse 28% 22% at 12% 88%, rgba(94, 234, 212, 0.05), transparent 70%);
+}
+
+.page-home .hero__grid {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 68% 58% at 72% 42%, #000 0%, transparent 74%);
+  -webkit-mask-image: radial-gradient(ellipse 68% 58% at 72% 42%, #000 0%, transparent 74%);
+  pointer-events: none;
+}
+
+.page-home .hero__vignette {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, transparent 16%, transparent 70%, #000 100%);
 }
 
 .page-home .hero__inner {
@@ -5573,20 +5610,32 @@ button:focus-visible {
 .page-home .hero__title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(3.1rem, 6.4vw, 5.35rem);
+  font-size: clamp(3rem, 5.1vw, 4.65rem);
   line-height: 0.98;
-  letter-spacing: -0.038em;
+  letter-spacing: -0.04em;
   margin: 0 0 1.35rem;
   color: var(--text);
 }
 
+@media (min-width: 900px) {
+  .page-home .hero__line {
+    white-space: nowrap;
+  }
+}
+
+.page-home .hero__line .word {
+  margin-right: 0.12em;
+}
+
+.page-home .hero__line .word:last-child {
+  margin-right: 0;
+}
+
 .page-home .hero__line--accent,
 .page-home .hero__line--accent .word-inner {
-  color: #f0fdf9;
+  color: var(--brand);
   font-style: normal;
-  text-shadow:
-    0 0 80px var(--brand-glow),
-    0 0 120px rgba(94, 234, 212, 0.12);
+  text-shadow: none;
 }
 
 .page-home .hero__hook {
@@ -5608,7 +5657,7 @@ button:focus-visible {
 }
 
 .page-home .hero__kicker {
-  margin: 1.15rem 0 0;
+  margin: 1.35rem 0 0;
   max-width: 32rem;
   font-size: 0.84rem;
   font-weight: 400;
@@ -5617,45 +5666,69 @@ button:focus-visible {
   text-align: left;
 }
 
+.page-home .btn {
+  border-radius: 10px;
+  padding: 0.78rem 1.15rem;
+  letter-spacing: -0.011em;
+}
+
 .slip {
   position: relative;
-  margin: 0.6rem 0 0;
+  margin: 0;
   min-width: 0;
   max-width: 100%;
-  padding: 1.7rem 1.55rem 1.4rem;
+  padding: 1.35rem 1.4rem 1.2rem;
   color: var(--text);
-  background:
-    linear-gradient(180deg, rgba(94, 234, 212, 0.08), rgba(255, 255, 255, 0.02)),
-    #0a1214;
-  border: 1px solid rgba(94, 234, 212, 0.28);
-  border-radius: 16px;
-  box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.45),
-    0 0 40px rgba(94, 234, 212, 0.08);
+  background: rgba(8, 10, 12, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   transform: none;
+  overflow: hidden;
 }
 
 .slip::before {
   content: "";
   position: absolute;
   top: 0;
-  left: 1.45rem;
-  right: 1.45rem;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--brand), transparent);
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--brand) 50%, transparent);
+}
+
+.slip__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .slip__cap {
   margin: 0;
   font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--brand);
+  color: var(--text-muted);
+}
+
+.slip__flag {
+  flex-shrink: 0;
+  padding: 0.22rem 0.48rem;
+  border-radius: 999px;
+  background: var(--brand);
+  color: #041311;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .slip__when {
-  margin: 0.4rem 0 0;
+  margin: 0.7rem 0 0;
   font-family: var(--font-display);
   font-size: 1.2rem;
   font-weight: 600;
@@ -5665,7 +5738,7 @@ button:focus-visible {
 }
 
 .slip__rows {
-  margin: 1.15rem 0 0;
+  margin: 1.35rem 0 0;
 }
 
 .slip__row {
@@ -5673,7 +5746,7 @@ button:focus-visible {
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.72rem 0 0.55rem;
+  padding: 0.9rem 0 0.7rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -5691,6 +5764,9 @@ button:focus-visible {
   font-size: 2.75rem;
   line-height: 0.9;
   letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  min-width: 4.2ch;
+  text-align: right;
 }
 
 .slip__row--issued dd {
@@ -5709,8 +5785,9 @@ button:focus-visible {
 .slip__gap {
   display: flex;
   justify-content: space-between;
-  margin: 0.15rem 0 0;
-  padding-top: 0.8rem;
+  align-items: baseline;
+  margin: 0.35rem 0 0;
+  padding-top: 0.95rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 0.72rem;
   font-weight: 600;
@@ -5720,7 +5797,7 @@ button:focus-visible {
 }
 
 .slip__foot {
-  margin: 0.95rem 0 0;
+  margin: 1.05rem 0 0;
   font-size: 0.92rem;
   line-height: 1.45;
   color: var(--text-secondary);
@@ -5751,13 +5828,22 @@ button:focus-visible {
 .sheet {
   width: min(1120px, calc(100% - 3rem));
   margin: 0 auto;
-  padding: clamp(4.25rem, 8vw, 7rem) 0;
+  padding: 0 0 clamp(4.75rem, 8vw, 6.5rem);
   scroll-margin-top: 4.5rem;
 }
 
+.page-home .hero + .sheet {
+  padding-top: clamp(1.5rem, 4vw, 3rem);
+}
+
 .sheet__head {
-  max-width: 16em;
-  margin-bottom: clamp(2rem, 4vw, 3rem);
+  max-width: none;
+  margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.sheet__head h2,
+.close h2 {
+  max-width: 11em;
 }
 
 .eyebrow {
@@ -5788,12 +5874,16 @@ button:focus-visible {
 }
 
 .beat {
-  padding: 1.5rem 1.75rem 0 0;
+  padding: 1.65rem 2rem 0.25rem 0;
 }
 
 .beat + .beat {
-  padding-left: 1.75rem;
+  padding-left: 2rem;
   border-left: 1px solid var(--line);
+}
+
+.beat:last-child {
+  padding-right: 0;
 }
 
 .beat__n {
@@ -5823,19 +5913,30 @@ button:focus-visible {
 }
 
 .sheet--study {
-  padding-top: 0.5rem;
+  padding-top: 0;
 }
 
 .panel {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.7fr);
   gap: clamp(1.5rem, 4vw, 3.5rem);
-  align-items: end;
+  align-items: center;
   padding: clamp(1.75rem, 4vw, 3rem);
-  border: 1px solid rgba(94, 234, 212, 0.28);
-  border-radius: 16px;
-  background:
-    linear-gradient(180deg, rgba(94, 234, 212, 0.08), rgba(255, 255, 255, 0.02));
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  top: 1.25rem;
+  bottom: 1.25rem;
+  left: 0;
+  width: 2px;
+  background: var(--brand);
 }
 
 .panel__copy p {
@@ -5917,7 +6018,7 @@ button:focus-visible {
 }
 
 .sheet--ask .sheet__head {
-  margin-bottom: 1.25rem;
+  margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
 }
 
 .asks {
@@ -5957,7 +6058,7 @@ button:focus-visible {
 }
 
 .ask p {
-  margin: -0.15rem 0 1.2rem;
+  margin: 0 0 1.25rem;
   max-width: 36rem;
   color: var(--ink-dim);
   font-size: 0.98rem;
@@ -5969,11 +6070,13 @@ button:focus-visible {
 }
 
 .close {
-  max-width: 16em;
+  max-width: none;
 }
 
 .close h2 {
   margin: 0 0 0.85rem;
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  line-height: 0.98;
 }
 
 .close p {
@@ -5985,7 +6088,7 @@ button:focus-visible {
   width: min(1120px, calc(100% - 3rem));
   max-width: none;
   margin: 0 auto;
-  padding: 2.25rem 0 2.5rem;
+  padding: 3.5rem 0 2.75rem;
   border-top: 1px solid var(--line);
   background: none;
   text-align: left;
@@ -6078,8 +6181,19 @@ button:focus-visible {
     border-top: 0;
   }
 
-  .sheet {
+  .sheet,
+  .page-home .footer {
     width: min(1120px, calc(100% - 2.3rem));
+  }
+
+  .page-home .header {
+    padding-inline: 1.15rem;
+  }
+
+  .beat,
+  .beat + .beat,
+  .beat:last-child {
+    padding-right: 0;
   }
 
   .page-home .hero__cta-buttons {
