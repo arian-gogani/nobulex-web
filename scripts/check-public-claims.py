@@ -35,7 +35,25 @@ def main() -> int:
         "billing-pilot.html",
     }
 
-    hero = homepage.split('<section class="hero"', 1)[-1].split('</section>', 1)[0]
+    # The selector used to be '<section class="hero"', with the quote closing
+    # immediately after hero. The element is class="hero hero--billing", so it
+    # matched nothing, and str.split returns the whole string when the
+    # separator is absent. "hero" was therefore every byte from <!DOCTYPE> to
+    # the first </section>: 9,021 characters including <head>, every <meta> and
+    # the nav.
+    #
+    # The four assertions below say "first screen" and were checking "somewhere
+    # in the first 110 lines". The required copy could have lived only in meta
+    # tags while the visible hero said something else, and this would have
+    # passed. A check whose scope is wider than its message is a check that can
+    # pass for the wrong reason, which is the thing this file exists to catch.
+    hero_open = re.search(r'<section\b[^>]*\bclass="[^"]*\bhero\b[^"]*"', homepage)
+    if not hero_open:
+        errors.append("homepage has no element with a hero class, so the "
+                      "first-screen claims could not be checked")
+        hero = ""
+    else:
+        hero = homepage[hero_open.start():].split("</section>", 1)[0]
     if "Billed $50." not in hero or "Expected $150." not in hero:
         errors.append("homepage first screen does not lead with the reproduced billing failure")
     if 'href="/billing-pilot"' not in hero or "Proposed $2,500 study" not in hero:
