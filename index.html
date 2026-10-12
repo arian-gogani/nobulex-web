@@ -57,7 +57,7 @@
       <nav class="header__quick" aria-label="Quick links">
         <a href="/research-killbill-catalog-replay">Current research</a>
         <a href="/methodology">Method</a>
-        <a href="#observe">Observe mode</a>
+        <a href="/gateway#observe">Observe mode</a>
       </nav>
       <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
         <span class="nav-toggle__bar"></span>
@@ -71,13 +71,13 @@
         <span aria-hidden="true">&times;</span>
       </button>
       <div class="header__links">
-        <a href="#problem">The failure</a>
-        <a href="#decision">The decision</a>
-        <a href="#states">Decision states</a>
-        <a href="#how-it-works">How it works</a>
-        <a href="#receipt">What a receipt proves</a>
-        <a href="#observe">Observe mode</a>
-        <a href="#wedge">Why finance first</a>
+        <a href="/gateway#problem">The failure</a>
+        <a href="/gateway#decision">The decision</a>
+        <a href="/gateway#states">Decision states</a>
+        <a href="/gateway#how-it-works">How it works</a>
+        <a href="/gateway#receipt">What a receipt proves</a>
+        <a href="/gateway#observe">Observe mode</a>
+        <a href="/gateway#wedge">Why finance first</a>
         <a href="#state">Where this stands</a>
         <a href="/methodology">Method</a>
         <a href="/manifesto">Manifesto</a>
@@ -120,113 +120,9 @@
       </div>
     </section>
 
-    <section class="quickstart" id="decision" aria-labelledby="decision-title">
-      <div class="quickstart__inner">
-        <div class="quickstart__intro">
-          <p class="section__label">THE DECISION</p>
-          <h2 id="decision-title">Schema validation proves shape. Nobulex verifies the decision.</h2>
-          <p>An automated system proposes an action. Before it reaches the broker, Nobulex asks two independent questions: are the facts trustworthy, and is the action permitted. Open each case to see the request, the evidence and the decision.</p>
-          <p class="quickstart__scope"><strong>Illustrative examples, not live decisions.</strong> These show the shape of the decision object and the reason codes. This page does not contact a market-data provider, evaluate a policy or execute an order.</p>
-        </div>
-        <div class="quickstart__run">
-          <p class="quickstart__label">Three proposed actions. Open each to inspect it.</p>
-
-          <details class="evidence-case" data-case="0" data-verdict="permit">
-            <summary><span>Fresh quote, within policy</span><code>PERMIT</code></summary>
-            <div class="evidence-case__body">
-              <p>The quote is 84ms old, two entitled references agree within tolerance, and the notional sits under the configured limit.</p>
-              <div class="evidence-case__inputs">
-                <div><h3>Proposed action</h3><pre tabindex="0">broker.order.create
-symbol      AAPL
-side        buy
-quantity    100
-limit_price 241.30
-notional    $24,130</pre></div>
-                <div><h3>Evidence</h3><pre class="evidence-reference" tabindex="0">quote age      84 ms
-max age        1000 ms
-references     2 sources
-max deviation  2.1 bps
-tolerance      10 bps</pre></div>
-              </div>
-              <p class="evidence-case__reason">Evidence status <samp>PASS</samp> &middot; Decision <samp>PERMIT</samp> &middot; Reasons <samp>QUOTE_FRESH, REFERENCE_CONSENSUS, POLICY_NOTIONAL_WITHIN_LIMIT</samp></p>
-              <p class="quickstart__scope">PERMIT covers the checks that were configured. It does not establish that the strategy is sound.</p>
-            </div>
-          </details>
-
-          <details class="evidence-case" data-case="1" data-verdict="block" open>
-            <summary><span>Valid JSON, stale price</span><code>BLOCK</code></summary>
-            <div class="evidence-case__body">
-              <p>The response returned 200 OK. The schema validated. Every required field was present and the ticker was correct. The price was fourteen minutes old and both reference feeds disagreed with it by more than a dollar.</p>
-              <div class="evidence-case__inputs">
-                <div><h3>Proposed action</h3><pre tabindex="0">broker.order.create
-symbol      AAPL
-side        buy
-quantity    1000
-notional    $241,110</pre></div>
-                <div><h3>Evidence</h3><pre class="evidence-subject" tabindex="0">primary feed   241.11
-                (14m 22s old)
-reference A    243.08
-reference B    243.11
-deviation      81 bps
-tolerance      10 bps</pre></div>
-              </div>
-              <p class="evidence-case__reason">Evidence status <samp>FAIL</samp> &middot; Decision <samp>BLOCK</samp> &middot; Reasons <samp>QUOTE_STALE observed_age_ms=862304 maximum_age_ms=1000, REFERENCE_DISAGREEMENT</samp></p>
-              <p class="quickstart__scope">Nothing crashed. Nothing raised. A schema check cannot distinguish this response from a correct one.</p>
-            </div>
-          </details>
-
-          <details class="evidence-case" data-case="2" data-verdict="escalate">
-            <summary><span>Truth cannot be established</span><code>ESCALATE</code></summary>
-            <div class="evidence-case__body">
-              <p>The security is halted and the two references disagree because one has applied a corporate action the other has not. Neither source is wrong. The honest answer is that the question cannot be settled right now.</p>
-              <div class="evidence-case__inputs">
-                <div><h3>Proposed action</h3><pre tabindex="0">broker.order.create
-symbol      EXMPL
-side        sell
-quantity    5000</pre></div>
-                <div><h3>Evidence</h3><pre class="evidence-reference" tabindex="0">market state   halted
-reference A    18.40 (adjusted)
-reference B    36.80 (unadjusted)
-split          2:1, effective today
-basis          unresolved</pre></div>
-              </div>
-              <p class="evidence-case__reason">Evidence status <samp>INDETERMINATE</samp> &middot; Decision <samp>ESCALATE</samp> &middot; Reasons <samp>MARKET_HALTED, CORPORATE_ACTION_BASIS_UNRESOLVED</samp></p>
-              <p class="quickstart__scope">INDETERMINATE is a real state, never reported as a pass. Policy decides whether it escalates, blocks, or on low-risk actions permits and logs.</p>
-            </div>
-          </details>
-        </div>
-
-        <details class="quickstart__reproduce">
-          <summary>The policy that produced these decisions</summary>
-          <p>Policy is deliberately bounded: no loops, no network access, no unbounded computation. Over an authenticated and complete context, evaluation is deterministic and terminating by construction.</p>
-          <pre tabindex="0" aria-label="Example policy"><code>policy "equity-order-v1" {
-
-  permit broker.order.create
-    when evidence.market_quote.status == PASS
-     and evidence.market_quote.age_ms &lt;= 1000
-     and action.notional_usd &lt;= 50_000
-     and portfolio.daily_turnover_pct &lt;= 5;
-
-  escalate broker.order.create
-    when evidence.market_quote.status == INDETERMINATE;
-
-  forbid broker.order.create
-    when evidence.market_quote.status == FAIL;
-}</code></pre>
-          <p class="quickstart__scope">An LLM may help you author a policy. It should never be the final arbiter of a hard limit on money.</p>
-        </details>
-
-        <div class="quickstart__offer">
-          <h3>What a pilot contains</h3>
-          <p>One workflow, mirrored in Observe Mode with no execution impact. We replay a fixed suite of well-formed-but-wrong conditions against your path and show exactly which actions would have been stopped. You get the catch rate, the false-block rate and the added latency as measured numbers. If they justify it, enforcement goes on for one bounded action type, with explicit break-glass.</p>
-        </div>
-
-        <div class="quickstart__inquiry">
-          <div>
-            <h3>Run it against one path</h3>
-            <p>Shadow mode on a single workflow, no execution impact, no platform migration. Tell us which action type matters most and which feeds you are already entitled to consume. Nobulex runs against data you already license; it is not a market-data reseller.</p>
-          </div>
-        </div>
+    <section class="intro-strip" aria-label="Other work">
+      <div class="intro-strip__inner">
+        <p class="intro-strip__text">A separate prototype checks evidence about a proposed action before it executes, and returns permit, block or escalate. It is not deployed in production and has no customer result. <a href="/gateway">See the gateway prototype &rarr;</a></p>
       </div>
     </section>
 
@@ -242,202 +138,6 @@ basis          unresolved</pre></div>
           <li><span class="intro-strip__dot" aria-hidden="true"></span> Deterministic policy, not a model's opinion</li>
           <li><span class="intro-strip__dot" aria-hidden="true"></span> Observe first, enforce on evidence</li>
         </ul>
-      </div>
-    </section>
-
-    <section class="section section--problem section--bg" id="problem" data-section="problem" style="--bg-image: url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1920&q=80')">
-      <div class="section__bg" aria-hidden="true"></div>
-      <div class="section__content">
-        <p class="section__label section__label--center" data-reveal>THE FAILURE</p>
-        <h2 class="problem__title" data-reveal>Financial software can be wrong without looking broken.</h2>
-        <div class="problem__content" data-reveal>
-          <p>An API returns 200 OK. The JSON validates. Every required field exists. The ticker is syntactically valid. The system receives a plausible number.</p>
-          <p>But the price is stale. The security was mapped incorrectly. A time series silently lost its last twenty rows. Adjusted and unadjusted prices were mixed. The endpoint returned yesterday's close while presenting it as current. The tool returned an empty result where data should exist.</p>
-          <p>Nothing crashes. And that is exactly why the failure is dangerous. A person reading a price that is fourteen minutes stale may notice. An automated system will trade on it.</p>
-          <p>This does not require a future agent economy. Automated financial software already turns data directly into orders today, and AI assistants now run from research through to live deployment. The boundary where a number becomes a trade already exists. It is mostly unguarded.</p>
-          <p class="problem__until">One question governs every decision here: are the facts behind this action true enough to risk money?</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section--primitives" id="states" data-section="primitives">
-      <div class="section__content">
-        <p class="section__label section__label--center" data-reveal>EVIDENCE AND DECISION</p>
-        <h2 class="primitives__title" data-reveal>Two questions, answered separately</h2>
-        <p class="primitives__unify" data-reveal>Conflating "we cannot establish truth" with "the facts are false" makes an operational system brittle. Nobulex keeps the evidence question and the execution question apart, so a policy can treat them differently by risk.</p>
-        <div class="primitives__grid">
-          <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Evidence</span>
-            <h3 class="primitive-card__title">PASS</h3>
-            <p>The facts were checked against independent references under a declared method and held within the configured tolerance.</p>
-          </article>
-          <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Evidence</span>
-            <h3 class="primitive-card__title">FAIL</h3>
-            <p>The evidence was checked and did not hold. Stale beyond tolerance, mis-scoped, incomplete, or contradicted by reference sources.</p>
-          </article>
-          <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Evidence</span>
-            <h3 class="primitive-card__title">INDETERMINATE</h3>
-            <p>Truth could not be established. Halts, crossed feeds, ambiguous symbology and late corporate actions are honest reasons to be unsure. Never reported as a pass.</p>
-          </article>
-          <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Decision</span>
-            <h3 class="primitive-card__title">PERMIT</h3>
-            <p>Evidence held and the policy was satisfied. The action proceeds to the broker or tool, and the receipt records why.</p>
-          </article>
-          <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Decision</span>
-            <h3 class="primitive-card__title">BLOCK</h3>
-            <p>The action does not execute. The reason codes name exactly which check failed and what the observed and configured values were.</p>
-          </article>
-          <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Decision</span>
-            <h3 class="primitive-card__title">ESCALATE</h3>
-            <p>Routed to a human or an external approval path. Reserved for the cases where being unsure is the correct answer.</p>
-          </article>
-        </div>
-        <p class="architecture__footnote" data-reveal>Defaults are risk-sensitive rather than globally fail-closed. On a money-moving action, FAIL blocks and INDETERMINATE escalates. On a low-risk read, INDETERMINATE can permit and log. The buyer configures which is which.</p>
-      </div>
-    </section>
-
-    <section class="section section--flow" id="how-it-works" data-section="flow">
-      <div class="flow__ambient" aria-hidden="true">
-        <div class="flow__ambient-bg"></div>
-        <div class="flow__ambient-scrim"></div>
-      </div>
-      <div class="section__content flow__content">
-        <p class="section__label section__label--center" data-reveal>HOW IT WORKS</p>
-        <h2 class="flow__title" data-reveal>Inline, between the decision and the money</h2>
-        <div class="flow__diagram">
-          <div class="flow__step" data-reveal>
-            <span class="flow__num">1</span>
-            <span class="flow__label">Action proposed</span>
-          </div>
-          <span class="flow__line flow__line--reveal" data-reveal aria-hidden="true"></span>
-          <div class="flow__step" data-reveal>
-            <span class="flow__num">2</span>
-            <span class="flow__label">Verify the evidence</span>
-          </div>
-          <span class="flow__line flow__line--reveal" data-reveal aria-hidden="true"></span>
-          <div class="flow__step" data-reveal>
-            <span class="flow__num">3</span>
-            <span class="flow__label">Evaluate the policy</span>
-          </div>
-          <span class="flow__line flow__line--reveal" data-reveal aria-hidden="true"></span>
-          <div class="flow__step" data-reveal>
-            <span class="flow__num">4</span>
-            <span class="flow__label">Permit, block or escalate</span>
-          </div>
-          <span class="flow__line flow__line--reveal" data-reveal aria-hidden="true"></span>
-          <div class="flow__step" data-reveal>
-            <span class="flow__num">5</span>
-            <span class="flow__label">Execute downstream</span>
-          </div>
-          <span class="flow__line flow__line--reveal" data-reveal aria-hidden="true"></span>
-          <div class="flow__step flow__step--final" data-reveal>
-            <span class="flow__num">6</span>
-            <span class="flow__label">Issue the receipt</span>
-          </div>
-        </div>
-        <p class="architecture__footnote" data-reveal>Evidence checks cover identity binding, freshness against the market calendar, completeness over the expected window, corporate-action basis, and agreement between independently entitled sources. The evidence timestamp is bound to the action and revalidated at the execution boundary, so a check cannot silently age out between approval and submission.</p>
-      </div>
-    </section>
-
-    <section class="section section--compare section--alt" id="receipt" data-section="compare">
-      <div class="section__content">
-        <p class="section__label section__label--center" data-reveal>WHAT A RECEIPT PROVES</p>
-        <h2 class="compare__title" data-reveal>A signature establishes provenance, not truth</h2>
-        <div class="compare__table-wrap" data-reveal>
-          <table class="compare__table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>A receipt does say</th>
-                <th>A receipt does not say</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Attestation</td>
-                <td>The holder of the identified key signed this exact decision object: action hash, policy version, evidence references, verdict and time</td>
-                <td>That the external world was correctly represented by those sources</td>
-              </tr>
-              <tr>
-                <td>Identity</td>
-                <td>Which key signed, by the key ID it carries</td>
-                <td>That the key has durable, publicly anchored provenance. There is no PKI or revocation behind it yet, so a signature today proves only that the same key signed twice, not who holds it</td>
-              </tr>
-              <tr>
-                <td>Evidence</td>
-                <td>Which sources were consulted, when they were observed, and the hash of each payload considered</td>
-                <td>That those sources were themselves correct. A false oracle signed is still false</td>
-              </tr>
-              <tr>
-                <td>Policy</td>
-                <td>Which policy version was active and how it evaluated over the supplied context</td>
-                <td>That the policy was the right policy. You author that</td>
-              </tr>
-              <tr>
-                <td>History</td>
-                <td>Each receipt carries the previous receipt hash, so tampering is evident to anyone holding a later checkpoint</td>
-                <td>That a chain held entirely by one operator cannot be rewritten wholesale. That needs an external anchor</td>
-              </tr>
-              <tr>
-                <td>Coverage</td>
-                <td>What passed through the gateway, including every signed break-glass override</td>
-                <td>Anything about traffic that bypassed it. Coverage is measured and reported, not assumed</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="architecture__footnote" data-reveal>Receipts hold hashes and identifiers rather than raw market or customer payloads. That keeps licensing, privacy and retention exposure low while preserving the ability to prove which evidence set a decision rested on.</p>
-      </div>
-    </section>
-
-    <section class="section section--integrations" id="observe" data-section="integrations">
-      <div class="section__content integrations__content">
-        <p class="section__label section__label--center" data-reveal>DEPLOYMENT</p>
-        <h2 class="integrations__title" data-reveal>Nobody should let a new gateway block production on day one</h2>
-        <p class="integrations__intro" data-reveal>So it does not. Observe Mode computes the full verdict and never blocks. You find out what Nobulex would have stopped, on your real traffic, before it has the power to stop anything. Enforcement is something you turn on once the numbers earn it.</p>
-        <ul class="standards__grid" data-reveal>
-          <li class="standards__item"><span class="standards__name">1. Observe</span><span class="standards__desc">Mirror one path. Full decisions computed, nothing blocked, no execution impact</span></li>
-          <li class="standards__item"><span class="standards__name">2. Replay</span><span class="standards__desc">A fixed corpus of well-formed-but-wrong conditions runs against your path</span></li>
-          <li class="standards__item"><span class="standards__name">3. Measure</span><span class="standards__desc">Catch rate, false-block rate, added latency, and the share of live calls landing INDETERMINATE</span></li>
-          <li class="standards__item"><span class="standards__name">4. Enforce, narrowly</span><span class="standards__desc">One bounded action type, or paper trading first, with explicit break-glass</span></li>
-          <li class="standards__item"><span class="standards__name">5. Expand</span><span class="standards__desc">More feeds, instruments and action types under the same evidence and policy boundary</span></li>
-        </ul>
-        <p class="integrations__docs" data-reveal>A safety product that causes an outage has failed at its own job. Per-action fail policy, cached reference state and local evaluation mean a gateway problem does not have to become a trading halt. You choose, per action type, whether unavailability fails open or closed.</p>
-      </div>
-    </section>
-
-    <section class="section section--integrations section--alt" id="wedge" data-section="wedge">
-      <div class="section__content integrations__content">
-        <p class="section__label section__label--center" data-reveal>WHY FINANCE FIRST</p>
-        <h2 class="integrations__title" data-reveal>Because here the right answer is externally checkable</h2>
-        <p class="integrations__intro" data-reveal>This method needs an independent oracle. Market data has unusually rich ones: multiple entitled sources, exchange calendars, settled identifiers, corporate-action records and execution confirmations. Most domains have nothing comparable. Starting where claims can actually be falsified is a feature, not a limitation.</p>
-        <ul class="standards__grid" data-reveal>
-          <li class="standards__item"><span class="standards__name">Identity binding</span><span class="standards__desc">That the instrument returned is the instrument requested, across symbology</span></li>
-          <li class="standards__item"><span class="standards__name">Freshness</span><span class="standards__desc">Age against the market calendar and session state, not a fixed clock</span></li>
-          <li class="standards__item"><span class="standards__name">Completeness</span><span class="standards__desc">The expected observations for the requested window, so truncation is visible</span></li>
-          <li class="standards__item"><span class="standards__name">Corporate actions</span><span class="standards__desc">Splits, dividends and the adjusted or unadjusted basis actually in use</span></li>
-          <li class="standards__item"><span class="standards__name">Source agreement</span><span class="standards__desc">Independently entitled references, compared within a stated tolerance</span></li>
-        </ul>
-        <p class="integrations__docs" data-reveal>Nobulex runs against feeds you are already licensed to consume and stores only the evidence metadata and hashes a receipt requires. It does not redistribute market data.</p>
-      </div>
-    </section>
-
-    <section class="section section--problem section--bg" id="scope" data-section="scope" style="--bg-image: url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&q=80')">
-      <div class="section__bg" aria-hidden="true"></div>
-      <div class="section__content">
-        <p class="section__label section__label--center" data-reveal>WHAT THIS IS NOT</p>
-        <h2 class="problem__title" data-reveal>An evidence and control layer, not a guarantor</h2>
-        <div class="problem__content" data-reveal>
-          <p>Nobulex is not a broker, an investment adviser or a fiduciary, and it does not guarantee that any data source is correct. It establishes evidence under a declared method and reports PASS, FAIL or INDETERMINATE.</p>
-          <p>It does not claim that installing it satisfies any regulatory obligation. Supervisory rules continue to apply to the firm using it. What it produces is the control and the evidence a supervisor would want to see, not a substitute for supervision.</p>
-          <p>It is not a replacement for your observability stack, your broker's pre-trade risk controls, or your own tests. It sits at a different point than any of them: bound to one specific action, at the moment that action would execute.</p>
-          <p class="problem__until">Cryptography proves who attested to what. The financial evidence is what makes the attestation worth anything.</p>
-        </div>
       </div>
     </section>
 
@@ -549,10 +249,10 @@ basis          unresolved</pre></div>
       <p class="footer__contact">Buyer funded, never vendor funded. <a href="https://github.com/arian-gogani/nobulex-registry">The method is published.</a> Evidence establishes truth; signatures only establish provenance.</p>
     </div>
     <nav class="footer__nav" aria-label="Footer">
-      <a href="#decision">The decision</a>
+      <a href="/gateway#decision">The decision</a>
       <a href="/methodology">Method</a>
       <a href="/billing-pilot">Billing replay study</a>
-      <a href="#observe">Observe mode</a>
+      <a href="/gateway#observe">Observe mode</a>
       <a href="/manifesto">Manifesto</a>
       <a href="#faq">FAQ</a>
       <a href="https://github.com/arian-gogani/nobulex-registry">Source</a>
@@ -563,14 +263,14 @@ basis          unresolved</pre></div>
 
   <nav class="section-rail" aria-label="On this page">
     <ul class="section-rail__list">
-      <li><a class="section-rail__link" href="#decision" data-rail-section="decision"><span class="visually-hidden">The decision</span></a></li>
-      <li><a class="section-rail__link" href="#problem" data-rail-section="problem"><span class="visually-hidden">The failure</span></a></li>
-      <li><a class="section-rail__link" href="#states" data-rail-section="states"><span class="visually-hidden">Decision states</span></a></li>
-      <li><a class="section-rail__link" href="#how-it-works" data-rail-section="how-it-works"><span class="visually-hidden">How it works</span></a></li>
-      <li><a class="section-rail__link" href="#receipt" data-rail-section="receipt"><span class="visually-hidden">What a receipt proves</span></a></li>
-      <li><a class="section-rail__link" href="#observe" data-rail-section="observe"><span class="visually-hidden">Observe mode</span></a></li>
-      <li><a class="section-rail__link" href="#wedge" data-rail-section="wedge"><span class="visually-hidden">Why finance first</span></a></li>
-      <li><a class="section-rail__link" href="#scope" data-rail-section="scope"><span class="visually-hidden">What this is not</span></a></li>
+      <li><a class="section-rail__link" href="/gateway#decision" data-rail-section="decision"><span class="visually-hidden">The decision</span></a></li>
+      <li><a class="section-rail__link" href="/gateway#problem" data-rail-section="problem"><span class="visually-hidden">The failure</span></a></li>
+      <li><a class="section-rail__link" href="/gateway#states" data-rail-section="states"><span class="visually-hidden">Decision states</span></a></li>
+      <li><a class="section-rail__link" href="/gateway#how-it-works" data-rail-section="how-it-works"><span class="visually-hidden">How it works</span></a></li>
+      <li><a class="section-rail__link" href="/gateway#receipt" data-rail-section="receipt"><span class="visually-hidden">What a receipt proves</span></a></li>
+      <li><a class="section-rail__link" href="/gateway#observe" data-rail-section="observe"><span class="visually-hidden">Observe mode</span></a></li>
+      <li><a class="section-rail__link" href="/gateway#wedge" data-rail-section="wedge"><span class="visually-hidden">Why finance first</span></a></li>
+      <li><a class="section-rail__link" href="/gateway#scope" data-rail-section="scope"><span class="visually-hidden">What this is not</span></a></li>
       <li><a class="section-rail__link" href="#state" data-rail-section="state"><span class="visually-hidden">Where this stands</span></a></li>
       <li><a class="section-rail__link" href="#faq" data-rail-section="faq"><span class="visually-hidden">FAQ</span></a></li>
       <li><a class="section-rail__link" href="#contact" data-rail-section="contact"><span class="visually-hidden">Get started</span></a></li>
