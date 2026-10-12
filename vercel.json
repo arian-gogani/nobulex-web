@@ -7,7 +7,6 @@
     { "source": "/playground", "destination": "/billing-study-sample", "permanent": true },
     { "source": "/demo", "destination": "/billing-study-sample", "permanent": true },
     { "source": "/demo-video", "destination": "/billing-study-sample", "permanent": true },
-    { "source": "/pilot", "destination": "/billing-pilot", "permanent": true },
     { "source": "/pricing", "destination": "/billing-pilot", "permanent": false },
     { "source": "/spec", "destination": "/methodology", "permanent": true },
     { "source": "/api-docs", "destination": "/methodology", "permanent": true },

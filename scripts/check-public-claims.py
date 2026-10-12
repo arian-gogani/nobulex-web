@@ -25,6 +25,16 @@ def main() -> int:
     package = (ROOT / "package.json").read_text(encoding="utf-8")
     errors = []
 
+    # The HTML pages this script makes assertions about. Listed once, here,
+    # and used by the redirect-shadowing check at the end. README.md and
+    # package.json are not routes and are deliberately absent.
+    asserted_pages = {
+        "index.html",
+        "methodology.html",
+        "pilot.html",
+        "billing-pilot.html",
+    }
+
     hero = homepage.split('<section class="hero"', 1)[-1].split('</section>', 1)[0]
     if "Billed $50." not in hero or "Expected $150." not in hero:
         errors.append("homepage first screen does not lead with the reproduced billing failure")
@@ -127,6 +137,49 @@ def main() -> int:
     for phrase in ("automated-finance data path", "One financial path"):
         if phrase in pilot:
             errors.append(f"pilot page uses overbroad scope phrase: {phrase}")
+
+    # Every assertion above reads a file from disk. None of them can tell
+    # whether production serves that file, and that gap produced a real
+    # contradiction: pilot.html was rewritten to say "This is a prior offer"
+    # and "no longer active", three checks were added to guarantee it said so,
+    # and a permanent redirect for /pilot was added in the same commit. The
+    # checks passed while /pilot returned 308 and fifteen bytes, so the page
+    # asserting its own retirement could not be loaded by anyone.
+    #
+    # The honest reading of a green run was not "the legacy pilot page
+    # identifies itself as a prior offer" but "a file nobody can reach says
+    # so". That is evidence overstating its coverage, which is the defect this
+    # project exists to find in other people's software, and the checker had no
+    # way to notice it.
+    #
+    # So the rule is now checked rather than remembered: a page this script
+    # makes claims about must not be shadowed by a redirect. The pairing is
+    # what breaks, so the pairing is what is tested.
+    redirect_config = ROOT / "vercel.json"
+    if redirect_config.exists():
+        import json
+        try:
+            config = json.loads(redirect_config.read_text(encoding="utf-8"))
+        except ValueError as exc:
+            errors.append(f"vercel.json did not parse, so redirect shadowing "
+                          f"could not be checked: {exc}")
+            config = None
+        if config is not None:
+            shadowed = {
+                str(rule.get("source", "")).rstrip("/")
+                for rule in (config.get("redirects") or [])
+                if isinstance(rule, dict)
+            }
+            for name in sorted(asserted_pages):
+                route = "/" + name.removesuffix(".html")
+                if route == "/index":
+                    route = "/"
+                if route in shadowed:
+                    errors.append(
+                        f"{name} carries assertions in this script but /"
+                        f"{name.removesuffix('.html')} is redirected away in "
+                        f"vercel.json, so no reader can see what is asserted"
+                    )
 
     if errors:
         for error in errors:
