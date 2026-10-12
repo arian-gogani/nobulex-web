@@ -6,35 +6,31 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nobulex | Check the invoice amount independently</title>
+  <title>Nobulex | Billed $50. Expected $150.</title>
   <meta name="description" content="Nobulex offers a proposed $2,500 billing replay study for one Kill Bill price-change scenario and prototypes decision-integrity checks for automated finance. It is not deployed in production and has no customer result.">
   <link rel="canonical" href="https://nobulex.com/">
-  <meta property="og:title" content="Nobulex | The dry run and invoice agreed on the wrong amount">
+  <meta property="og:title" content="Nobulex | Billed $50. Expected $150.">
   <meta property="og:description" content="A proposed billing replay study checks an expected amount against one Kill Bill price-change dry run. Nobulex also builds a decision-integrity gateway prototype, not deployed in production.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://nobulex.com/images/nobulex-logo.png">
   <meta property="og:url" content="https://nobulex.com/">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Nobulex | The dry run and invoice agreed on the wrong amount">
+  <meta name="twitter:title" content="Nobulex | Billed $50. Expected $150.">
   <meta name="twitter:description" content="A proposed billing replay study for one Kill Bill price-change scenario, alongside a decision-integrity gateway prototype. Nobulex is not deployed in production.">
   <meta name="twitter:image" content="https://nobulex.com/images/nobulex-logo.png">
-  <meta name="theme-color" content="#030708">
-  <link rel="dns-prefetch" href="https://images.unsplash.com">
+  <meta name="theme-color" content="#070807">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@graph":[
-    {"@type":"Organization","@id":"https://nobulex.com/#organization","name":"Nobulex","url":"https://nobulex.com","logo":{"@type":"ImageObject","url":"https://nobulex.com/images/nobulex-logo.png"},"description":"An open-source decision-integrity gateway prototype for automated financial actions. It evaluates financial evidence and deterministic policy, returns PERMIT, BLOCK or ESCALATE, and issues a receipt. It is not deployed in production. Receipts are Ed25519-signed when a signing key is configured; with no key a receipt is emitted marked UNSIGNED rather than looking signed."},
+    {"@type":"Organization","@id":"https://nobulex.com/#organization","name":"Nobulex","url":"https://nobulex.com","logo":{"@type":"ImageObject","url":"https://nobulex.com/images/nobulex-logo.png"},"description":"An open-source decision-integrity gateway prototype for automated financial actions, and a proposed billing replay study. It is not deployed in production."},
     {"@type":"WebSite","@id":"https://nobulex.com/#website","url":"https://nobulex.com","name":"Nobulex","publisher":{"@id":"https://nobulex.com/#organization"}},
-    {"@type":"WebPage","@id":"https://nobulex.com/#page","url":"https://nobulex.com/","name":"Nobulex | Check the invoice amount independently","isPartOf":{"@id":"https://nobulex.com/#website"},"about":{"@id":"https://nobulex.com/#organization"}}
+    {"@type":"WebPage","@id":"https://nobulex.com/#page","url":"https://nobulex.com/","name":"Nobulex | Billed $50. Expected $150.","isPartOf":{"@id":"https://nobulex.com/#website"},"about":{"@id":"https://nobulex.com/#organization"}}
   ]}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-    {"@type":"Question","name":"What is Nobulex?","acceptedAnswer":{"@type":"Answer","text":"Nobulex is an open-source gateway prototype designed to sit between an automated system and execution. It evaluates financial evidence, applies deterministic policy, and returns PERMIT, BLOCK or ESCALATE with a receipt. It is not deployed in production. Signing is off by default: with a key configured the receipt is Ed25519-signed, and without one it is marked UNSIGNED."}},
-    {"@type":"Question","name":"How is this different from an agent guardrail?","acceptedAnswer":{"@type":"Answer","text":"A guardrail decides whether an agent is allowed to call a tool. Cloud agent gateways already do that well, including limits on parameters such as dollar amounts. Nobulex asks a different question they do not answer: are the financial facts this action depends on true enough to risk money."}},
-    {"@type":"Question","name":"How is this different from data observability?","acceptedAnswer":{"@type":"Answer","text":"Observability platforms watch a data estate and alert on freshness, completeness and schema anomalies. Nobulex binds evidence to one specific proposed action at the moment money is about to move, and can stop that action. They are complementary; Nobulex sends its decisions to your existing monitoring."}},
-    {"@type":"Question","name":"Does a signed receipt prove the data was true?","acceptedAnswer":{"@type":"Answer","text":"No. A signature establishes that one key signed a specific decision object containing the action, policy version, evidence identifiers and verdict. The current prototype does not bind that key to a durable public identity. The financial evidence establishes the factual basis, and cryptography cannot turn a false source into a true one."}},
-    {"@type":"Question","name":"What is INDETERMINATE?","acceptedAnswer":{"@type":"Answer","text":"A first-class third state for when truth cannot be established. Halts, crossed feeds, late corporate actions and vendor disagreement can all make an honest answer impossible. Nobulex reports that rather than guessing, and policy decides whether to escalate, block or allow and log."}},
-    {"@type":"Question","name":"Do I have to let it block production traffic on day one?","acceptedAnswer":{"@type":"Answer","text":"No. Observe Mode computes the full verdict and never blocks. You see what would have been stopped against real traffic, calibrate the false-block rate, and enable enforcement on one bounded action type only when the numbers justify it."}}
+    {"@type":"Question","name":"What is the billing replay study?","acceptedAnswer":{"@type":"Answer","text":"A proposed $2,500 study of one recurring-subscription price change. Nobulex independently calculates the expected amount, compares it with a dry run, and leaves a regression test. It needs no production access or customer payment data. No customer has purchased or run it."}},
+    {"@type":"Question","name":"Is Nobulex in production?","acceptedAnswer":{"@type":"Answer","text":"No. The HTTP decision API and Observe Mode wrapper are implemented and tested locally. They are not deployed. Nobody is blocking live orders through Nobulex."}},
+    {"@type":"Question","name":"What is the gateway?","acceptedAnswer":{"@type":"Answer","text":"A separate prototype. Before an automated financial action runs, it checks the evidence that action depends on and returns permit, block, or escalate. It is not deployed and has no customer result."}}
   ]}
   </script>
   <link rel="icon" type="image/png" href="/icon.png">
@@ -42,22 +38,23 @@
   <link rel="shortcut icon" type="image/png" href="/icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body>
+<body class="page-home">
   <a href="#main" class="skip-link">Skip to content</a>
   <header class="header" data-animate="header">
     <div class="header__top">
       <a href="/" class="header__logo" data-magnetic aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
       <nav class="header__quick" aria-label="Quick links">
-        <a href="/research-killbill-catalog-replay">Current research</a>
+        <a href="/billing-pilot">The study</a>
+        <a href="/research-killbill-catalog-replay">The case</a>
         <a href="/methodology">Method</a>
-        <a href="/gateway#observe">Observe mode</a>
+        <a href="/gateway">Gateway</a>
       </nav>
       <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
         <span class="nav-toggle__bar"></span>
@@ -71,28 +68,22 @@
         <span aria-hidden="true">&times;</span>
       </button>
       <div class="header__links">
-        <a href="/gateway#problem">The failure</a>
-        <a href="/gateway#decision">The decision</a>
-        <a href="/gateway#states">Decision states</a>
-        <a href="/gateway#how-it-works">How it works</a>
-        <a href="/gateway#receipt">What a receipt proves</a>
-        <a href="/gateway#observe">Observe mode</a>
-        <a href="/gateway#wedge">Why finance first</a>
-        <a href="#state">Where this stands</a>
+        <a href="/billing-pilot">The study</a>
+        <a href="/research-killbill-catalog-replay">The case</a>
         <a href="/methodology">Method</a>
+        <a href="/gateway">Gateway</a>
         <a href="/manifesto">Manifesto</a>
+        <a href="mailto:nobulex.dev@gmail.com?subject=Billing%20release%20review%20research">Write</a>
       </div>
     </nav>
   </header>
 
   <main id="main">
-    <section class="hero hero--billing" id="hero" style="position:relative">
+    <section class="hero hero--billing" id="hero">
       <div class="hero__bg" aria-hidden="true"></div>
-      <div class="hero__grid" aria-hidden="true"></div>
       <div class="hero__vignette" aria-hidden="true"></div>
       <div class="hero__inner">
         <div class="hero__content">
-          <p class="hero__wordmark" aria-label="Nobulex">N O B U L E X</p>
           <p class="hero__protocol">
             <span class="hero__protocol-lead">Billing replay study</span>
           </p>
@@ -101,182 +92,140 @@
             <span class="hero__line hero__line--accent" data-split="words">Expected $150.</span>
           </h1>
           <p class="hero__hook">The issue reporter says the dry run repeated a wrong $50 invoice. Our released-tag H2 test reproduced it.</p>
-          <p class="hero__kicker">Proposed $2,500 study. One scenario, one release test. No customer deployment yet.</p>
           <div class="hero__cta hero__cta-buttons">
             <a href="/billing-pilot" class="btn btn--primary">See the study</a>
             <a href="/research-killbill-catalog-replay" class="btn btn--ghost">The reproduced case</a>
           </div>
+          <p class="hero__kicker">Proposed $2,500 study. One scenario, one release test. No customer deployment yet.</p>
         </div>
+        <figure class="slip">
+          <figcaption class="slip__cap">One subscription. One month.</figcaption>
+          <p class="slip__when">August 1 – September 1, 2026</p>
+          <dl class="slip__rows">
+            <div class="slip__row slip__row--issued">
+              <dt>Issued</dt>
+              <dd>$50</dd>
+            </div>
+            <div class="slip__row slip__row--owed">
+              <dt>Owed</dt>
+              <dd>$150</dd>
+            </div>
+          </dl>
+          <p class="slip__gap"><span>Unseen</span><span>$100</span></p>
+          <p class="slip__foot">The preview and the invoice agreed. The approved price did not.</p>
+        </figure>
       </div>
     </section>
 
-    <section class="billing-research" aria-label="Current billing research">
-      <div class="billing-research__inner">
-        <p class="billing-research__label">CURRENT BUYER QUESTION</p>
-        <p class="billing-research__text">When a billing preview and final invoice agree on the wrong amount, what independently checks the approved price before issuance?</p>
-        <a href="/research-killbill-catalog-replay">Read the reproduced Kill Bill case <span aria-hidden="true">&rarr;</span></a>
-        <a class="billing-research__reply" href="mailto:nobulex.dev@gmail.com?subject=Billing%20release%20review%20research">Tell us how you check invoice amounts before release <span aria-hidden="true">&rarr;</span></a>
-        <p class="billing-research__scope">This is research, not a deployed billing product or a customer result.</p>
+    <section class="sheet" id="failure" aria-labelledby="failure-title">
+      <div class="sheet__head">
+        <p class="eyebrow">What happened</p>
+        <h2 id="failure-title">Nothing in the path disagreed.</h2>
       </div>
+      <ol class="beats">
+        <li class="beat">
+          <span class="beat__n">01</span>
+          <h3>Approved price</h3>
+          <p>$150 for the month.</p>
+        </li>
+        <li class="beat">
+          <span class="beat__n">02</span>
+          <h3>What the system said</h3>
+          <p>Dry run and invoice: $50.</p>
+        </li>
+        <li class="beat">
+          <span class="beat__n">03</span>
+          <h3>What was missing</h3>
+          <p>An independent check of the approved price, before issuance.</p>
+        </li>
+      </ol>
     </section>
 
-    <section class="intro-strip" aria-label="Other work">
-      <div class="intro-strip__inner">
-        <p class="intro-strip__text">A separate prototype checks evidence about a proposed action before it executes, and returns permit, block or escalate. It is not deployed in production and has no customer result. <a href="/gateway">See the gateway prototype &rarr;</a></p>
-      </div>
-    </section>
-
-    <section class="intro-strip" aria-label="Positioning">
-      <div class="intro-strip__inner">
-        <p class="intro-strip__position">
-          <span class="intro-strip__muted">Agent gateways check whether a call is allowed &middot; Observability watches the data estate</span>
-          <span class="intro-strip__em">Nobulex checks whether the facts behind this action are true enough to risk money.</span>
-        </p>
-        <ul class="intro-strip__trust" aria-label="How this is constrained">
-          <li><span class="intro-strip__dot" aria-hidden="true"></span> Evidence status and execution decision, kept separate</li>
-          <li><span class="intro-strip__dot" aria-hidden="true"></span> INDETERMINATE is a real state, never a pass</li>
-          <li><span class="intro-strip__dot" aria-hidden="true"></span> Deterministic policy, not a model's opinion</li>
-          <li><span class="intro-strip__dot" aria-hidden="true"></span> Observe first, enforce on evidence</li>
+    <section class="sheet sheet--study" id="study" aria-labelledby="study-title">
+      <div class="panel">
+        <div class="panel__copy">
+          <p class="eyebrow">The study</p>
+          <h2 id="study-title">One price change, checked before release.</h2>
+          <p>We calculate the expected amount ourselves, compare it with a dry run, and leave a regression test. No production access. No customer payment data.</p>
+          <a href="/billing-pilot" class="btn btn--primary">Read the scope</a>
+        </div>
+        <ul class="panel__facts">
+          <li><span>Price</span><strong>$2,500, proposed</strong></li>
+          <li><span>Scope</span><strong>One scenario</strong></li>
+          <li><span>Status</span><strong>No buyer yet</strong></li>
         </ul>
       </div>
     </section>
 
-    <section class="section section--primitives section--alt" id="state" data-section="state">
-      <div class="section__content">
-        <p class="section__label section__label--center" data-reveal>WHERE THIS STANDS</p>
-        <h2 class="primitives__title" data-reveal>The honest state of it</h2>
-        <p class="primitives__unify" data-reveal>Stated plainly, because a control product that oversells itself has already failed the only test that matters.</p>
-        <div class="primitives__grid">
-          <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Built</span>
-            <h3 class="primitive-card__title">The checks</h3>
-            <p>An open-source Python suite for completeness, window and truncation detection, with a fictional offline example and a published method. Runnable today.</p>
-          </article>
-          <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Built</span>
-            <h3 class="primitive-card__title">The verdict discipline</h3>
-            <p>Separate evidence and decision states, with INDETERMINATE as a first-class result rather than an exception path.</p>
-          </article>
-          <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Built locally</span>
-            <h3 class="primitive-card__title">The gateway</h3>
-            <p>The HTTP decision API and Observe Mode wrapper are implemented and tested locally. They are not deployed or running in anyone's production path.</p>
-          </article>
-          <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Not yet</span>
-            <h3 class="primitive-card__title">Enforcement in production</h3>
-            <p>No customer is blocking live orders through Nobulex today. Any claim otherwise would be the same kind of well-formed lie this exists to catch.</p>
-          </article>
-          <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Deliberately not</span>
-            <h3 class="primitive-card__title">A trust score</h3>
-            <p>No universal 0-100 rating for an agent. Reliability is reported per capability and per window, derived from receipts, or not at all.</p>
-          </article>
-          <article class="primitive-card" data-reveal>
-            <span class="primitive-card__label">Deliberately not</span>
-            <h3 class="primitive-card__title">A public registry</h3>
-            <p>Verdicts are private to the buyer. Any aggregate register is downstream exhaust, with permission, and never a precondition for the product being useful.</p>
-          </article>
-        </div>
-        <p class="architecture__footnote" data-reveal>The first buyer gets the entire benefit. No second participant, no network, no registry and no one else's adoption is required for this to be worth installing.</p>
-        <p class="architecture__footnote" data-reveal>Adjacent research: <a href="/research-killbill-catalog-replay">a billing dry run can agree with a wrong final invoice</a>. This is an upstream code study, not a Nobulex deployment or proof of buyer demand.</p>
+    <section class="sheet" id="state" aria-labelledby="state-title">
+      <div class="sheet__head">
+        <p class="eyebrow">Where this stands</p>
+        <h2 id="state-title">Said plainly.</h2>
+      </div>
+      <div class="stand">
+        <article>
+          <h3>Built</h3>
+          <p>Open-source checks for completeness, window, and truncation. Runnable today, with a published method.</p>
+        </article>
+        <article>
+          <h3>Built locally</h3>
+          <p>The HTTP decision API and Observe Mode wrapper are implemented and tested locally. They are not deployed or running in anyone's production path.</p>
+        </article>
+        <article>
+          <h3>Not yet</h3>
+          <p>No customer is blocking live orders through Nobulex. A separate <a href="/gateway">gateway prototype</a> returns permit, block, or escalate. It has no customer result.</p>
+        </article>
       </div>
     </section>
 
-    <section class="section section--faq section--pre-waitlist" id="faq" data-section="faq">
-      <div class="section__content faq__content">
-        <p class="section__label section__label--center" data-reveal>FAQ</p>
-        <h2 class="faq__title" data-reveal>Questions, answered</h2>
-        <div class="faq__list" data-reveal>
-          <details class="faq__item">
-            <summary class="faq__summary">What is Nobulex?</summary>
-            <p class="faq__body">A gateway between an automated system and execution. Before a financial action runs, it independently verifies the financial facts that action depends on, evaluates a deterministic policy, and returns PERMIT, BLOCK or ESCALATE. Every decision produces a receipt showing what was checked and why. Signing is off by default: configure a key and the receipt is Ed25519-signed, run without one and it is marked UNSIGNED rather than presented as signed.</p>
-          </details>
-          <details class="faq__item">
-            <summary class="faq__summary">How is this different from an agent guardrail?</summary>
-            <p class="faq__body">A guardrail decides whether an agent is authorised to call a tool. Cloud agent gateways already do this well, including deterministic limits on parameters such as dollar amounts and session-scoped budgets. Nobulex asks the question they do not: are the financial facts behind this authorised action true enough to risk money. Generic policy is an ingredient. Financial evidence is the wedge.</p>
-          </details>
-          <details class="faq__item">
-            <summary class="faq__summary">How is this different from data observability?</summary>
-            <p class="faq__body">Observability platforms watch a data estate and alert on freshness, completeness, schema and volume anomalies, and they are good at it. Nobulex binds evidence to one specific proposed action at the instant money is about to move, and can stop that action. Send Nobulex decisions to your existing monitoring; it is not trying to replace those dashboards.</p>
-          </details>
-          <details class="faq__item">
-            <summary class="faq__summary">Why would we not just build this ourselves?</summary>
-            <p class="faq__body">You will build the first version yourself, and it will be about three hundred lines. Nobulex only deserves to exist if it becomes meaningfully better at the edge cases: symbology and entity mapping, market calendars, corporate-action basis, source disagreement, temporal validity, plausible truncation, and replaying those failures against your own path. The moat is the failure corpus and the evidence adapters, not the policy syntax.</p>
-          </details>
-          <details class="faq__item">
-            <summary class="faq__summary">Does a signed receipt prove the data was true?</summary>
-            <p class="faq__body">No, and this matters enough to print in the documentation. A signature establishes that one key signed a specific decision object. The current prototype does not bind that key to a durable public identity. The financial evidence establishes the factual basis. Cryptography cannot turn a false source into a true one.</p>
-          </details>
-          <details class="faq__item">
-            <summary class="faq__summary">What happens if Nobulex goes down?</summary>
-            <p class="faq__body">You decide in advance, per action type, whether unavailability fails open or closed. Local evaluation and cached reference state keep the common path alive. A control product that turns into an outage has failed at its own job, so this is configured before enforcement is ever enabled, not after an incident.</p>
-          </details>
-          <details class="faq__item">
-            <summary class="faq__summary">Do I have to let it block on day one?</summary>
-            <p class="faq__body">No. Observe Mode computes the full verdict and never blocks, so you see what would have been stopped against real traffic first. Enforcement goes on for one bounded action type once the false-block rate is understood, with explicit break-glass, and every override is itself signed.</p>
-          </details>
-          <details class="faq__item">
-            <summary class="faq__summary">Is anyone running this in production?</summary>
-            <p class="faq__body">No. The checks and the verdict discipline are built and open source; the inline gateway is the current work. Nobody is blocking live orders through Nobulex today, and this page will say so until that changes.</p>
-          </details>
-        </div>
+    <section class="sheet sheet--ask" id="faq" aria-labelledby="faq-title">
+      <div class="sheet__head">
+        <p class="eyebrow">Questions</p>
+        <h2 id="faq-title">Short answers.</h2>
+      </div>
+      <div class="asks">
+        <details class="ask" open>
+          <summary>What are you actually selling?</summary>
+          <p>A proposed study of one billing change. Not a deployed billing product, and not a customer result.</p>
+        </details>
+        <details class="ask">
+          <summary>Is anyone running this in production?</summary>
+          <p>No. The checks are open source. The gateway is local. This page will keep saying so until that changes.</p>
+        </details>
+        <details class="ask">
+          <summary>Does a signature prove the amount was right?</summary>
+          <p>No. A signature shows who signed a decision. It cannot turn a wrong source into a right one.</p>
+        </details>
       </div>
     </section>
 
-    <section class="section section--waitlist" id="contact" data-section="register-cta">
-      <div class="section__content waitlist__content">
-        <p class="section__label section__label--center section__label--version" data-reveal>GET STARTED</p>
-        <h2 class="waitlist__title" data-reveal>Check one billing change before release</h2>
-        <p class="waitlist__lede" data-reveal>Start with one recurring-subscription price change. We independently calculate the expected amount, compare it with a dry run, and leave a regression test. The proposed study needs no production access or customer payment data.</p>
-        <div class="waitlist__form" data-reveal>
-          <a href="/billing-pilot" class="btn btn--primary" style="text-decoration:none">Explore the billing replay study</a>
-          <a href="/methodology" class="btn btn--ghost" style="text-decoration:none">The method</a>
-        </div>
-        <p class="waitlist__note" data-reveal>This is a proposed billing study, not a deployed billing product. No customer has purchased or run it yet. The earlier market-data pilot is no longer the primary offer.</p>
-        <p class="waitlist__note" data-reveal>The buyer pays. Nobulex is never funded by the data vendor or tool being checked, because the moment revenue depends on a subject's satisfaction the verdicts are worth nothing.</p>
-        <p class="waitlist__note" data-reveal>Corrections: <a href="mailto:nobulex.dev@gmail.com">nobulex.dev@gmail.com</a>. If something on this page overstates what the software does, send it and it gets fixed in public.</p>
+    <section class="sheet sheet--close" id="contact">
+      <div class="close">
+        <p class="eyebrow">Next</p>
+        <h2>Check one price before it ships.</h2>
+        <p>Tell us how you check invoice amounts before release.</p>
+        <a class="btn btn--primary" href="mailto:nobulex.dev@gmail.com?subject=Billing%20release%20review%20research">nobulex.dev@gmail.com</a>
       </div>
     </section>
   </main>
 
-  <div class="divider" aria-hidden="true"></div>
   <footer class="footer" data-section="footer">
     <div class="footer__brand">
-      <h3 class="footer__logo">NOBULEX</h3>
-      <p class="footer__tagline">The decision-integrity firewall for autonomous finance.</p>
-      <p class="footer__contact">Corrections and disputes: <a href="mailto:nobulex.dev@gmail.com">nobulex.dev@gmail.com</a></p>
-      <p class="footer__contact">Buyer funded, never vendor funded. <a href="https://github.com/arian-gogani/nobulex-registry">The method is published.</a> Evidence establishes truth; signatures only establish provenance.</p>
+      <h3 class="footer__logo">Nobulex</h3>
+      <p class="footer__tagline">A billing replay study, and a decision-integrity prototype. Not deployed.</p>
+      <p class="footer__contact">Buyer funded, never vendor funded. Corrections: <a href="mailto:nobulex.dev@gmail.com">nobulex.dev@gmail.com</a></p>
     </div>
     <nav class="footer__nav" aria-label="Footer">
-      <a href="/gateway#decision">The decision</a>
+      <a href="/billing-pilot">Study</a>
+      <a href="/research-killbill-catalog-replay">Case</a>
       <a href="/methodology">Method</a>
-      <a href="/billing-pilot">Billing replay study</a>
-      <a href="/gateway#observe">Observe mode</a>
+      <a href="/gateway">Gateway</a>
       <a href="/manifesto">Manifesto</a>
-      <a href="#faq">FAQ</a>
       <a href="https://github.com/arian-gogani/nobulex-registry">Source</a>
     </nav>
   </footer>
 
   <div class="scroll-bar" aria-hidden="true"></div>
-
-  <nav class="section-rail" aria-label="On this page">
-    <ul class="section-rail__list">
-      <li><a class="section-rail__link" href="/gateway#decision" data-rail-section="decision"><span class="visually-hidden">The decision</span></a></li>
-      <li><a class="section-rail__link" href="/gateway#problem" data-rail-section="problem"><span class="visually-hidden">The failure</span></a></li>
-      <li><a class="section-rail__link" href="/gateway#states" data-rail-section="states"><span class="visually-hidden">Decision states</span></a></li>
-      <li><a class="section-rail__link" href="/gateway#how-it-works" data-rail-section="how-it-works"><span class="visually-hidden">How it works</span></a></li>
-      <li><a class="section-rail__link" href="/gateway#receipt" data-rail-section="receipt"><span class="visually-hidden">What a receipt proves</span></a></li>
-      <li><a class="section-rail__link" href="/gateway#observe" data-rail-section="observe"><span class="visually-hidden">Observe mode</span></a></li>
-      <li><a class="section-rail__link" href="/gateway#wedge" data-rail-section="wedge"><span class="visually-hidden">Why finance first</span></a></li>
-      <li><a class="section-rail__link" href="/gateway#scope" data-rail-section="scope"><span class="visually-hidden">What this is not</span></a></li>
-      <li><a class="section-rail__link" href="#state" data-rail-section="state"><span class="visually-hidden">Where this stands</span></a></li>
-      <li><a class="section-rail__link" href="#faq" data-rail-section="faq"><span class="visually-hidden">FAQ</span></a></li>
-      <li><a class="section-rail__link" href="#contact" data-rail-section="contact"><span class="visually-hidden">Get started</span></a></li>
-    </ul>
-  </nav>
-
   <script src="main.js"></script>
 </body>
 </html>
