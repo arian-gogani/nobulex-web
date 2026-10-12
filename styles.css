@@ -5498,30 +5498,14 @@ button:focus-visible {
 /* ------------------------------------------------------------------ */
 
 .page-home {
-  --ink: #f6f3ec;
-  --ink-dim: rgba(246, 243, 236, 0.62);
-  --ink-faint: rgba(246, 243, 236, 0.42);
-  --gold: #c6a56a;
-  --gold-soft: rgba(198, 165, 106, 0.16);
-  --line: rgba(246, 243, 236, 0.12);
-  --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
-  background:
-    radial-gradient(920px 540px at 88% -8%, rgba(198, 165, 106, 0.16), transparent 58%),
-    radial-gradient(640px 420px at -12% 18%, rgba(255, 255, 255, 0.045), transparent 60%),
-    #070807;
-  color: var(--ink);
-}
-
-.page-home .header {
-  background: rgba(7, 8, 7, 0.42);
-  border-bottom-color: transparent;
-  box-shadow: none;
-}
-
-.page-home .header--scrolled {
-  background: rgba(7, 8, 7, 0.86);
-  border-bottom-color: var(--line);
-  box-shadow: none;
+  --ink: var(--text);
+  --ink-dim: var(--text-secondary);
+  --ink-faint: var(--text-muted);
+  --gold: var(--brand);
+  --line: var(--border);
+  --serif: var(--font-display);
+  background: var(--bg);
+  color: var(--text);
 }
 
 .page-home .header__quick a {
@@ -5541,11 +5525,6 @@ button:focus-visible {
   }
 }
 
-.page-home .scroll-bar {
-  background: linear-gradient(90deg, transparent, var(--gold) 40%, #f3e6c8 50%, var(--gold) 60%, transparent);
-  box-shadow: none;
-}
-
 .page-home main {
   padding-top: 0;
 }
@@ -5554,11 +5533,6 @@ button:focus-visible {
   min-height: 100dvh;
   padding: 5.5rem 1.5rem 3.5rem;
   background: transparent;
-}
-
-.page-home .hero__bg,
-.page-home .hero__vignette {
-  background: none;
 }
 
 .page-home .hero__inner {
@@ -5597,21 +5571,22 @@ button:focus-visible {
 }
 
 .page-home .hero__title {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(3.6rem, 7.2vw, 6.15rem);
-  line-height: 0.9;
-  letter-spacing: -0.03em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(3.1rem, 6.4vw, 5.35rem);
+  line-height: 0.98;
+  letter-spacing: -0.038em;
   margin: 0 0 1.35rem;
-  text-shadow: none;
-  color: var(--ink);
+  color: var(--text);
 }
 
 .page-home .hero__line--accent,
 .page-home .hero__line--accent .word-inner {
-  color: var(--gold);
-  font-style: italic;
-  text-shadow: none;
+  color: #f0fdf9;
+  font-style: normal;
+  text-shadow:
+    0 0 80px var(--brand-glow),
+    0 0 120px rgba(94, 234, 212, 0.12);
 }
 
 .page-home .hero__hook {
@@ -5642,46 +5617,22 @@ button:focus-visible {
   text-align: left;
 }
 
-.page-home .btn--primary {
-  background: var(--ink);
-  color: #14120e;
-  border-color: transparent;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
-  font-weight: 600;
-}
-
-.page-home .btn--primary:hover {
-  background: #fff;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.34);
-}
-
-.page-home .btn--ghost {
-  border-color: rgba(246, 243, 236, 0.22);
-  color: var(--ink);
-  background: transparent;
-}
-
-.page-home .btn--ghost:hover {
-  border-color: rgba(246, 243, 236, 0.45);
-  background: rgba(246, 243, 236, 0.04);
-}
-
 .slip {
   position: relative;
   margin: 0.6rem 0 0;
   min-width: 0;
   max-width: 100%;
   padding: 1.7rem 1.55rem 1.4rem;
-  color: #1c1915;
+  color: var(--text);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.55), transparent 26%),
-    linear-gradient(168deg, #fbf7f0 0%, #efe4d0 100%);
-  border-radius: 22px;
+    linear-gradient(180deg, rgba(94, 234, 212, 0.08), rgba(255, 255, 255, 0.02)),
+    #0a1214;
+  border: 1px solid rgba(94, 234, 212, 0.28);
+  border-radius: 16px;
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.7) inset,
-    0 28px 70px rgba(0, 0, 0, 0.42),
-    0 2px 10px rgba(0, 0, 0, 0.28);
-  transform: rotate(-1.35deg);
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 40px rgba(94, 234, 212, 0.08);
+  transform: none;
 }
 
 .slip::before {
@@ -5690,8 +5641,8 @@ button:focus-visible {
   top: 0;
   left: 1.45rem;
   right: 1.45rem;
-  height: 3px;
-  background: linear-gradient(90deg, #8d6840, #f0ddb4 45%, #8d6840);
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--brand), transparent);
 }
 
 .slip__cap {
@@ -5700,16 +5651,17 @@ button:focus-visible {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(28, 25, 21, 0.5);
+  color: var(--brand);
 }
 
 .slip__when {
   margin: 0.4rem 0 0;
-  font-family: var(--serif);
-  font-size: 1.35rem;
-  font-style: italic;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-style: normal;
   letter-spacing: -0.02em;
-  color: #1c1915;
+  color: var(--text);
 }
 
 .slip__rows {
@@ -5722,7 +5674,7 @@ button:focus-visible {
   justify-content: space-between;
   gap: 1rem;
   padding: 0.72rem 0 0.55rem;
-  border-top: 1px solid rgba(28, 25, 21, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .slip__row dt {
@@ -5730,27 +5682,28 @@ button:focus-visible {
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(28, 25, 21, 0.48);
+  color: var(--text-muted);
 }
 
 .slip__row dd {
-  font-family: var(--serif);
+  font-family: var(--font-display);
+  font-weight: 600;
   font-size: 2.75rem;
   line-height: 0.9;
   letter-spacing: -0.03em;
 }
 
 .slip__row--issued dd {
-  color: rgba(28, 25, 21, 0.34);
+  color: rgba(250, 250, 250, 0.32);
   text-decoration: line-through;
   text-decoration-thickness: 1.5px;
-  text-decoration-color: rgba(146, 52, 42, 0.75);
+  text-decoration-color: rgba(248, 113, 113, 0.85);
 }
 
 .slip__row--owed dd {
   font-size: 3.25rem;
-  font-style: italic;
-  color: #1c1915;
+  font-style: normal;
+  color: var(--brand-strong);
 }
 
 .slip__gap {
@@ -5758,19 +5711,19 @@ button:focus-visible {
   justify-content: space-between;
   margin: 0.15rem 0 0;
   padding-top: 0.8rem;
-  border-top: 1px solid rgba(28, 25, 21, 0.18);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #8d4034;
+  color: var(--brand);
 }
 
 .slip__foot {
   margin: 0.95rem 0 0;
   font-size: 0.92rem;
   line-height: 1.45;
-  color: rgba(28, 25, 21, 0.68);
+  color: var(--text-secondary);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -5781,7 +5734,7 @@ button:focus-visible {
 }
 
 .page-home {
-  --slip-tilt: -1.35deg;
+  --slip-tilt: 0deg;
 }
 
 @keyframes slipIn {
@@ -5817,12 +5770,12 @@ button:focus-visible {
 }
 
 .page-home .sheet h2 {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(2.4rem, 4.6vw, 3.7rem);
-  line-height: 0.98;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.15rem, 4vw, 3.15rem);
+  line-height: 1.05;
   letter-spacing: -0.03em;
-  color: var(--ink);
+  color: var(--text);
 }
 
 .beats {
@@ -5846,10 +5799,12 @@ button:focus-visible {
 .beat__n {
   display: block;
   margin-bottom: 1.1rem;
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 1.35rem;
-  color: var(--gold);
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--brand);
 }
 
 .beat h3 {
@@ -5877,10 +5832,10 @@ button:focus-visible {
   gap: clamp(1.5rem, 4vw, 3.5rem);
   align-items: end;
   padding: clamp(1.75rem, 4vw, 3rem);
-  border: 1px solid rgba(198, 165, 106, 0.32);
-  border-radius: 28px;
+  border: 1px solid rgba(94, 234, 212, 0.28);
+  border-radius: 16px;
   background:
-    linear-gradient(180deg, rgba(198, 165, 106, 0.09), rgba(255, 255, 255, 0.02));
+    linear-gradient(180deg, rgba(94, 234, 212, 0.08), rgba(255, 255, 255, 0.02));
 }
 
 .panel__copy p {
@@ -5941,10 +5896,10 @@ button:focus-visible {
 
 .stand h3 {
   margin: 0 0 0.45rem;
-  font-family: var(--serif);
-  font-weight: 400;
-  font-style: italic;
-  font-size: 1.55rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: normal;
+  font-size: 1.35rem;
   letter-spacing: -0.02em;
 }
 
@@ -5990,10 +5945,10 @@ button:focus-visible {
 .ask summary::after {
   content: "+";
   float: right;
-  color: var(--gold);
-  font-family: var(--serif);
-  font-size: 1.35rem;
-  font-weight: 400;
+  color: var(--brand);
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 500;
   line-height: 1;
 }
 
@@ -6037,10 +5992,11 @@ button:focus-visible {
 }
 
 .page-home .footer__logo {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: 1.7rem;
-  letter-spacing: -0.03em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .page-home .footer__tagline,
