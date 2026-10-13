@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,follow">
 <title>Nobulex / The Public Register</title>
-<meta name="description" content="The public register of Nobulex records: what was tested, under which pinned conditions, and what each observation found. Compiled from the records on every build.">
+<meta name="description" content="The public register of Nobulex records: what was tested, under which pinned conditions, and what each observation found. A prior direction, kept rather than deleted, and not maintained as a live product.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
@@ -240,7 +241,7 @@ p strong{color:var(--ink);font-weight:600}
       <p>What a held record found is not stated here, not its verdict and not who it is about, because a finding a reader can infer but nobody can check is worse than one published in full. The count is compiled from the records, so a held record can be forgotten about but cannot be hidden.</p>
       <p>Each held record is committed to by sha256 in <code>records/held.manifest.json</code>, which is in version control while the records themselves are not. When one publishes, hash it. Matching the value committed on the day it was issued is what makes &ldquo;the verdict is fixed before the window opens&rdquo; something a stranger can check rather than something we assert.</p>
     </div>
-    <p class="note">0 records published, 4 issued and held (1 of those withdrawn and no longer in force), and 0 withdrawn and published, compiled from the records on every build. Every record this registry has issued is currently held, so this page carries its rules and its count and no subject at all. That is the accurate state of it, not an empty template. A held record is in force: it is issued, its verdict is fixed, and it is waiting on its subject rather than on us. A held record that is also withdrawn is not in force. It was retracted, and it is named separately because a retraction folded silently into the live holds is this register overstating what it currently finds against anyone. Nothing on this page is typed by hand, because the one time it was, it published a subject that could not be resolved.</p>
+    <p class="note">0 records published, 4 issued and held (1 of those withdrawn and no longer in force), and 0 withdrawn and published, compiled from the records by <code>render_register.py</code> in the registry repository. Every record this registry has issued is currently held, so this page carries its rules and its count and no subject at all. That is the accurate state of it, not an empty template. A held record is in force: it is issued, its verdict is fixed, and it is waiting on its subject rather than on us. A held record that is also withdrawn is not in force. It was retracted, and it is named separately because a retraction folded silently into the live holds is this register overstating what it currently finds against anyone. The counts are not typed by hand, because the one time they were, this page published a subject that could not be resolved. Be precise about what that does and does not mean: this site has no build step, so what is served here is a committed copy of that render with an analytics loader added to it by hand. The served file and the generator's output therefore do not hash alike, and those added lines are the whole of the difference. Anyone checking should expect the mismatch and compare the records section rather than the file.</p>
     <!-- END RECORDS -->
   </section>
 
