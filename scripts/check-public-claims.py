@@ -1,7 +1,22 @@
 #!/usr/bin/env python3
-"""Refuse homepage claims that outrun the implementation."""
+"""Refuse public claims that outrun the implementation.
+
+Two rules govern every check in this file.
+
+First, a check that cannot run must fail, not pass. Returning success because
+the input was missing is the exact defect this repository exists to find in
+other people's software. Every "could not be checked" branch below appends an
+error and names what went unchecked.
+
+Second, the PASS line may only state what was actually tested. A message that
+describes a property ("carries no deployed-prevention claim") while the code
+tested two exact English sentences is evidence overstating its coverage, which
+is the same defect wearing a green badge.
+"""
 
 from pathlib import Path
+import html as html_module
+import json
 import re
 import sys
 
@@ -9,30 +24,478 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def meta(html: str, key: str) -> str:
-    pattern = rf'<meta (?:name|property)="{re.escape(key)}" content="([^"]*)">'
-    match = re.search(pattern, html)
-    if not match:
-        raise AssertionError(f"missing metadata field {key!r}")
-    return match.group(1)
+def meta(html: str, key: str) -> str | None:
+    """Return a meta tag's content, or None when the field is absent.
+
+    This used to be a single regex requiring name-then-content attribute order
+    and a bare ``>`` terminator, and it used to raise AssertionError on a miss.
+    Both were defects. A perfectly valid ``<meta content="..." name="description" />``
+    made the regex miss, the raise propagated out of main(), and every error
+    already queued in the errors list was discarded unprinted: the script died
+    reporting one missing field while silently dropping real violations it had
+    already found.
+
+    So: attribute order is free, the tag may be self-closing, either quote
+    style works, and a miss returns None so the caller records an error and the
+    run continues to completion with the full error list intact.
+    """
+    for tag in re.findall(r"(?is)<meta\b[^>]*>", html):
+        if not re.search(
+            rf"""(?is)\b(?:name|property)\s*=\s*["']{re.escape(key)}["']""", tag
+        ):
+            continue
+        # The quote character is captured and backreferenced rather than put in
+        # a negated class. A class like [^"']* stops at the first quote of
+        # either kind, so a double-quoted content value containing an
+        # apostrophe ("anyone's production path") would be silently truncated
+        # at the apostrophe and the substring checks would run on a fragment.
+        match = re.search(r"""(?is)\bcontent\s*=\s*(["'])(.*?)\1""", tag)
+        if match:
+            return html_module.unescape(match.group(2))
+    return None
+
+
+def read_text(path: Path, errors: list) -> str:
+    """Read a required file, or record that its assertions went unchecked.
+
+    Reading directly used to abort main() on the first missing file, with the
+    same error-discarding consequence as the old meta(). Returning "" instead
+    lets every remaining check run and fail closed, because an empty string
+    satisfies none of the required-substring assertions below.
+    """
+    try:
+        return path.read_text(encoding="utf-8")
+    except OSError as exc:
+        errors.append(
+            f"{path.name} could not be read, so every assertion this script "
+            f"makes about it is unchecked: {exc}"
+        )
+        return ""
+
+
+# --------------------------------------------------------------------------
+# Claim-shaped language
+# --------------------------------------------------------------------------
+# The per-page loop below tests for two exact English sentences. That is a
+# useful regression guard for two specific overclaims that were removed once,
+# but it is not a check for overclaiming, and the PASS line used to describe it
+# as one. All three of these passed a green run:
+#
+#   gateway.html            "The gateway is live and blocks real orders."
+#   revenue-assurance.html  "We have recovered $4.2M for customers."
+#   methodology.html        "Nobulex is deployed in production today."
+#
+# None of them contains either banned sentence. So there is now a scan for the
+# shape of a claim rather than its exact wording, in three families: money
+# recovered, present-tense deployment, and customer adoption.
+#
+# The scan is lexical and therefore approximate. It is tuned to err toward
+# flagging, because a false positive costs one sentence rewrite and a false
+# negative costs the company's credibility. Two deliberate limits keep it
+# honest rather than merely loud:
+#
+#   Negation scope. This site's whole value is sentences like "not deployed in
+#   production" and "Nobody is blocking live orders through Nobulex today". A
+#   scan that flagged those would pressure a future editor to delete the
+#   disclosures, which is worse than no scan. So a sentence carrying a negation
+#   or hedge cue is not flagged, and a short heading-like fragment ("Not a fit
+#   yet") carries its negation into the block it governs.
+#
+#   Sentence confinement. Proximity windows stop at sentence boundaries. The
+#   money-and-verb window crossing a full stop is what made "called for $150.
+#   The issue reporter says the dry run also returned $50" look like a recovery
+#   claim when it is a measurement.
+#
+# A sentence can still evade this ("There is no doubt Nobulex is deployed in
+# production today"). This is a review aid, not a proof.
+
+_BLOCK = (
+    r"(?:p|div|li|ul|ol|h[1-6]|section|header|footer|main|article|aside"
+    r"|blockquote|figure|figcaption|dt|dd|dl|table|thead|tbody|tr|td|th"
+    r"|br|hr|nav|form|label|button|details|summary|pre)"
+)
+
+_MONEY = (
+    r"(?:\$\s?\d[\d,]*(?:\.\d+)?\s?(?:[KkMmBb]\b|thousand|million|billion)?"
+    r"|\d[\d,]*(?:\.\d+)?\s?(?:USD|dollars))"
+)
+
+# Verbs that make a money figure a recovery claim on their own.
+_RECOVER_STRONG = (
+    r"(?:recover(?:ed|s|ing|y|ies)?|recoup(?:ed|s|ing)?|reclaim(?:ed|s|ing)?"
+    r"|recaptur(?:ed|es|ing)?|claw(?:ed|s)?\s+back|sav(?:ed|es|ings|ing))"
+)
+
+# Verbs that are claim-shaped only when attributed to us or to a beneficiary.
+# "the dry run also returned $50" describes an API response, not a recovery.
+_RECOVER_WEAK = r"(?:return(?:ed|s)?|found|identif(?:ied|ies)|surfac(?:ed|es))"
+
+_ATTRIBUTION = (
+    r"(?:\bwe\b|\bour\b|\bus\b|\bnobulex\b"
+    r"|\bthe\s+(?:platform|product|gateway|service)\b"
+    r"|\bcustomers?\b|\bclients?\b)"
+)
+
+_CLAIM_RULES: list[tuple[str, re.Pattern]] = []
+
+_CLAIM_RULES += [
+    (
+        "dollar-recovery claim",
+        re.compile(rf"(?i){_MONEY}[^.]{{0,70}}?\b{_RECOVER_STRONG}\b"),
+    ),
+    (
+        "dollar-recovery claim",
+        re.compile(rf"(?i)\b{_RECOVER_STRONG}\b[^.]{{0,70}}?{_MONEY}"),
+    ),
+    (
+        "dollar-recovery claim",
+        re.compile(
+            rf"(?i){_ATTRIBUTION}[^.]{{0,40}}?\b{_RECOVER_WEAK}\b"
+            rf"[^.]{{0,40}}?{_MONEY}"
+        ),
+    ),
+    (
+        "dollar-recovery claim",
+        re.compile(
+            rf"(?i)\b{_RECOVER_WEAK}\b[^.]{{0,30}}?{_MONEY}[^.]{{0,30}}?"
+            rf"\bfor\s+(?:our\s+)?(?:customers?|clients?|you)\b"
+        ),
+    ),
+]
+
+_CLAIM_RULES += [
+    ("present-tense deployment claim", re.compile("(?i)" + pattern))
+    for pattern in (
+        r"\b(?:is|are|it's|we're|now)\s+(?:currently\s+)?"
+        r"(?:live|deployed|in\s+production)\b",
+        r"\bdeployed\s+(?:in|to|into)\s+(?:production|a\s+customer)",
+        r"\bin\s+production\s+(?:today|now|with|for|at)\b",
+        r"\brunning\s+(?:at|in)\s+(?:production|scale)\b",
+        r"\brunning\s+(?:at|in|for)\s+\S+\s+(?:customers|clients|firms)\b",
+        r"\blive\s+(?:for|with|at)\s+"
+        r"(?:customers|clients|users|firms|production)\b",
+        r"\b(?:blocks?|blocking|stops?|stopping|prevents?|preventing)\s+"
+        r"(?:real|live|production|actual)\s+\w+",
+        r"\bin\s+a\s+customer\s+production\s+path\b",
+        r"\bgoes?\s+live\b",
+        r"\bserving\s+(?:production|customers|live)\b",
+    )
+]
+
+_CLAIM_RULES += [
+    ("customer-count or adoption claim", re.compile("(?i)" + pattern))
+    for pattern in (
+        r"\b\d[\d,]*\+?\s+(?:paying\s+|enterprise\s+|active\s+)?"
+        r"(?:customers|clients|subscribers|firms|enterprises|companies"
+        r"|teams|users|installs|deployments)\b",
+        r"\b(?:dozens|hundreds|thousands|millions)\s+of\s+"
+        r"(?:customers|clients|users|firms|companies|teams)\b",
+        r"\btrusted\s+by\b",
+        r"\bused\s+by\s+(?:\d|dozens|hundreds|thousands|leading|top)",
+        r"\bjoin\s+\d[\d,]*\b",
+        r"\bour\s+(?:customers|clients)\s+(?:have|report|save|recovered)\b",
+        r"\b(?:customers|clients)\s+(?:include|including)\b",
+    )
+]
+
+_NEGATION = re.compile(
+    r"(?i)(?:\bnot\b|\bnever\b|\bno\b|\bnobody\b|\bnone\b|\bwithout\b"
+    r"|\bcannot\b|\bcan't\b|\bisn't\b|\baren't\b|\bwon't\b|\bdoesn't\b"
+    r"|\bdon't\b|n't\b|\byet\b|\buntil\b|\bonce\b|\bwould\b|\bwill\b|\bif\b"
+    r"|\bbefore\b|\bproposed\b|\bplans?\s+to\b|\bintends?\s+to\b"
+    r"|\baims?\s+to\b|\bgoal\b|\brather\s+than\b|\binstead\s+of\b"
+    r"|\bshould\b|\bwhen\b|\bseeking\b|\bexcept\b)"
+)
+
+# A fragment at most this long with a negation cue in it reads as a heading
+# that governs the block beneath it, e.g. "Not a fit yet".
+_HEADING_MAX = 60
+
+
+def claim_sentences(page: str) -> list[str]:
+    """Visible prose plus meta content values, split into sentences.
+
+    Meta descriptions are public claims too, so they are scanned. Script, style
+    and comment contents are not public prose and are removed. Block-level tags
+    become sentence breaks so a heading does not run into the paragraph under
+    it.
+    """
+    text = re.sub(r"(?is)<(script|style)\b[^>]*>.*?</\1\s*>", " ", page)
+    text = re.sub(r"(?s)<!--.*?-->", " ", text)
+    metas = [
+        m.group(2)
+        for m in re.finditer(
+            r"""(?is)<meta\b[^>]*\bcontent\s*=\s*(["'])(.*?)\1""", text
+        )
+    ]
+    text = re.sub(rf"(?is)</?{_BLOCK}\b[^>]*>", "\n", text)
+    text = re.sub(r"(?s)<[^>]+>", " ", text)
+
+    # A period followed by a digit is a decimal point, not a sentence end.
+    # Splitting on it blindly cut "We have recovered $4.2M for customers." in
+    # half, so the quoted claim in the failure message was truncated to "We
+    # have recovered $4". The lookahead keeps decimals intact while still
+    # breaking "called for $150. The issue reporter says", which is the split
+    # that stops a money figure in one sentence pairing with a verb in the next.
+    sentence_break = r"(?:\.(?!\d)|[!?\n])+"
+    fragments = re.split(sentence_break, html_module.unescape(text))
+    for value in metas:
+        fragments.extend(re.split(sentence_break, html_module.unescape(value)))
+
+    return [
+        cleaned
+        for cleaned in (re.sub(r"\s+", " ", f).strip() for f in fragments)
+        if cleaned
+    ]
+
+
+def scan_claims(page: str) -> list[tuple[str, str]]:
+    """Return (family, sentence) for each unhedged claim-shaped sentence."""
+    found = []
+    previous = ""
+    for sentence in claim_sentences(page):
+        governed = len(previous) <= _HEADING_MAX and _NEGATION.search(previous)
+        previous = sentence
+        if _NEGATION.search(sentence) or governed:
+            continue
+        for family, pattern in _CLAIM_RULES:
+            if pattern.search(sentence):
+                found.append((family, sentence))
+                break
+    return found
+
+
+# --------------------------------------------------------------------------
+# Redirect shadowing
+# --------------------------------------------------------------------------
+
+def normalize_route(source: object) -> str:
+    """Normalize a route so a bare '/' survives.
+
+    The old code did ``str(source).rstrip("/")``, which turns the source "/"
+    into "". The homepage route computed from index.html is "/", and "" never
+    equals "/", so the homepage subcase of the shadowing check was dead on
+    every run: a redirect sending / somewhere else could never be detected.
+    """
+    text = str(source).strip()
+    if not text.startswith("/"):
+        text = "/" + text
+    return text.rstrip("/") or "/"
+
+
+_WILDCARD_HINT = re.compile(r"[:*()\[\]{}+?|]")
+
+
+def wildcard_regex(source: str):
+    """Compile a Vercel source pattern to a regex, or None if unconvertible.
+
+    Treating any wildcard as shadowing every route would be simpler, but this
+    repository's own vercel.json contains /arena/:path*, /docs/:path* and
+    /api/:path*, none of which can match /pilot or /methodology. Flagging those
+    would be a false positive, not a finding, and a guard that cries wolf on
+    its own correct config gets switched off. So the pattern is converted and
+    actually tested against each asserted route, which still catches every
+    root-level wildcard form (/:path*, /(.*), /*). An unconvertible pattern
+    returns None and the caller fails closed.
+    """
+    out = []
+    i = 0
+    try:
+        while i < len(source):
+            char = source[i]
+            if char == ":":
+                name = re.match(r":([A-Za-z_][A-Za-z0-9_]*)", source[i:])
+                if not name:
+                    return None
+                i += name.end()
+                if i < len(source) and source[i] == "(":
+                    depth, start = 0, i
+                    while i < len(source):
+                        if source[i] == "(":
+                            depth += 1
+                        elif source[i] == ")":
+                            depth -= 1
+                            if depth == 0:
+                                i += 1
+                                break
+                        i += 1
+                    else:
+                        return None
+                    out.append("(?:" + source[start + 1:i - 1] + ")")
+                    continue
+                suffix = source[i] if i < len(source) else ""
+                if suffix == "*":
+                    out.append(".*")
+                    i += 1
+                elif suffix == "+":
+                    out.append(".+")
+                    i += 1
+                elif suffix == "?":
+                    out.append("[^/]*")
+                    i += 1
+                else:
+                    out.append("[^/]+")
+            elif char == "(":
+                depth, start = 0, i
+                while i < len(source):
+                    if source[i] == "(":
+                        depth += 1
+                    elif source[i] == ")":
+                        depth -= 1
+                        if depth == 0:
+                            i += 1
+                            break
+                    i += 1
+                else:
+                    return None
+                out.append("(?:" + source[start + 1:i - 1] + ")")
+            elif char == "*":
+                out.append(".*")
+                i += 1
+            else:
+                out.append(re.escape(char))
+                i += 1
+        return re.compile("".join(out) + "/?")
+    except re.error:
+        return None
+
+
+def check_shadowing(config_path: Path, asserted_pages: set, errors: list) -> None:
+    """Refuse pages this script asserts about that production redirects away.
+
+    pilot.html was once rewritten to say "This is a prior offer", three checks
+    were added to guarantee it said so, and a permanent redirect for /pilot
+    landed in the same commit. The checks passed while /pilot returned 308 and
+    fifteen bytes, so the page asserting its own retirement could not be loaded
+    by anyone. The honest reading of that green run was not "the legacy pilot
+    page identifies itself as a prior offer" but "a file nobody can reach says
+    so".
+
+    The old implementation of this check had an ``if config_path.exists():``
+    with no else. Delete or rename vercel.json and the entire check vanished,
+    and the PASS line was byte-identical to a sound run. That is the worst
+    possible failure mode for a guard: silence indistinguishable from success.
+    It now fails closed and names every page left unchecked.
+    """
+    routes = {}
+    for name in sorted(asserted_pages):
+        route = "/" + name.removesuffix(".html")
+        routes[name] = "/" if route == "/index" else route
+
+    unchecked = ", ".join(f"{name} ({route})" for name, route in routes.items())
+
+    if not config_path.exists():
+        errors.append(
+            f"{config_path.name} is missing, so redirect shadowing could not "
+            f"be checked for any asserted page: {unchecked}"
+        )
+        return
+    try:
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+    except (ValueError, OSError) as exc:
+        errors.append(
+            f"{config_path.name} could not be read or parsed ({exc}), so "
+            f"redirect shadowing could not be checked for any asserted page: "
+            f"{unchecked}"
+        )
+        return
+    if not isinstance(config, dict):
+        errors.append(
+            f"{config_path.name} is not a JSON object, so redirect shadowing "
+            f"could not be checked for any asserted page: {unchecked}"
+        )
+        return
+
+    # A redirect, a rewrite and a routes entry all make the file on disk
+    # unreachable at its route. Reading only "redirects" meant moving a rule
+    # into "rewrites" silently disabled this check.
+    literal: dict[str, str] = {}
+    wildcards: list[tuple[str, str, object]] = []
+
+    for key in ("redirects", "rewrites", "routes"):
+        block = config.get(key)
+        if block is None:
+            continue
+        if not isinstance(block, list):
+            errors.append(
+                f"{config_path.name} has a {key!r} key that is not a list, so "
+                f"shadowing could not be checked for any asserted page: "
+                f"{unchecked}"
+            )
+            continue
+        for index, rule in enumerate(block):
+            if not isinstance(rule, dict):
+                errors.append(
+                    f"{config_path.name} {key}[{index}] is not an object, so "
+                    f"shadowing could not be checked for any asserted page: "
+                    f"{unchecked}"
+                )
+                continue
+            raw = rule.get("source", rule.get("src"))
+            if raw is None or not isinstance(raw, (str, int, float)):
+                errors.append(
+                    f"{config_path.name} {key}[{index}] has no readable "
+                    f"source, so shadowing could not be checked for any "
+                    f"asserted page: {unchecked}"
+                )
+                continue
+            source = str(raw)
+            if _WILDCARD_HINT.search(source):
+                compiled = wildcard_regex(source)
+                if compiled is None:
+                    errors.append(
+                        f"{config_path.name} {key}[{index}] source {source!r} "
+                        f"could not be interpreted as a route pattern, so "
+                        f"shadowing could not be checked for any asserted "
+                        f"page: {unchecked}"
+                    )
+                    continue
+                wildcards.append((key, source, compiled))
+            else:
+                literal.setdefault(normalize_route(source), f"{key}[{index}]")
+
+    for name, route in routes.items():
+        where = literal.get(route)
+        if where is not None:
+            errors.append(
+                f"{name} carries assertions in this script but {route} is "
+                f"sent elsewhere by vercel.json {where}, so no reader can see "
+                f"what is asserted"
+            )
+        for key, source, compiled in wildcards:
+            if compiled.fullmatch(route):
+                errors.append(
+                    f"{name} carries assertions in this script but vercel.json "
+                    f"{key} pattern {source!r} matches {route}, so no reader is "
+                    f"guaranteed to see what is asserted"
+                )
 
 
 def main() -> int:
-    homepage = (ROOT / "index.html").read_text(encoding="utf-8")
-    methodology = (ROOT / "methodology.html").read_text(encoding="utf-8")
-    pilot = (ROOT / "pilot.html").read_text(encoding="utf-8")
-    readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    package = (ROOT / "package.json").read_text(encoding="utf-8")
-    errors = []
+    errors: list[str] = []
 
-    # The HTML pages this script makes assertions about. Listed once, here,
-    # and used by the redirect-shadowing check at the end. README.md and
+    homepage = read_text(ROOT / "index.html", errors)
+    methodology = read_text(ROOT / "methodology.html", errors)
+    pilot = read_text(ROOT / "pilot.html", errors)
+    readme = read_text(ROOT / "README.md", errors)
+    package_raw = read_text(ROOT / "package.json", errors)
+
+    # The HTML pages this script makes assertions about. Listed once, here, and
+    # used by the redirect-shadowing check at the end. README.md and
     # package.json are not routes and are deliberately absent.
+    #
+    # This set had drifted from reality in both directions.
+    # billing-study-sample.html carries fourteen required-substring assertions
+    # and was missing, so a redirect for /billing-study-sample went unnoticed.
+    # methodology.html was listed while carrying zero assertions: its contents
+    # were read into a variable and discarded, so the page could have said
+    # anything. It now carries the assertions below, which is why it stays.
     asserted_pages = {
         "index.html",
         "methodology.html",
         "pilot.html",
         "billing-pilot.html",
+        "billing-study-sample.html",
     }
 
     # The selector used to be '<section class="hero"', with the quote closing
@@ -61,16 +524,29 @@ def main() -> int:
     if "The issue reporter says the dry run" not in hero or "Our released-tag H2 test" not in hero:
         errors.append("homepage conflates the reported dry run with our invoice-only reproduction")
 
-    billing_offer = (ROOT / "billing-pilot.html").read_text(encoding="utf-8")
+    billing_offer = read_text(ROOT / "billing-pilot.html", errors)
     if 'href="/billing-study-sample"' not in billing_offer:
         errors.append("billing offer does not show the synthetic sample deliverable")
     if "For a price change affecting existing subscriptions, what independent artifact" not in billing_offer:
         errors.append("billing offer does not ask the short buyer-fit question")
+
+    revenue_page = read_text(ROOT / "revenue-assurance.html", errors)
+    if re.search(r"\bbilling fixes\b[^.]{0,120}\b(?:are|were)\s+merged\b", revenue_page, re.I):
+        errors.append(
+            "revenue-assurance.html says billing fixes are merged, but the "
+            "Kill Bill fixes are still open"
+        )
+    if not re.search(r"\bbilling fixes\b[^.]{0,120}\bfiled\b[^.]{0,80}\bstill open\b", revenue_page, re.I):
+        errors.append(
+            "revenue-assurance.html does not distinguish filed, open billing "
+            "fixes from merged security and agent-infrastructure work"
+        )
+
     sample_path = ROOT / "billing-study-sample.html"
     if not sample_path.exists():
         errors.append("synthetic billing study sample page is missing")
     else:
-        sample = sample_path.read_text(encoding="utf-8")
+        sample = read_text(sample_path, errors)
         for required in (
             "Synthetic sample, not customer work",
             "Expected $150",
@@ -95,11 +571,48 @@ def main() -> int:
             errors.append("billing sample metadata presents the reported dry run as our test")
 
     for field in ("description", "og:description", "twitter:description"):
-        value = meta(homepage, field).lower()
+        raw = meta(homepage, field)
+        if raw is None:
+            errors.append(
+                f"index.html has no readable {field} metadata field, so "
+                f"prototype status could not be checked for it"
+            )
+            continue
+        value = raw.lower()
         if "prototype" not in value:
             errors.append(f"{field} does not identify Nobulex as a prototype")
         if "not deployed" not in value:
             errors.append(f"{field} does not disclose that Nobulex is not deployed")
+
+    # methodology.html was read and thrown away. The variable was assigned at
+    # the top of main() and never referenced again, so a fifteen-kilobyte
+    # published page carried no content assertions at all and could have said
+    # "Nobulex is deployed in production today." with a green run. These three
+    # substrings are the page's own deployment-status and signer-identity
+    # disclosures, which are the same properties this script enforces
+    # elsewhere, so the page is now held to them.
+    for required in (
+        "not deployed in a customer production path",
+        "Nobody is blocking live orders through Nobulex today",
+        "there is no persistent issuing identity behind it yet",
+    ):
+        if required not in methodology:
+            errors.append(
+                f"methodology.html no longer discloses its measured limits: "
+                f"{required}"
+            )
+
+    pages = sorted(pth for pth in ROOT.glob("*.html"))
+    # This used to be ``assert pages``, which was unreachable: index.html was
+    # read unconditionally at the top of main(), so an empty directory raised
+    # FileNotFoundError long before the assert. read_text() now records that
+    # instead of raising, which makes this reachable, and it records rather
+    # than asserts so queued errors still print.
+    if not pages:
+        errors.append(
+            "no published .html pages found, so the per-page claim scan, the "
+            "analytics-loader check and the claim-shape scan checked nothing"
+        )
 
     # Every published page, not the two that happened to carry the claim when
     # this was written. Planting "a named signer attested" in index.html was
@@ -108,15 +621,30 @@ def main() -> int:
     # signer limits". A checker that names two files and reports on all of them
     # is the evidence-overstates-coverage defect, which is the thing this
     # repository exists to refuse.
-    pages = sorted(pth for pth in ROOT.glob("*.html"))
-    assert pages, "no published pages found to check"
+    banned_checked = 0
+    analytics_checked = 0
+    claim_scanned = 0
     for pth in pages:
-        page = pth.read_text(encoding="utf-8")
+        page = read_text(pth, errors)
+        banned_checked += 1
+        # Both of these are one rule with one message. The second used to be
+        # case-sensitive while the first was not, in the same loop, so the
+        # title-cased "Stops Agents From Trading On It" passed while the
+        # lowercase form failed.
         if "a named signer attested" in page.lower():
             errors.append(f"{pth.name} still implies a verified signer identity")
-        if "stops agents from trading on it" in page:
+        if "stops agents from trading on it" in page.lower():
             errors.append(f"{pth.name} claims deployed prevention rather than intent")
+
+        claim_scanned += 1
+        for family, sentence in scan_claims(page):
+            errors.append(
+                f"{pth.name} carries an unverified {family} that needs human "
+                f"review or a citation: {sentence!r}"
+            )
+
         if pth.name != "404.html":
+            analytics_checked += 1
             loader = '<script defer src="/_vercel/insights/script.js"></script>'
             if loader not in page:
                 errors.append(f"{pth.name} does not load the verified analytics script")
@@ -131,11 +659,48 @@ def main() -> int:
     if "decision-integrity gateway" not in readme[:500].lower():
         errors.append("README still leads with the retired registry category")
 
-    if "decision-integrity" not in package.lower():
-        errors.append("package metadata still describes the retired category")
+    # This used to be a bare substring search over the whole raw file text,
+    # while its failure message named the description field. A retired category
+    # in "description" therefore passed as long as the search term survived
+    # anywhere else in the file, for example inside a "homepage" URL. The check
+    # now parses the JSON and inspects the field the message names.
+    package_description = None
+    if package_raw:
+        try:
+            package_data = json.loads(package_raw)
+        except ValueError as exc:
+            errors.append(
+                f"package.json did not parse ({exc}), so the package category "
+                f"description could not be checked"
+            )
+        else:
+            if not isinstance(package_data, dict):
+                errors.append(
+                    "package.json is not a JSON object, so the package "
+                    "category description could not be checked"
+                )
+            else:
+                value = package_data.get("description")
+                if not isinstance(value, str) or not value.strip():
+                    errors.append(
+                        "package.json has no description string, so the "
+                        "package category description could not be checked"
+                    )
+                elif "decision-integrity" not in value.lower():
+                    errors.append(
+                        f"package.json description still describes the retired "
+                        f"category: {value!r}"
+                    )
+                else:
+                    package_description = value
 
-    pilot_description = meta(pilot, "description").lower()
-    if "archived market-data series pilot" not in pilot_description:
+    pilot_description = meta(pilot, "description")
+    if pilot_description is None:
+        errors.append(
+            "pilot.html has no readable description metadata field, so the "
+            "archived-offer label could not be checked"
+        )
+    elif "archived market-data series pilot" not in pilot_description.lower():
         errors.append("legacy pilot metadata does not label the market-data offer as archived")
     if "This is a prior offer." not in pilot:
         errors.append("legacy pilot page does not identify itself as a prior offer")
@@ -157,60 +722,38 @@ def main() -> int:
             errors.append(f"pilot page uses overbroad scope phrase: {phrase}")
 
     # Every assertion above reads a file from disk. None of them can tell
-    # whether production serves that file, and that gap produced a real
-    # contradiction: pilot.html was rewritten to say "This is a prior offer"
-    # and "no longer active", three checks were added to guarantee it said so,
-    # and a permanent redirect for /pilot was added in the same commit. The
-    # checks passed while /pilot returned 308 and fifteen bytes, so the page
-    # asserting its own retirement could not be loaded by anyone.
-    #
-    # The honest reading of a green run was not "the legacy pilot page
-    # identifies itself as a prior offer" but "a file nobody can reach says
-    # so". That is evidence overstating its coverage, which is the defect this
-    # project exists to find in other people's software, and the checker had no
-    # way to notice it.
-    #
-    # So the rule is now checked rather than remembered: a page this script
-    # makes claims about must not be shadowed by a redirect. The pairing is
-    # what breaks, so the pairing is what is tested.
-    redirect_config = ROOT / "vercel.json"
-    if redirect_config.exists():
-        import json
-        try:
-            config = json.loads(redirect_config.read_text(encoding="utf-8"))
-        except ValueError as exc:
-            errors.append(f"vercel.json did not parse, so redirect shadowing "
-                          f"could not be checked: {exc}")
-            config = None
-        if config is not None:
-            shadowed = {
-                str(rule.get("source", "")).rstrip("/")
-                for rule in (config.get("redirects") or [])
-                if isinstance(rule, dict)
-            }
-            for name in sorted(asserted_pages):
-                route = "/" + name.removesuffix(".html")
-                if route == "/index":
-                    route = "/"
-                if route in shadowed:
-                    errors.append(
-                        f"{name} carries assertions in this script but /"
-                        f"{name.removesuffix('.html')} is redirected away in "
-                        f"vercel.json, so no reader can see what is asserted"
-                    )
+    # whether production serves that file. That gap is what check_shadowing
+    # exists to close, and why it fails closed when the config is unreadable.
+    check_shadowing(ROOT / "vercel.json", asserted_pages, errors)
 
     if errors:
         for error in errors:
             print(f"FAIL: {error}", file=sys.stderr)
         return 1
 
-    # The sentence names what was actually read. It used to assert a property
-    # of "public metadata" while having read two of six pages.
-    print("PASS: %d page(s) carry no deployed-prevention or verified-signer "
-          "claim, %d non-404 page(s) load the verified analytics script, "
-          "and index.html metadata states prototype status: %s"
-          % (len(pages), len(pages) - 1,
-             ", ".join(pth.name for pth in pages)))
+    # The sentence names what was actually tested, and nothing wider. It used
+    # to say pages "carry no deployed-prevention or verified-signer claim"
+    # while testing for two exact English sentences, so it described a property
+    # it had not established. The counts are now accumulated by the loop that
+    # did the work rather than derived as len(pages) - 1, which hardcoded the
+    # existence of exactly one 404.html and reported 11 of 12 pages checked
+    # once 404.html was removed.
+    print(
+        "PASS: %d page(s) contain neither banned phrase ('a named signer "
+        "attested', 'stops agents from trading on it'), %d page(s) show no "
+        "unhedged dollar-recovery, present-tense-deployment or adoption claim, "
+        "%d non-404 page(s) load the verified analytics script, index.html "
+        "metadata states prototype status, methodology.html discloses its "
+        "deployment and signer limits, package.json description names "
+        "%r, and no asserted route is shadowed in vercel.json: %s"
+        % (
+            banned_checked,
+            claim_scanned,
+            analytics_checked,
+            package_description,
+            ", ".join(pth.name for pth in pages),
+        )
+    )
     return 0
 
 
