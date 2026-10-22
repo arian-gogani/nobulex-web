@@ -1,10 +1,11 @@
 # nobulex.com
 
-The website for **Nobulex, an open-source decision-integrity gateway prototype
-for automated finance.**
+The website for **Nobulex's billing-accuracy research and proposed audit for
+usage-based products.**
 
-The prototype evaluates financial evidence and deterministic policy, returns
-`PERMIT`, `BLOCK`, or `ESCALATE`, and issues a receipt. It is not deployed in
+An earlier decision-integrity gateway prototype evaluates financial evidence
+and deterministic policy, returns `PERMIT`, `BLOCK`, or `ESCALATE`, and issues a
+receipt. It is not deployed in
 production. The historical public register remains available as a prior
 direction, but it is not the product described by the homepage.
 
@@ -15,19 +16,23 @@ not a production billing service.
 
 ---
 
-## The one rule that matters here
+## The register publication boundary
 
-**`register.html` is generated. Never edit it by hand.**
+**The records block in `register.html` is generated. Never edit it by hand.**
 
-It is written by `suite/render_register.py` in the registry repository, which
-compiles the page from the records and writes identical bytes to every publish
-target in a single build. This repository is one of those targets.
+`suite/render_register.py` in the registry repository compiles the page from
+records and can write identical bytes to every publish target in one build.
+This repository was one of those targets before later static-page edits made
+the full files diverge.
 
-A downstream copy step is a second author, and a second author of that page is
-a second chance to publish a name that is under embargo. Records held under
-right of reply are kept off that page by construction, not by anybody
-remembering to leave them out, and hand editing the file removes the only thing
-that makes that true.
+A downstream copy step is a second author and a second chance to publish a name
+that is under embargo. Records held under right of reply must be kept off the
+records block by the generator, not by someone remembering to leave them out.
+Earlier static-page edits already broke whole-file byte identity. This change
+corrects only the static direction notice and tagline while the renderer is
+blocked: the records block was measured at the same SHA-256 before and after,
+`9d8a7c6d7477fdbfa2edda9c9c237d1ad2b8fb662e948aabb896de7c8da33c78`.
+That is a narrow exception for a public overclaim, not a way to publish records.
 
 To change the register, change the records or `brand/register.template.html` in
 the registry repository, then run:
@@ -41,18 +46,19 @@ identifier, a held subject's name, or a verdict token in the embargo block.
 
 ### Check it yourself
 
-The page served at `https://nobulex.com/register` should be byte identical to
-`brand/register.html` in the registry repository and to `register.html` here.
+The published copy was hand-edited after rendering. Its own records block says
+the added analytics and disclosure text prevent byte identity with the
+generator's output. Do not regenerate the records block until the held-record
+audit passes and the source template and published copy are reconciled.
 
 ```
 curl -sS https://nobulex.com/register | shasum -a 256
 ```
 
-`4b8aa822c5883b1022ef1aa1459768a2c024a64674ca823eae5ce24acfcf9051`
-
-If those disagree, something reached the page after the generator produced it.
-That value changes whenever the register legitimately changes, which today
-means when a record publishes.
+The current difference is documented in the served page itself. A clean render
+must still pass the registry's publication and embargo checks before replacing
+that copy. The earlier whole-page SHA was a historical value, not an expected
+hash for today's file.
 
 ---
 
@@ -60,8 +66,8 @@ means when a record publishes.
 
 | Path | File | What it is |
 |---|---|---|
-| `/` | `index.html` | The decision-integrity gateway prototype and its current state |
-| `/register` | `register.html` | **Generated.** The historical public register |
+| `/` | `index.html` | Current billing-accuracy research and proposed audit |
+| `/register` | `register.html` | Historical register; generated records block with later static-page edits |
 | `/methodology` | `methodology.html` | How evidence, policy and receipts are evaluated |
 | `/why` | `why.html` | The prior registry argument, retained for the record |
 | `/manifesto` | `manifesto.html` | The publication and correction principles |

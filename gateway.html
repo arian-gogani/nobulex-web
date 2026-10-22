@@ -101,7 +101,7 @@
           <p class="section__label">THE DECISION</p>
           <h2 id="decision-title">Schema validation proves shape. Nobulex verifies the decision.</h2>
           <p>An automated system proposes an action. Before it reaches the broker, Nobulex asks two independent questions: are the facts trustworthy, and is the action permitted. Open each case to see the request, the evidence and the decision.</p>
-          <p class="quickstart__scope"><strong>Illustrative examples, not live decisions.</strong> These show the shape of the decision object and the reason codes. This page does not contact a market-data provider, evaluate a policy or execute an order.</p>
+          <p class="quickstart__scope"><strong>Illustrative examples, not live decisions.</strong> These show a proposed decision shape. The reason codes in the BLOCK and ESCALATE cases are illustrative and are not emitted by the current prototype. This page does not contact a market-data provider, evaluate a policy or execute an order.</p>
         </div>
         <div class="quickstart__run">
           <p class="quickstart__label">Three proposed actions. Open each to inspect it.</p>
@@ -193,7 +193,7 @@ basis          unresolved</pre></div>
 
         <div class="quickstart__offer">
           <h3>What a pilot contains</h3>
-          <p>One workflow, mirrored in Observe Mode with no execution impact. We replay a fixed suite of well-formed-but-wrong conditions against your path and show exactly which actions would have been stopped. You get the catch rate, the false-block rate and the added latency as measured numbers. If they justify it, enforcement goes on for one bounded action type, with explicit break-glass.</p>
+          <p>A proposed pilot would mirror one workflow in Observe Mode and replay a fixed suite of well-formed-but-wrong conditions against it. The current offline pilot command reports the indeterminate rate and policy-evaluation latency. It refuses to report catch rate or false-block rate on unlabelled data. No customer workflow is connected and no production action is blocked today.</p>
         </div>
 
         <div class="quickstart__inquiry">
@@ -363,7 +363,7 @@ basis          unresolved</pre></div>
         <ul class="standards__grid" data-reveal>
           <li class="standards__item"><span class="standards__name">1. Observe</span><span class="standards__desc">Mirror one path. Full decisions computed, nothing blocked, no execution impact</span></li>
           <li class="standards__item"><span class="standards__name">2. Replay</span><span class="standards__desc">A fixed corpus of well-formed-but-wrong conditions runs against your path</span></li>
-          <li class="standards__item"><span class="standards__name">3. Measure</span><span class="standards__desc">Catch rate, false-block rate, added latency, and the share of live calls landing INDETERMINATE</span></li>
+          <li class="standards__item"><span class="standards__name">3. Measure</span><span class="standards__desc">Indeterminate rate and policy latency; catch and false-block rates require labelled examples</span></li>
           <li class="standards__item"><span class="standards__name">4. Enforce, narrowly</span><span class="standards__desc">One bounded action type, or paper trading first, with explicit break-glass</span></li>
           <li class="standards__item"><span class="standards__name">5. Expand</span><span class="standards__desc">More feeds, instruments and action types under the same evidence and policy boundary</span></li>
         </ul>

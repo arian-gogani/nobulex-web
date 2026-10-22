@@ -635,6 +635,10 @@ def main() -> int:
             errors.append(f"{pth.name} still implies a verified signer identity")
         if "stops agents from trading on it" in page.lower():
             errors.append(f"{pth.name} claims deployed prevention rather than intent")
+        if "nobulex is now an inline" in page.lower():
+            errors.append(f"{pth.name} claims the gateway is deployed inline")
+        if "nobulex proves" in page.lower():
+            errors.append(f"{pth.name} claims proof beyond the measured scope")
 
         claim_scanned += 1
         for family, sentence in scan_claims(page):
@@ -686,7 +690,7 @@ def main() -> int:
                         "package.json has no description string, so the "
                         "package category description could not be checked"
                     )
-                elif "decision-integrity" not in value.lower():
+                elif "billing-accuracy" not in value.lower() or "decision-integrity" not in value.lower():
                     errors.append(
                         f"package.json description still describes the retired "
                         f"category: {value!r}"
@@ -739,8 +743,9 @@ def main() -> int:
     # existence of exactly one 404.html and reported 11 of 12 pages checked
     # once 404.html was removed.
     print(
-        "PASS: %d page(s) contain neither banned phrase ('a named signer "
-        "attested', 'stops agents from trading on it'), %d page(s) show no "
+        "PASS: %d page(s) contain none of the four banned phrases ('a named signer "
+        "attested', 'stops agents from trading on it', 'Nobulex is now an inline', "
+        "'Nobulex proves'), %d page(s) show no "
         "unhedged dollar-recovery, present-tense-deployment or adoption claim, "
         "%d non-404 page(s) load the verified analytics script, index.html "
         "metadata states prototype status, methodology.html discloses its "
