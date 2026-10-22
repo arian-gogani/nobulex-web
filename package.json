@@ -1,7 +1,7 @@
 {
   "name": "nobulex-web",
   "private": true,
-  "description": "Website for the Nobulex decision-integrity gateway prototype",
+  "description": "Website for Nobulex billing-accuracy research and its prior decision-integrity gateway prototype",
   "license": "MIT",
   "scripts": {
     "dev": "python3 -m http.server 3333",
