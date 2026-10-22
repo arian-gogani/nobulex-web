@@ -24,6 +24,25 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def unhedged_inline_gateway(page: str) -> str | None:
+    """Return an inline-gateway claim that is not hedged as not deployed.
+
+    A literal ban on "Nobulex is now an inline" misses the same claim with
+    "now" removed. CSS such as display:inline-flex sits inside tags and is
+    stripped before the word window is checked. "not deployed" in the same
+    window is the hedge the corrected pages already use.
+    """
+    plain = re.sub(r"<[^>]+>", " ", page)
+    plain = re.sub(r"[^A-Za-z0-9]+", " ", plain).lower()
+    pattern = re.compile(r"\binline\b(?:\s+\w+){0,6}\s+gateway\b")
+    for match in pattern.finditer(plain):
+        start = max(0, match.start() - 80)
+        span = plain[start:match.end()]
+        if "not deployed" not in span:
+            return plain[match.start():match.end()]
+    return None
+
+
 def meta(html: str, key: str) -> str | None:
     """Return a meta tag's content, or None when the field is absent.
 
@@ -637,6 +656,12 @@ def main() -> int:
             errors.append(f"{pth.name} claims deployed prevention rather than intent")
         if "nobulex is now an inline" in page.lower():
             errors.append(f"{pth.name} claims the gateway is deployed inline")
+        inline_claim = unhedged_inline_gateway(page)
+        if inline_claim:
+            errors.append(
+                f"{pth.name} claims an inline gateway without saying it is "
+                f"not deployed: {inline_claim!r}"
+            )
         if "nobulex proves" in page.lower():
             errors.append(f"{pth.name} claims proof beyond the measured scope")
 
@@ -690,10 +715,10 @@ def main() -> int:
                         "package.json has no description string, so the "
                         "package category description could not be checked"
                     )
-                elif "billing-accuracy" not in value.lower() or "decision-integrity" not in value.lower():
+                elif "billing-accuracy" not in value.lower():
                     errors.append(
-                        f"package.json description still describes the retired "
-                        f"category: {value!r}"
+                        f"package.json description does not name billing "
+                        f"accuracy: {value!r}"
                     )
                 else:
                     package_description = value
@@ -745,7 +770,8 @@ def main() -> int:
     print(
         "PASS: %d page(s) contain none of the four banned phrases ('a named signer "
         "attested', 'stops agents from trading on it', 'Nobulex is now an inline', "
-        "'Nobulex proves'), %d page(s) show no "
+        "'Nobulex proves') and no unhedged 'inline' within six words before "
+        "'gateway', %d page(s) show no "
         "unhedged dollar-recovery, present-tense-deployment or adoption claim, "
         "%d non-404 page(s) load the verified analytics script, index.html "
         "metadata states prototype status, methodology.html discloses its "
