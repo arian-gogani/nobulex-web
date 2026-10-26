@@ -107,7 +107,7 @@
 
       <h2>Observe before enforce</h2>
       <p>Observe Mode computes the complete decision and never blocks. It exists because asking an organisation to let a new gateway stop production orders on day one is not a reasonable request, and a safety product that causes an outage has failed at its own job.</p>
-      <p>The sequence is: mirror one path, replay a fixed corpus of well-formed-but-wrong conditions against it, measure catch rate and false-block rate and added latency, then enable enforcement on one bounded action type with explicit break-glass. Every break-glass override is itself signed. Per action type, the buyer decides whether gateway unavailability fails open or closed.</p>
+      <p>The proposed sequence is to mirror one path, replay a fixed corpus, and measure the results before considering bounded enforcement. The current offline pilot reports indeterminate rate and policy-evaluation latency. It refuses to report catch or false-block rates without labelled examples. No customer path has been connected, and break-glass signing is not a demonstrated production feature.</p>
 
       <h2>Coverage is measured, never assumed</h2>
       <p>Perfect receipts over partial traffic mean nothing. If an automated system can reach the broker without passing the gateway, the gateway is decoration. Coverage is reported as its own number, and the deployment pattern puts the downstream credentials behind the gateway so that bypassing it is a configuration change rather than a default.</p>

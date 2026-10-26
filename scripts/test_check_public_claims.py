@@ -110,16 +110,16 @@ class RetiredCategoryTests(GuardControl):
             "Website for the Nobulex registry prototype and decision-integrity "
             "gateway notes"
         )
-        self.refuses("still describes the retired category")
+        self.refuses("still names the retired registry category")
 
     def test_missing_current_category_is_not_called_the_retired_one(self):
         self.set_package_description(
-            "Website for the Nobulex billing-accuracy research prototype"
+            "Website for the Nobulex research prototype"
         )
         code, out = run_guard(self.root)
         self.assertEqual(code, 1, f"guard accepted a description naming no category:\n{out}")
         self.assertNotIn(
-            "still describes the retired category",
+            "still names the retired registry category",
             out,
             "guard reports a retired category that the description does not contain",
         )
@@ -127,7 +127,7 @@ class RetiredCategoryTests(GuardControl):
 
     def test_current_category_still_accepted(self):
         self.set_package_description(
-            "Website for the Nobulex decision-integrity gateway prototype"
+            "Website for Nobulex billing-accuracy research and its prior gateway prototype"
         )
         self.accepts()
 
