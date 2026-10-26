@@ -76,8 +76,8 @@ def read_text(path: Path, errors: list) -> str:
 # --------------------------------------------------------------------------
 # Claim-shaped language
 # --------------------------------------------------------------------------
-# The per-page loop below tests for two exact English sentences. That is a
-# useful regression guard for two specific overclaims that were removed once,
+# The per-page loop below used to test for two exact English sentences. That is
+# a useful regression guard for two specific overclaims that were removed once,
 # but it is not a check for overclaiming, and the PASS line used to describe it
 # as one. All three of these passed a green run:
 #
@@ -136,6 +136,24 @@ _ATTRIBUTION = (
     r"|\bcustomers?\b|\bclients?\b)"
 )
 
+# Filler words an editor inserts or drops without changing what a sentence
+# claims. Every pattern below that joins two required words joins them with
+# _GAP rather than with \s+, because one filler word is otherwise enough to
+# defeat the match. That was not hypothetical: "in production now" was blocked
+# and "in production" passed, so deleting four characters shipped the claim.
+# Lengthening a literal blocklist does not fix this, since the next rewrite
+# only has to differ by one more word. Marking the optional words optional does.
+_FILLER = (
+    r"(?:now|today|currently|already|still|also|actually|really|fully|truly"
+    r"|literally|simply|just|indeed|in\s+fact|of\s+course|at\s+present"
+    r"|as\s+of\s+today)"
+)
+
+# Required whitespace that may carry any number of filler words inside it.
+# Whitespace itself is collapsed to single spaces upstream by claim_sentences,
+# so a claim split across source lines matches the same way as a claim on one.
+_GAP = rf"\s+(?:{_FILLER}\s+)*"
+
 _CLAIM_RULES: list[tuple[str, re.Pattern]] = []
 
 _CLAIM_RULES += [
@@ -166,18 +184,25 @@ _CLAIM_RULES += [
 _CLAIM_RULES += [
     ("present-tense deployment claim", re.compile("(?i)" + pattern))
     for pattern in (
-        r"\b(?:is|are|it's|we're|now)\s+(?:currently\s+)?"
-        r"(?:live|deployed|in\s+production)\b",
-        r"\bdeployed\s+(?:in|to|into)\s+(?:production|a\s+customer)",
+        rf"\b(?:is|are|it's|we're|now){_GAP}(?:live|deployed|in\s+production)\b",
+        rf"\bdeployed{_GAP}(?:in|to|into)\s+(?:production|a\s+customer)",
+        # This rule required a trailing qualifier, so dropping the single word
+        # "now" from "in production now" defeated it and "Nobulex runs in
+        # production" shipped. The qualifier stays required here, because an
+        # unattributed bare "in production" would flag the site's own FAQ
+        # question "Is anyone running this in production?", and the rule below
+        # catches the bare form whenever the sentence attributes it to us.
         r"\bin\s+production\s+(?:today|now|with|for|at)\b",
-        r"\brunning\s+(?:at|in)\s+(?:production|scale)\b",
-        r"\brunning\s+(?:at|in|for)\s+\S+\s+(?:customers|clients|firms)\b",
+        rf"{_ATTRIBUTION}(?:\s+\w+){{0,3}}?{_GAP}in\s+production\b",
+        r"\b(?:run|runs|ran|running)\s+(?:at|in)\s+(?:production|scale)\b",
+        r"\b(?:run|runs|ran|running)\s+(?:at|in|for)\s+\S+\s+"
+        r"(?:customers|clients|firms)\b",
         r"\blive\s+(?:for|with|at)\s+"
         r"(?:customers|clients|users|firms|production)\b",
-        r"\b(?:blocks?|blocking|stops?|stopping|prevents?|preventing)\s+"
+        rf"\b(?:blocks?|blocking|stops?|stopping|prevents?|preventing){_GAP}"
         r"(?:real|live|production|actual)\s+\w+",
         r"\bin\s+a\s+customer\s+production\s+path\b",
-        r"\bgoes?\s+live\b",
+        rf"\bgoes?{_GAP}live\b",
         r"\bserving\s+(?:production|customers|live)\b",
     )
 ]
@@ -190,7 +215,7 @@ _CLAIM_RULES += [
         r"|teams|users|installs|deployments)\b",
         r"\b(?:dozens|hundreds|thousands|millions)\s+of\s+"
         r"(?:customers|clients|users|firms|companies|teams)\b",
-        r"\btrusted\s+by\b",
+        rf"\btrusted{_GAP}by\b",
         r"\bused\s+by\s+(?:\d|dozens|hundreds|thousands|leading|top)",
         r"\bjoin\s+\d[\d,]*\b",
         r"\bour\s+(?:customers|clients)\s+(?:have|report|save|recovered)\b",
@@ -211,6 +236,37 @@ _NEGATION = re.compile(
 # that governs the block beneath it, e.g. "Not a fit yet".
 _HEADING_MAX = 60
 
+# Two overclaims were removed from this site once, and the guard then tested
+# for the exact English they were removed in: the substrings "a named signer
+# attested" and "stops agents from trading on it". A substring blocklist is
+# defeated by any rewrite, including ones that change no meaning at all, so
+# "stops agents trading on it" and "a named signer has now attested" both
+# passed. These are now matched as shapes: required words in order, any
+# whitespace between them, filler words optional, and the inflections an editor
+# reaches for. They are scanned per sentence through the same negation and
+# heading logic as the claim-shape rules, so the site's own disclosures ("No
+# named signer attested to any of it") are not flagged. A hard page-wide ban
+# would flag those, and a guard that punishes the disclosure is worse than none.
+_BANNED_SHAPES: list[tuple[str, re.Pattern]] = [
+    (
+        "still implies a verified signer identity",
+        re.compile(
+            rf"(?i)\bnamed{_GAP}signer\b"
+            rf"(?:\s+(?:has|have|had|was|were|is|are|been))*"
+            rf"{_GAP}attest(?:ed|s|ing|ation)?\b"
+        ),
+    ),
+    (
+        "claims deployed prevention rather than intent",
+        re.compile(
+            rf"(?i)\b(?:stop|stops|stopped|stopping|prevent|prevents"
+            rf"|prevented|preventing|block|blocks|blocked|blocking)"
+            rf"{_GAP}agents\b(?:\s+(?:from|against))?"
+            rf"{_GAP}trad(?:e|es|ed|ing)\b"
+        ),
+    ),
+]
+
 
 def claim_sentences(page: str) -> list[str]:
     """Visible prose plus meta content values, split into sentences.
@@ -228,6 +284,15 @@ def claim_sentences(page: str) -> list[str]:
             r"""(?is)<meta\b[^>]*\bcontent\s*=\s*(["'])(.*?)\1""", text
         )
     ]
+    # Source whitespace is collapsed BEFORE block tags become newlines, so the
+    # only newlines left are block boundaries. Collapsing afterwards instead
+    # meant every line break in the HTML source was also a sentence break, and
+    # the published pages wrap prose at about eighty columns. "A named signer\n
+    # attested to it" was therefore split into "A named signer" and "attested
+    # to it" and matched nothing, so reflowing a paragraph was enough to defeat
+    # the scan. Where the source line break fell decided whether a claim was
+    # caught, which is not a property any guard should have.
+    text = re.sub(r"\s+", " ", text)
     text = re.sub(rf"(?is)</?{_BLOCK}\b[^>]*>", "\n", text)
     text = re.sub(r"(?s)<[^>]+>", " ", text)
 
@@ -249,20 +314,42 @@ def claim_sentences(page: str) -> list[str]:
     ]
 
 
-def scan_claims(page: str) -> list[tuple[str, str]]:
-    """Return (family, sentence) for each unhedged claim-shaped sentence."""
-    found = []
+def unhedged_sentences(page: str):
+    """Yield sentences carrying no negation or hedge cue of their own.
+
+    A sentence directly under a short negated fragment is also skipped, because
+    that fragment reads as a heading governing the block beneath it.
+    """
     previous = ""
     for sentence in claim_sentences(page):
         governed = len(previous) <= _HEADING_MAX and _NEGATION.search(previous)
         previous = sentence
         if _NEGATION.search(sentence) or governed:
             continue
-        for family, pattern in _CLAIM_RULES:
+        yield sentence
+
+
+def scan_rules(
+    page: str, rules: list[tuple[str, re.Pattern]]
+) -> list[tuple[str, str]]:
+    """Return (label, sentence) for each unhedged sentence matching a rule."""
+    found = []
+    for sentence in unhedged_sentences(page):
+        for label, pattern in rules:
             if pattern.search(sentence):
-                found.append((family, sentence))
+                found.append((label, sentence))
                 break
     return found
+
+
+def scan_claims(page: str) -> list[tuple[str, str]]:
+    """Return (family, sentence) for each unhedged claim-shaped sentence."""
+    return scan_rules(page, _CLAIM_RULES)
+
+
+def scan_banned(page: str) -> list[tuple[str, str]]:
+    """Return (message, sentence) for each reworded removed overclaim."""
+    return scan_rules(page, _BANNED_SHAPES)
 
 
 # --------------------------------------------------------------------------
@@ -627,14 +714,15 @@ def main() -> int:
     for pth in pages:
         page = read_text(pth, errors)
         banned_checked += 1
-        # Both of these are one rule with one message. The second used to be
-        # case-sensitive while the first was not, in the same loop, so the
-        # title-cased "Stops Agents From Trading On It" passed while the
-        # lowercase form failed.
-        if "a named signer attested" in page.lower():
-            errors.append(f"{pth.name} still implies a verified signer identity")
-        if "stops agents from trading on it" in page.lower():
-            errors.append(f"{pth.name} claims deployed prevention rather than intent")
+        # These two used to be literal substring searches, one of which was
+        # case-sensitive while the other was not, so the title-cased "Stops
+        # Agents From Trading On It" passed while the lowercase form failed.
+        # Case was the smaller problem. A substring search also passed
+        # "stops agents trading on it" and "a named signer has now attested",
+        # which make the same claim in different words. _BANNED_SHAPES matches
+        # the shape instead.
+        for message, sentence in scan_banned(page):
+            errors.append(f"{pth.name} {message}: {sentence!r}")
 
         claim_scanned += 1
         for family, sentence in scan_claims(page):
@@ -686,10 +774,30 @@ def main() -> int:
                         "package.json has no description string, so the "
                         "package category description could not be checked"
                     )
-                elif "decision-integrity" not in value.lower():
+                # This condition was the wrong way round. One branch, whose
+                # message reads "still describes the retired category", was
+                # tested by the ABSENCE of the current category. So the branch
+                # never fired on the thing it names: "Nobulex registry
+                # prototype and decision-integrity gateway notes" still names
+                # the retired register and passed. And it fired on input that
+                # contains no retired category at all: the description
+                # "Nobulex billing-accuracy research prototype", which is the
+                # wording index.html's own meta tags use, was refused with a
+                # message asserting a retired category that was not in it.
+                # A guard whose message is false about its own input is the
+                # evidence-overstates-coverage defect pointed inward.
+                #
+                # The two properties are separate, so they are now two
+                # conditions with two messages, each naming what it tested.
+                elif re.search(r"(?i)\b(?:registry|registries|register)\b", value):
                     errors.append(
                         f"package.json description still describes the retired "
                         f"category: {value!r}"
+                    )
+                elif "decision-integrity" not in value.lower():
+                    errors.append(
+                        f"package.json description does not name the current "
+                        f"decision-integrity gateway category: {value!r}"
                     )
                 else:
                     package_description = value
@@ -739,12 +847,14 @@ def main() -> int:
     # existence of exactly one 404.html and reported 11 of 12 pages checked
     # once 404.html was removed.
     print(
-        "PASS: %d page(s) contain neither banned phrase ('a named signer "
-        "attested', 'stops agents from trading on it'), %d page(s) show no "
+        "PASS: %d page(s) carry no unhedged sentence shaped like either "
+        "removed overclaim (a named signer attesting, stopping agents from "
+        "trading), filler words and whitespace ignored, %d page(s) show no "
         "unhedged dollar-recovery, present-tense-deployment or adoption claim, "
         "%d non-404 page(s) load the verified analytics script, index.html "
         "metadata states prototype status, methodology.html discloses its "
-        "deployment and signer limits, package.json description names "
+        "deployment and signer limits, package.json description names no "
+        "retired category and does name "
         "%r, and no asserted route is shadowed in vercel.json: %s"
         % (
             banned_checked,
