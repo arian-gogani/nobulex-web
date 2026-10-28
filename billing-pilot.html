@@ -62,12 +62,21 @@
       <p>This is billing accuracy work, and the failure it looks for is revenue leakage: billing less than was owed. We publish no industry percentage for it, because we have not measured one and the ranges in circulation do not name their method. The answerable question is narrower: if a price change failed to reach an invoice tonight, what in your pipeline would tell you? This study is $2,500 and covers one named scenario in your catalog.</p>
       <p class="doc-page__note">This is an offer to conduct a study, not a deployed Nobulex billing product. No customer has purchased or run this study yet. The price is our proposed fee, not revenue received, and it is not a prediction about what a study here would find.</p>
       <p><a href="mailto:nobulex.dev@gmail.com?subject=Kill%20Bill%20billing%20replay%20study" class="btn btn--primary" style="display:inline-flex;text-decoration:none">Ask about the study</a></p>
-      <p><a href="/billing-study-sample">See a synthetic sample of the result &rarr;</a></p>
+      <p><a href="/billing-study-sample">See the synthetic deliverable, worked end to end on a public issue &rarr;</a></p>
 
       <p><strong>Two-minute buyer-fit question:</strong> For a price change affecting existing subscriptions, what independent artifact tells your release team the amount and period the next invoice should contain? If your tests already cover it, that answer is useful too. <a href="mailto:nobulex.dev@gmail.com?subject=Billing%20replay%20buyer-fit%20question">Reply by email</a>; no call or private data is needed.</p>
 
       <h2>Why this question</h2>
-      <p>In <a href="https://github.com/killbill/killbill/issues/2291">Kill Bill issue #2291</a>, the reporter describes a production-client case where a catalog price change did not reach the invoice, and says the dry run repeated the wrong amount. We reproduced two related paths locally on released Kill Bill 0.24.19 and opened separate fixes: <a href="https://github.com/killbill/killbill/pull/2320">PR #2320</a> and <a href="https://github.com/killbill/killbill/pull/2321">PR #2321</a>. Those results are from test invoices, not a Nobulex customer or a production deployment. <a href="/research-killbill-catalog-replay">Read the evidence and limits.</a></p>
+      <p>In <a href="https://github.com/killbill/killbill/issues/2291">Kill Bill issue #2291</a>, the reporter describes a production-client case where a catalog price change did not reach the invoice, and says the dry run repeated the wrong amount. We reproduced two related paths locally on released Kill Bill 0.24.19 and opened separate fixes: <a href="https://github.com/killbill/killbill/pull/2320">PR #2320</a> and <a href="https://github.com/killbill/killbill/pull/2321">PR #2321</a>. Both remain open as of 27 October 2026, with no maintainer review. Their CI workflows require approval before running. These are test-invoice results, not a Nobulex customer or production deployment. <a href="/research-killbill-catalog-replay">Read the evidence and limits.</a></p>
+
+      <h2>Merged fixes in billing code</h2>
+      <p>On 26 and 27 October 2026, an OpenMeter maintainer reviewed and merged three fixes we opened in OpenMeter's billing code:</p>
+      <ul>
+        <li><a href="https://github.com/openmeterio/openmeter/pull/5347">PR #5347</a> corrected which tier zero-usage graduated pricing reads.</li>
+        <li><a href="https://github.com/openmeterio/openmeter/pull/5367">PR #5367</a> corrected prior split discounts in legacy commitment history.</li>
+        <li><a href="https://github.com/openmeterio/openmeter/pull/5372">PR #5372</a> corrected package rating just below a boundary and added a contributor rule for monetary boundary checks.</li>
+      </ul>
+      <p>A fourth proposal, <a href="https://github.com/openmeterio/openmeter/pull/5373">PR #5373</a>, was not accepted as written and remains open as of 27 October 2026. OpenMeter is a different billing engine from Kill Bill, which this study covers. These merges demonstrate accepted code contributions, not a Kill Bill result, a Nobulex customer, a purchase, or an OpenMeter endorsement.</p>
 
       <h2>What you provide</h2>
       <ul>
@@ -92,7 +101,7 @@
 
       <h2>Commercial terms</h2>
       <div class="doc-page__table-wrap"><table><tbody>
-        <tr><th>Fee</th><td>$2,500 proposed fixed fee for one agreed scenario and seven-day analysis.</td></tr>
+        <tr><th>Fee</th><td>$2,500 proposed fixed fee for one agreed scenario. Delivery within seven days after the required inputs and scope are agreed.</td></tr>
         <tr><th>Start</th><td>Scope and required inputs are agreed before payment or work begins.</td></tr>
         <tr><th>Access</th><td>Read-only artifacts or a customer-run dry run. No production write access or payment credentials.</td></tr>
         <tr><th>Publication</th><td>Private by default. No customer name, data, or result is published without written approval.</td></tr>
