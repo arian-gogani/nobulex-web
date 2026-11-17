@@ -637,15 +637,27 @@ def main() -> int:
         errors.append("billing offer does not ask the short buyer-fit question")
 
     revenue_page = read_text(ROOT / "revenue-assurance.html", errors)
-    if re.search(r"\bbilling fixes\b[^.]{0,120}\b(?:are|were)\s+merged\b", revenue_page, re.I):
+    # This pair used to forbid the word "merged" near "billing fixes" and to
+    # REQUIRE the phrase "filed ... still open". That was correct while no
+    # billing fix had landed anywhere. On 26 and 27 Oct 2026 three merged into
+    # openmeterio/openmeter (#5347, #5367, #5372), at which point the guard was
+    # compelling the page to understate the record: an overclaim check enforcing
+    # an underclaim. The protection worth keeping is not "never say merged", it
+    # is "never imply ALL of them merged", because killbill#2320 and #2321 are
+    # open and unreviewed. So: if the page claims merges, it must in the same
+    # breath say which ones are still open.
+    if re.search(r"\b(?:billing fixes|fixes)\b[^.]{0,160}\b(?:are|were)\s+merged\b", revenue_page, re.I):
+        if not re.search(r"\bKill Bill\b[^.]{0,120}\b(?:open|unreviewed|not merged)\b", revenue_page, re.I):
+            errors.append(
+                "revenue-assurance.html claims merged billing fixes without "
+                "saying in the same sentence that the Kill Bill pull requests "
+                "remain open, which reads as if every fix landed"
+            )
+    elif not re.search(r"\bbilling fixes\b[^.]{0,120}\bfiled\b[^.]{0,80}\bstill open\b", revenue_page, re.I):
         errors.append(
-            "revenue-assurance.html says billing fixes are merged, but the "
-            "Kill Bill fixes are still open"
-        )
-    if not re.search(r"\bbilling fixes\b[^.]{0,120}\bfiled\b[^.]{0,80}\bstill open\b", revenue_page, re.I):
-        errors.append(
-            "revenue-assurance.html does not distinguish filed, open billing "
-            "fixes from merged security and agent-infrastructure work"
+            "revenue-assurance.html neither names which billing fixes merged "
+            "nor states that the filed ones are still open, so a reader cannot "
+            "tell which is which"
         )
 
     sample_path = ROOT / "billing-study-sample.html"
