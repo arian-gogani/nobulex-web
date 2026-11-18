@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.classList.add('js-motion');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three ways one billing engine read a number twice | Nobulex research</title>
+  <meta name="description" content="Three defects found and fixed in Kong's OpenMeter billing engine, all merged upstream in October 2026. Each came from one function reading one value through two accessors that disagree. One of them is a property of shopspring/decimal, not of OpenMeter.">
+  <meta property="og:title" content="Three ways one billing engine read a number twice">
+  <meta property="og:description" content="A zero-usage tier read from an unsorted price, a discount never subtracted from a gross total, and a package count rounded past its own boundary. All three merged into OpenMeter.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://nobulex.com/research-openmeter-rounding">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Three ways one billing engine read a number twice">
+  <meta name="twitter:description" content="Three billing defects found by one method and merged upstream. The third is a property of the decimal library, not of any one codebase.">
+  <meta name="theme-color" content="#030708">
+  <link rel="canonical" href="https://nobulex.com/research-openmeter-rounding">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="header" data-animate="header">
+    <div class="header__top">
+      <a href="/" class="header__logo" aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
+      <nav class="header__quick" aria-label="Quick links">
+        <a href="/billing-pilot">Billing study</a>
+        <a href="/methodology">Method</a>
+      </nav>
+      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+    <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+    <nav class="header__nav" aria-label="Main">
+      <button type="button" class="nav-close" aria-label="Close menu"><span aria-hidden="true">&times;</span></button>
+      <div class="header__links">
+        <a href="/">Home</a>
+        <a href="/billing-pilot">Billing study</a>
+        <a href="/methodology">Method</a>
+      </div>
+      <a href="mailto:nobulex.dev@gmail.com?subject=Billing%20correctness" class="header__cta">Discuss the research</a>
+    </nav>
+  </header>
+
+  <main class="doc-page" id="main">
+    <article class="doc-page__body">
+      <p class="doc-page__kicker">Research note &middot; November 2026</p>
+      <h1>Three ways one billing engine read a number twice</h1>
+      <p class="doc-page__meta">Three defects in Kong's OpenMeter, all merged upstream in October 2026. Found by reading, not by running a customer's data.</p>
+
+      <p class="lead">Each of these came from the same shape: one function reads one logical value through two different accessors, and the two readings disagree. The disagreement only matters when the readings reach different branches or different outputs, which is why these survive review. Nothing in the code looks wrong in isolation.</p>
+
+      <h2>One: the zero-usage tier was read from an unsorted price</h2>
+      <p><code>GraduatedTiered.TieredPriceCalculator</code> walks the tiers in sorted order, but selects its zero-usage fallback from the unsorted input. Two reads of the same price, one sorted and one not.</p>
+      <p>That is harmless until the stored order is not ascending, and <code>TieredPrice.Validate()</code> accepts reversed tiers. So a mandatory first-bucket flat fee can be skipped entirely when usage is zero. The customer is billed nothing where a flat fee was owed.</p>
+      <p>The test used identical tiers in ascending and reverse storage order. Both prices validate. Before the fix, the ascending case returned 100 and the reversed case returned 0. The fix reads both paths from one sorted view.</p>
+      <p><a href="https://github.com/openmeterio/openmeter/pull/5347">PR #5347</a>, merged 26 October 2026.</p>
+
+      <h2>Two: a gross amount was treated as net</h2>
+      <p><code>SplitLineHierarchy.SumNetAmount</code> promises a net figure. It sums the persisted prior-line <code>Amount</code>, which is gross, and never subtracts <code>DiscountsTotal</code>. The persisted invoice line carries that field; the history model simply did not.</p>
+      <p>A prior line with 100 in gross amount and 40 in discounts therefore contributes 100 where the function's own name promises 60. The caller uses that figure to evaluate commitments, so the overstatement lands in a commitment decision rather than on a visible line.</p>
+      <p>This is the same shape as the first, in a different disguise: one quantity available two ways, gross and net, read through the accessor that does not match the contract. The fix carries <code>DiscountsTotal</code> into the history model and subtracts it.</p>
+      <p><a href="https://github.com/openmeterio/openmeter/pull/5367">PR #5367</a>, merged 27 October 2026.</p>
+
+      <h2>Three: a package count rounded past its own boundary</h2>
+      <p>This one is not really about OpenMeter. <code>Package.GetNumberOfPackages</code> read one quantity through two accessors that disagree:</p>
+      <pre><code>requiredPackages := qty.Div(packageSize).Floor()
+if qty.Mod(packageSize).IsZero() {
+    return requiredPackages
+}
+return requiredPackages.Add(DecimalOne)</code></pre>
+      <p><code>Div</code> is not exact. Its fast path checks whether the division came out exact and otherwise falls through to <code>DivRound</code> at <code>DivisionPrecision</code>, which is 16, and rounds. <code>Mod</code> has no fast path and is always exact.</p>
+      <p>So when the true quotient sits just below a whole number, <code>Div</code> rounds up to it, <code>Floor</code> keeps it, and <code>Mod</code> still reports a remainder. The function then adds a package that is not owed. The customer pays for one unit more than they used.</p>
+      <p>The quantity that triggers it does not arrive from a single reading. <code>MeterQueryRow.Value</code> is a <code>float64</code> and both snapshots accumulate <code>sum.Add(alpacadecimal.NewFromFloat(row.Value))</code>. Two ordinary values, <code>9.9</code> and <code>0.09999999999999999</code>, sum to <code>9.99999999999999999</code>.</p>
+      <p class="doc-page__note">A reviewer who tries a single usage value will not see this. We ran 520,000 single-<code>float64</code> quantities across 13 package sizes and found no disagreement between the shipped count and an exact ceiling. The defect needs an accumulated sum, which is what production metering produces and what a unit test usually does not.</p>
+      <p><a href="https://github.com/openmeterio/openmeter/pull/5372">PR #5372</a>, merged 27 October 2026.</p>
+
+      <h2>Why the third one is the one to check in your own code</h2>
+      <p>The first two were specific to OpenMeter. The third is a property of <a href="https://github.com/shopspring/decimal">shopspring/decimal</a> itself: <code>Div</code> is <code>DivRound</code> at a fixed precision and rounds half away from zero, while <code>Mod</code> goes through <code>QuoRem</code> and is exact. They do not share a quotient.</p>
+      <p>Any Go project that pairs those two calls on the same operands inherits the disagreement. <code>alpacadecimal</code> aliases the same precision constant and inherits it too. <code>govalues/decimal</code> does not have this particular problem, though it rounds silently in <code>Parse</code> instead.</p>
+      <p>That makes it a cheap thing to look for. Search your own money code for a <code>Div</code> and a <code>Mod</code> on the same two values inside one function, and check whether the results reach different branches.</p>
+
+      <h2>What a maintainer did with them</h2>
+      <p>All three were merged by the same maintainer within 28 hours of filing, each with a follow-up commit of his own. <a href="https://github.com/openmeterio/openmeter/pull/5372">#5372</a> also added a nine-line normative rule to OpenMeter's <code>AGENTS.md</code> about using division and rounding before a boundary decision, which now constrains everyone who writes in that engine next.</p>
+      <p>We also filed one that was declined, on a service-period asymmetry, because a maintainer could state a competing semantic for it in one sentence. That is the test we now apply before filing: if the intended behaviour is a judgement call rather than a contradiction, it is a question, not a patch.</p>
+
+      <h2>What this is and is not</h2>
+      <p>These are defects found by reading source and reproducing against it. No customer data, no production access, no deployment. Nobody is running Nobulex in a billing path, and nothing here is a customer result.</p>
+      <p class="doc-page__note">Two Kill Bill pull requests from the same method, <a href="https://github.com/killbill/killbill/pull/2320">#2320</a> and <a href="https://github.com/killbill/killbill/pull/2321">#2321</a>, remain open and unreviewed. Three defect reports at Medusa, <a href="https://github.com/medusajs/medusa/issues/17268">#17268</a>, <a href="https://github.com/medusajs/medusa/issues/17513">#17513</a> and <a href="https://github.com/medusajs/medusa/issues/17529">#17529</a>, were closed as completed. One further OpenMeter issue, <a href="https://github.com/openmeterio/openmeter/issues/5521">#5521</a>, is open and has had no maintainer response.</p>
+
+      <p>If you own billing code and want the same reading done against it, that is <a href="/billing-pilot">the proposed study</a>, which nobody has bought yet. If you would rather just check the <code>Div</code>/<code>Mod</code> pairing yourself, the description above is everything you need and costs nothing.</p>
+
+      <hr class="doc-page__rule">
+      <a href="/" class="doc-page__back">Back to Nobulex &rarr;</a>
+    </article>
+  </main>
+
+  <div class="scroll-bar" aria-hidden="true"></div>
+  <script src="main.js"></script>
+</body>
+</html>
