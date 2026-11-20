@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.classList.add('js-motion');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A bug that costs nothing, and why I reported it anyway | Nobulex research</title>
+  <meta name="description" content="An iterator in Kong's OpenMeter returns the instant the caller already has, or skips one. Reproduced with a passing control. It costs nobody any money, because the one consumer happens to be idempotent. Reported anyway, and here is the reasoning.">
+  <meta property="og:title" content="A bug that costs nothing, and why I reported it anyway">
+  <meta property="og:description" content="Next() returns the value the caller already holds. The mirror case skips an occurrence. No money is wrong today, and that is the interesting part.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://nobulex.com/research-bug-that-costs-nothing">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="A bug that costs nothing, and why I reported it anyway">
+  <meta name="twitter:description" content="How to tell a latent defect from a live one, and why the distinction is worth stating out loud when you file.">
+  <meta name="theme-color" content="#030708">
+  <link rel="canonical" href="https://nobulex.com/research-bug-that-costs-nothing">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="header" data-animate="header">
+    <div class="header__top">
+      <a href="/" class="header__logo" aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
+      <nav class="header__quick" aria-label="Quick links">
+        <a href="/billing-pilot">Billing study</a>
+        <a href="/methodology">Method</a>
+      </nav>
+      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+    <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+    <nav class="header__nav" aria-label="Main">
+      <button type="button" class="nav-close" aria-label="Close menu"><span aria-hidden="true">&times;</span></button>
+      <div class="header__links">
+        <a href="/">Home</a>
+        <a href="/research-openmeter-rounding">Findings</a>
+        <a href="/methodology">Method</a>
+      </div>
+      <a href="mailto:nobulex.dev@gmail.com?subject=Billing%20correctness" class="header__cta">Discuss the research</a>
+    </nav>
+  </header>
+
+  <main class="doc-page" id="main">
+    <article class="doc-page__body">
+      <p class="doc-page__kicker">Research note &middot; November 2026</p>
+      <h1>A bug that costs nothing, and why I reported it anyway</h1>
+      <p class="doc-page__meta">OpenMeter issue #5521, filed 14 November 2026. Reproduced locally with a control that passes.</p>
+
+      <p class="lead">An iterator returns the instant the caller already has. Its mirror skips one entirely. Both reproduce in a few lines. And as far as I can tell, neither costs anyone a cent, because the only consumer happens to be idempotent. That gap between "broken" and "expensive" is the whole point of this note.</p>
+
+      <h2>The behaviour</h2>
+      <p>A monthly recurrence with its anchor <em>after</em> the query time, so the backwards loop runs:</p>
+      <pre><code>r, _ := NewRecurrence(RecurrencePeriodMonth, parse("2024-06-01T00:00:00Z"))
+it, _ := r.IterateFromNextAfter(parse("2024-03-15T00:00:00Z"), Exclusive)</code></pre>
+      <p>gives</p>
+      <pre><code>it.At        = 2024-04-01T00:00:00Z
+Next()^1 .At = 2024-04-01T00:00:00Z   &lt;- the same instant, again
+Next()^2 .At = 2024-05-01T00:00:00Z</code></pre>
+      <p>The mirror, <code>IterateFromPrevBefore</code> with a past anchor, skips instead of repeating: <code>2024-03-01</code> then <code>2024-05-01</code>, with April never produced.</p>
+      <p>A control run with the anchor in the past, which does not enter the backwards loop, is clean: <code>04-01</code>, <code>05-01</code>, <code>06-01</code>. That control is what makes the finding a finding. Without it, the failure could as easily have been the date arithmetic, and I would have reported the wrong thing.</p>
+
+      <h2>The cause</h2>
+      <p>In <code>pkg/timeutil/recurrence.go</code> the loop decrements its index, computes the next candidate, and breaks <em>before</em> assigning it:</p>
+      <pre><code>ic -= 1
+
+v, err := r.addIntervalNTimes(r.Anchor, ic)
+if err != nil {
+    return RecurrenceIterator{}, err
+}
+
+if v.Before(t) {
+    break
+}
+
+res = v</code></pre>
+      <p>So on the breaking pass the index has moved and the value has not. The struct returned then pairs them anyway, carrying <code>iteration: ic</code> alongside a <code>res</code> that belongs to <code>ic+1</code>. <code>Next()</code> recomputes the timestamp from the index, trusts it, and hands back the instant the caller is already holding.</p>
+      <p>One logical value, the position in the recurrence, held two ways: as an integer index and as a materialised time. They agree everywhere except the one path where the loop exits early.</p>
+
+      <h2>Why it costs nothing</h2>
+      <p>There is exactly one non-test caller, in the credit engine's grant handling, and <code>IterateFromPrevBefore</code> has none at all. The duplicated instant is collapsed by a dedupe-by-time a few lines later. The grant ID does end up in one slice twice, but the function that consumes it returns the grant's amount unconditionally, so applying it twice lands the same number as applying it once.</p>
+      <p>I looked for a balance error and could not produce one. The issue says so in those words.</p>
+
+      <h2>So why file it</h2>
+      <p>Three reasons, and the ordering matters.</p>
+      <p><strong>The mirror case has no callers yet.</strong> That is not safety, it is a loaded gun with the safety on. The repeating variant is absorbed by a dedupe that happens to exist. The skipping variant has nothing in front of it, so the first caller to use <code>IterateFromPrevBefore</code> inherits a silently missing occurrence, and a missing recurrence in a credit engine is a real number.</p>
+      <p><strong>The contract is indefensible on its own terms.</strong> An iterator whose <code>Next()</code> returns its current value is not a semantic anyone would choose. There is no competing interpretation a maintainer could offer in one sentence, which is the test I apply before filing anything. When such a sentence exists, the right artefact is a question, not a bug report.</p>
+      <p><strong>The input is ordinary.</strong> Nothing stops a grant from recurring monthly on the first while being effective mid-month. That is a normal configuration, and it lands on the broken path.</p>
+
+      <h2>The part that is easy to get wrong</h2>
+      <p>The temptation with a finding like this is to make it sound expensive, because expensive findings get attention. The write-up practically offers to do it for you: a billing engine, a credit balance, a skipped recurrence.</p>
+      <p>But asserting a money impact I could not reproduce would be the same defect I was reporting. A value carried further than the evidence supports it. So the issue states plainly that no balance error was found, and explains why the thing is worth fixing regardless.</p>
+      <p class="doc-page__note">That sentence is also what makes the rest of the report credible. A reader who sees a researcher mark their own finding as harmless has reason to believe them when a later one is not.</p>
+
+      <h2>Status</h2>
+      <p><a href="https://github.com/openmeterio/openmeter/issues/5521">Issue #5521</a> is open and has had no maintainer response. It may be declined, and the reasoning above is the whole of the case for it.</p>
+      <p>Three earlier findings in the same engine were merged in October. <a href="/research-openmeter-rounding">Those are written up here.</a></p>
+
+      <hr class="doc-page__rule">
+      <a href="/" class="doc-page__back">Back to Nobulex &rarr;</a>
+    </article>
+  </main>
+
+  <div class="scroll-bar" aria-hidden="true"></div>
+  <script src="main.js"></script>
+</body>
+</html>
