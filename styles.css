@@ -6220,3 +6220,37 @@ button:focus-visible {
     margin-left: 0;
   }
 }
+
+/* ---- Ledger: the findings table on the homepage ----------------------- */
+/* Mirrors .doc-page table so the research notes and the ledger read as one
+   system. Wrapped because a three-column table of outcomes will not fit a
+   phone, and a page that scrolls sideways is worse than a table that does. */
+.ledger { overflow-x: auto; margin: 0 0 1.4rem; }
+.ledger table {
+  width: 100%; border-collapse: collapse; font-family: var(--font-sans);
+  font-size: 0.9rem; line-height: 1.6; min-width: 34rem;
+}
+.ledger caption {
+  text-align: left; color: var(--text-muted); font-size: 0.78rem;
+  line-height: 1.6; padding-bottom: 1.1rem;
+}
+.ledger th, .ledger td {
+  text-align: left; padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.ledger th {
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--text-muted);
+  border-bottom-color: var(--border-hover);
+}
+.ledger td { color: var(--text-secondary); }
+.ledger td:first-child {
+  font-family: var(--font-mono); font-size: 0.8rem; color: var(--brand);
+  letter-spacing: 0.03em; white-space: nowrap;
+}
+.ledger td:last-child { color: var(--text-primary); }
+.ledger tr:last-child td { border-bottom: none; }
+.ledger__note {
+  color: var(--text-muted); font-size: 0.85rem; line-height: 1.7;
+  max-width: 46rem;
+}

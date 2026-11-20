@@ -7,28 +7,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Billing accuracy for usage-based products | Nobulex</title>
-  <meta name="description" content="Nobulex is a billing-accuracy research prototype, not deployed. A proposed $2,500 study checks one Kill Bill price-change scenario and leaves a regression test. No customer has purchased it.">
+  <meta name="description" content="Billing-correctness research. Fourteen findings in five billing engines, including three patches merged into Kong's OpenMeter and three Medusa defects closed as completed. Not deployed, no customer.">
   <link rel="canonical" href="https://nobulex.com/">
   <meta property="og:title" content="Billing accuracy for usage-based products | Nobulex">
-  <meta property="og:description" content="Nobulex is a billing-accuracy research prototype, not deployed. Its proposed $2,500 study checks one Kill Bill price-change scenario against a dry run and leaves a regression test. No customer has purchased it.">
+  <meta property="og:description" content="Billing-correctness research. Fourteen findings in five billing engines, with the outcome of each one stated, including the declined one. Not deployed, no customer.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://nobulex.com/images/nobulex-logo.png">
   <meta property="og:url" content="https://nobulex.com/">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Billing accuracy for usage-based products | Nobulex">
-  <meta name="twitter:description" content="Nobulex is a billing-accuracy research prototype, not deployed. Its proposed $2,500 study checks one Kill Bill price-change scenario against a dry run and leaves a regression test. No customer has purchased it.">
+  <meta name="twitter:description" content="Billing-correctness research. Fourteen findings in five billing engines, with the outcome of each one stated, including the declined one. Not deployed, no customer.">
   <meta name="twitter:image" content="https://nobulex.com/images/nobulex-logo.png">
   <meta name="theme-color" content="#030708">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@graph":[
-    {"@type":"Organization","@id":"https://nobulex.com/#organization","name":"Nobulex","url":"https://nobulex.com","logo":{"@type":"ImageObject","url":"https://nobulex.com/images/nobulex-logo.png"},"description":"Nobulex is researching billing accuracy in usage-based software. Its proposed $2,500 study checks one Kill Bill price-change scenario with an independent replay and regression test. It is not deployed and has no customer result."},
+    {"@type":"Organization","@id":"https://nobulex.com/#organization","name":"Nobulex","url":"https://nobulex.com","logo":{"@type":"ImageObject","url":"https://nobulex.com/images/nobulex-logo.png"},"description":"Nobulex is billing-correctness research: finding and reporting defects in other people's billing and metering code. Fourteen findings across five engines, each with its outcome published, including one that was declined. Not deployed, no customer result."},
     {"@type":"WebSite","@id":"https://nobulex.com/#website","url":"https://nobulex.com","name":"Nobulex","publisher":{"@id":"https://nobulex.com/#organization"}},
     {"@type":"WebPage","@id":"https://nobulex.com/#page","url":"https://nobulex.com/","name":"Billing accuracy for usage-based products | Nobulex","isPartOf":{"@id":"https://nobulex.com/#website"},"about":{"@id":"https://nobulex.com/#organization"}}
   ]}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-    {"@type":"Question","name":"What is the billing replay study?","acceptedAnswer":{"@type":"Answer","text":"A proposed $2,500 study of one recurring-subscription price change. Nobulex independently calculates the expected amount, compares it with a dry run, and leaves a regression test. It needs no production access or customer payment data. No customer has purchased or run it."}},
+    {"@type":"Question","name":"What does Nobulex actually do?","acceptedAnswer":{"@type":"Answer","text":"It finds correctness defects in open-source billing and metering code, reports them to the project, and publishes what happened. Fourteen findings so far across OpenMeter, Medusa, Kill Bill and others. Three were merged into Kong's OpenMeter billing engine, three Medusa reports were closed as completed, one was declined, and the rest are still open. Nothing is deployed and there is no customer."}},
     {"@type":"Question","name":"Is Nobulex in production?","acceptedAnswer":{"@type":"Answer","text":"No. The HTTP decision API and Observe Mode wrapper are implemented and tested locally. They are not deployed. Nobody is blocking live orders through Nobulex."}},
     {"@type":"Question","name":"What is the gateway?","acceptedAnswer":{"@type":"Answer","text":"A separate prototype. Before an automated financial action runs, it checks the evidence that action depends on and returns permit, block, or escalate. It is not deployed and has no customer result."}}
   ]}
@@ -51,7 +51,7 @@
     <div class="header__top">
       <a href="/" class="header__logo" data-magnetic aria-label="Nobulex home"><img src="/images/nobulex-mark.png" alt="Nobulex" class="header__logo-img" decoding="async"></a>
       <nav class="header__quick" aria-label="Quick links">
-        <a href="/billing-pilot">The study</a>
+        <a href="/research-openmeter-rounding">Findings</a>
         <a href="/research-killbill-catalog-replay">The case</a>
         <a href="/methodology">Method</a>
         <a href="/gateway">Gateway</a>
@@ -68,7 +68,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
       <div class="header__links">
-        <a href="/billing-pilot">The study</a>
+        <a href="/research-openmeter-rounding">Findings</a>
         <a href="/research-killbill-catalog-replay">The case</a>
         <a href="/methodology">Method</a>
         <a href="/gateway">Gateway</a>
@@ -86,7 +86,7 @@
       <div class="hero__inner">
         <div class="hero__content">
           <p class="hero__protocol">
-            <span class="hero__protocol-lead">Billing replay study</span>
+            <span class="hero__protocol-lead">Billing correctness research</span>
           </p>
           <h1 class="hero__claim">The match was the mistake.</h1>
           <p class="hero__title">
@@ -95,10 +95,10 @@
           </p>
           <p class="hero__hook">The issue reporter says the dry run repeated a wrong $50 invoice. Our released-tag H2 test reproduced the $50 invoice. We did not run the dry-run endpoint.</p>
           <div class="hero__cta hero__cta-buttons">
-            <a href="/billing-pilot" class="btn btn--primary">See the study</a>
-            <a href="/research-killbill-catalog-replay" class="btn btn--ghost">The reproduced case</a>
+            <a href="#ledger" class="btn btn--primary">Every finding so far</a>
+            <a href="/research-openmeter-rounding" class="btn btn--ghost">How they were found</a>
           </div>
-          <p class="hero__kicker">Proposed $2,500 study. One scenario, one release test. No customer deployment yet.</p>
+          <p class="hero__kicker">Fourteen findings in five billing engines. Nine landed, one was declined, the rest are still open. No customer, no deployment.</p>
         </div>
         <figure class="slip">
           <div class="slip__top">
@@ -171,20 +171,36 @@
       </div>
     </section>
 
-    <section class="sheet sheet--study" id="study" aria-labelledby="study-title">
-      <div class="panel">
-        <div class="panel__copy">
-          <p class="eyebrow">The study</p>
-          <h2 id="study-title">One billing-accuracy check, before release.</h2>
-          <p>We calculate the expected amount ourselves, compare it with a dry run, and leave a regression test. No production access. No customer payment data.</p>
-          <a href="/billing-pilot" class="btn btn--primary">Read the scope</a>
-        </div>
-        <ul class="panel__facts">
-          <li><span>Price</span><strong>$2,500, proposed</strong></li>
-          <li><span>Scope</span><strong>One scenario</strong></li>
-          <li><span>Status</span><strong>No buyer yet</strong></li>
-        </ul>
+    <section class="sheet" id="ledger" aria-labelledby="ledger-title">
+      <div class="sheet__head">
+        <p class="eyebrow">The ledger</p>
+        <h2 id="ledger-title">Every finding, and what happened to it.</h2>
       </div>
+      <div class="ledger">
+        <table>
+          <caption>Fourteen findings across five projects. Outcomes are the project's, not mine. Last checked 20 November 2026.</caption>
+          <thead>
+            <tr><th scope="col">Project</th><th scope="col">Finding</th><th scope="col">Outcome</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>OpenMeter</td><td>Zero-usage tier read from an unsorted price <a href="https://github.com/openmeterio/openmeter/pull/5347">#5347</a></td><td>Merged 26 Oct</td></tr>
+            <tr><td>OpenMeter</td><td>Gross amount summed where net was promised <a href="https://github.com/openmeterio/openmeter/pull/5367">#5367</a></td><td>Merged 27 Oct</td></tr>
+            <tr><td>OpenMeter</td><td>Package count rounded past its own boundary <a href="https://github.com/openmeterio/openmeter/pull/5372">#5372</a>, plus a rounding rule added to their contributor guide</td><td>Merged 27 Oct</td></tr>
+            <tr><td>OpenMeter</td><td>Iterator index and timestamp naming different instants <a href="https://github.com/openmeterio/openmeter/issues/5521">#5521</a></td><td>Fixed by a maintainer, closed 19 Nov</td></tr>
+            <tr><td>OpenMeter</td><td>One-time fee prorated against the item period <a href="https://github.com/openmeterio/openmeter/pull/5373">#5373</a></td><td><strong>Declined.</strong> A maintainer named a reasonable competing semantic</td></tr>
+            <tr><td>OpenMeter</td><td>Full flat fee billed for a truncated span <a href="https://github.com/openmeterio/openmeter/pull/5388">#5388</a></td><td>Open, unreviewed since 28 Oct</td></tr>
+            <tr><td>OpenMeter</td><td>Patches treating "not active now" as "scheduled later" <a href="https://github.com/openmeterio/openmeter/issues/5389">#5389</a></td><td>Open. Another contributor is writing the fix</td></tr>
+            <tr><td>OpenMeter</td><td>UNIQUE_COUNT counting a missing property as a value <a href="https://github.com/openmeterio/openmeter/issues/5390">#5390</a></td><td>Open, unreviewed since 28 Oct</td></tr>
+            <tr><td>Medusa</td><td>Campaign budget type accepted by the API, enforced nowhere <a href="https://github.com/medusajs/medusa/issues/17268">#17268</a></td><td>Closed as completed</td></tr>
+            <tr><td>Medusa</td><td>Null quantity satisfying a required validation <a href="https://github.com/medusajs/medusa/issues/17513">#17513</a></td><td>Closed as completed</td></tr>
+            <tr><td>Medusa</td><td>Override price list ignored when a sale list sorted first <a href="https://github.com/medusajs/medusa/issues/17529">#17529</a></td><td>Closed as completed</td></tr>
+            <tr><td>Kill Bill</td><td>Colliding catalog price changes at one boundary <a href="https://github.com/killbill/killbill/pull/2320">#2320</a></td><td>Open, no maintainer review</td></tr>
+            <tr><td>Kill Bill</td><td>Same-day catalog change applied to the wrong cycle <a href="https://github.com/killbill/killbill/pull/2321">#2321</a></td><td>Open, no maintainer review</td></tr>
+            <tr><td>ScopeBlind</td><td>Conformance test vectors, five changes</td><td>Merged, credited in the README</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="ledger__note">Five open and one declined are on this list on purpose. A record that shows only the wins is an advertisement, and the open rows are the honest part: most findings wait, and some are wrong.</p>
     </section>
 
     <section class="sheet" id="state" aria-labelledby="state-title">
@@ -254,7 +270,7 @@
       <p class="footer__contact">Buyer funded, never vendor funded. Corrections: <a href="mailto:nobulex.dev@gmail.com">nobulex.dev@gmail.com</a></p>
     </div>
     <nav class="footer__nav" aria-label="Footer">
-      <a href="/billing-pilot">Study</a>
+      <a href="/research-openmeter-rounding">Findings</a>
       <a href="/research-openmeter-rounding">Findings</a>
       <a href="/research-killbill-catalog-replay">Case</a>
       <a href="/revenue-assurance">Approach</a>

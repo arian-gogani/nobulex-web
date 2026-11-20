@@ -625,8 +625,36 @@ def main() -> int:
         hero = homepage[hero_open.start():].split("</section>", 1)[0]
     if "Billed $50." not in hero or "Expected $150." not in hero:
         errors.append("homepage first screen does not lead with the reproduced billing failure")
-    if 'href="/billing-pilot"' not in hero or "Proposed $2,500 study" not in hero:
-        errors.append("homepage first screen does not link and scope the proposed billing offer")
+    # This used to REQUIRE the hero to carry 'Proposed $2,500 study' and a link
+    # to /billing-pilot. That was right while the homepage led with an offer:
+    # a price on the first screen must say what it buys and link the scope.
+    # On 20 Nov 2026 the offer came off the homepage, having drawn no enquiries
+    # in months against a market with no procurement category for it, so the
+    # rule was demanding an advertisement that is deliberately gone.
+    #
+    # The protection worth keeping is conditional, not unconditional: name a
+    # price on the first screen only while linking what it covers, and say
+    # plainly that nobody has bought it. A hero with no price owes neither.
+    # Match a price being ASKED, not any dollar amount. The hero legitimately
+    # carries "Billed $50." and "Expected $150." as the reproduced failure, and
+    # a bare \$\d regex flagged those, which is the same over-broad-pattern
+    # mistake that shelved an earlier version of this guard at a 62% false
+    # positive rate. Require offer language adjacent to the figure.
+    offer_price = re.compile(
+        r"(?i)(?:from|price[d]?|fee|cost|rate|starting at)\s*\$\s?\d"
+        r"|\$\s?\d[\d,]*(?:\s*\w+){0,3}\s*(?:study|audit|engagement|review|fee|package)"
+    )
+    if offer_price.search(hero):
+        if 'href="/billing-pilot"' not in hero:
+            errors.append(
+                "homepage first screen names a price without linking the scope "
+                "that says what it buys"
+            )
+        if not re.search(r"(?i)\bno (?:customer|buyer)\b", hero):
+            errors.append(
+                "homepage first screen names a price without saying nobody has "
+                "bought it"
+            )
     if "The issue reporter says the dry run" not in hero or "Our released-tag H2 test" not in hero:
         errors.append("homepage conflates the reported dry run with our invoice-only reproduction")
 
@@ -697,8 +725,17 @@ def main() -> int:
             )
             continue
         value = raw.lower()
-        if "prototype" not in value:
-            errors.append(f"{field} does not identify Nobulex as a prototype")
+        # "prototype" was the only accepted word while the gateway was the
+        # thing being described. The homepage now describes research into other
+        # people's billing code, for which "prototype" is the wrong noun and a
+        # slightly flattering one: it implies something built that might ship.
+        # "research" claims less. Either satisfies the actual requirement, which
+        # is that the metadata must not read like a product anyone can buy.
+        if not re.search(r"\b(prototype|research)\b", value):
+            errors.append(
+                f"{field} identifies Nobulex as neither a prototype nor research, "
+                f"so it reads as a shipping product"
+            )
         if "not deployed" not in value:
             errors.append(f"{field} does not disclose that Nobulex is not deployed")
 
