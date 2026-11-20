@@ -104,8 +104,11 @@ res = v</code></pre>
       <p>But asserting a money impact I could not reproduce would be the same defect I was reporting. A value carried further than the evidence supports it. So the issue states plainly that no balance error was found, and explains why the thing is worth fixing regardless.</p>
       <p class="doc-page__note">That sentence is also what makes the rest of the report credible. A reader who sees a researcher mark their own finding as harmless has reason to believe them when a later one is not.</p>
 
-      <h2>Status</h2>
-      <p><a href="https://github.com/openmeterio/openmeter/issues/5521">Issue #5521</a> is open and has had no maintainer response. It may be declined, and the reasoning above is the whole of the case for it.</p>
+      <h2>Status, updated 20 November</h2>
+      <p>This note first said the issue was open with no maintainer response, which it was when published. It is not any more, and the update is more interesting than the original.</p>
+      <p>A maintainer opened <a href="https://github.com/openmeterio/openmeter/pull/5562">PR #5562</a> on 17 November and merged it on the 19th, 64 lines across two files, keeping the iterator's index aligned with its timestamp. <a href="https://github.com/openmeterio/openmeter/issues/5521">Issue #5521</a> was closed as completed the same day. A separate contributor had opened <a href="https://github.com/openmeterio/openmeter/pull/5556">a competing fix</a> two days earlier that was not merged. Then a Kong engineer rewrote the function outright for performance in <a href="https://github.com/openmeterio/openmeter/pull/5590">PR #5590</a>, 553 lines added and 140 removed, two hours after the first fix landed.</p>
+      <p>So the argument above held. A defect with no live cost, filed with the cost honestly stated as zero, was fixed within five days and then prompted a rewrite of the surrounding code.</p>
+      <p class="doc-page__note">To be exact about credit: the fix is not mine. I reported the defect and someone else wrote the patch. That distinction matters and gets collapsed too often.</p>
       <p>Three earlier findings in the same engine were merged in October. <a href="/research-openmeter-rounding">Those are written up here.</a></p>
 
       <hr class="doc-page__rule">
